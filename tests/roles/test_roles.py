@@ -14,11 +14,24 @@ import unittest
 
 
 class TestRolesTestCase(unittest.TestCase):
-    def setUp(self):
+    """
+    Test case class for tests for user roles.
+    """
+
+    def setUp(self) -> None:
+        """
+        Method defining what must be run before each individual test.
+        :return: None
+        """
         super().setUp()
 
-    def teatDown(self):
+    def teatDown(self) -> None:
+        """
+        Method defining actions after each individual test.
+        :return: None
+        """
         super().tearDown()
+
 
 if __name__ == "__main__":
     unittest.main()
