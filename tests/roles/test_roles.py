@@ -13,6 +13,8 @@ Methods:
 import inspect
 import unittest
 
+from roles import role
+
 
 class TestRolesTestCase(unittest.TestCase):
     """
