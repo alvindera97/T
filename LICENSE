@@ -63,6 +63,10 @@
       on behalf of whom a Contribution has been received by Licensor and
       subsequently incorporated within the Work.
 
+      **"Owner" shall mean the individual or Legal Entity that holds primary
+      ownership of the Work and has the authority to determine the terms of
+      Contribution and ownership attribution.**
+
    2. Grant of Copyright License. Subject to the terms and conditions of
       this License, each Contributor hereby grants to You a perpetual,
       worldwide, non-exclusive, no-charge, royalty-free, irrevocable
@@ -120,6 +124,11 @@
           that such additional attribution notices cannot be construed
           as modifying the License.
 
+      **(e) You must include a statement in any public display or
+          documentation of the Work or Derivative Works, attributing
+          the original project to its Owner(s) and all Contributors,
+          in a clear and visible manner.**
+
       You may add Your own copyright statement to Your modifications and
       may provide additional or different license terms and conditions
       for use, reproduction, or distribution of Your modifications, or
@@ -134,6 +143,12 @@
       Notwithstanding the above, nothing herein shall supersede or modify
       the terms of any separate license agreement you may have executed
       with Licensor regarding such Contributions.
+
+      **(a) By submitting a Contribution, you agree that the project and its
+          Owner(s) have the right to use, modify, and distribute your Contribution
+          as part of the Work. You acknowledge that you are not an Owner of the
+          project but a Contributor, and you willingly grant these rights to the
+          project.**
 
    6. Trademarks. This License does not grant permission to use the trade
       names, trademarks, service marks, or product names of the Licensor,
@@ -173,6 +188,11 @@
       incurred by, or claims asserted against, such Contributor by reason
       of your accepting any such warranty or additional liability.
 
+      **(a) In addition to the above, You must notify the Owner(s) of the Work
+          and all Contributors of any such additional liability or warranty
+          you intend to offer and obtain their explicit permission before
+          doing so.**
+
    END OF TERMS AND CONDITIONS
 
    APPENDIX: How to apply the Apache License to your work.
@@ -186,7 +206,7 @@
       same "printed page" as the copyright notice for easier
       identification within third-party archives.
 
-   Copyright [yyyy] [name of copyright owner]
+   Copyright 2024 Nwokolo Godwin Chidera
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -199,3 +219,4 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+
