@@ -19,6 +19,20 @@ class TestRolesTestCase(unittest.TestCase):
     Test case class for tests for user roles.
     """
 
+    @classmethod
+    def setUpClass(cls):
+        """
+        Method defining executions before starting of tests in the class.
+
+        Differs from self.setUp() as self.setUp() is called before every test
+        while self.setUpClass() is called before start of all the tests in the
+        class exactly once.
+        :return:
+        """
+        super().setUpClass()
+        cls.role = role.Roles
+        cls.roles_instance = role.Roles()
+
     def setUp(self) -> None:
         """
         Method defining what must be run before each individual test.
