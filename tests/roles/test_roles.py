@@ -10,6 +10,7 @@ Methods:
   setUp(): Prepares test environment before each individual test.
   tearDown(): Cleans up test environment after each test.
 """
+import inspect
 import unittest
 
 
@@ -31,6 +32,21 @@ class TestRolesTestCase(unittest.TestCase):
         :return: None
         """
         super().tearDown()
+
+    def test_roles_class_exists(self) -> None:
+        """
+        Tests if the Roles class exists.
+        :return: None
+        """
+        self.assertTrue(inspect.isclass(self.role))
+
+    def test_roles_class_instance_is_of_roles_class(self):
+        """
+        Tests if the instance of the Roles class is actually an instance of the Roles class
+        :return: None
+        """
+        self.assertEqual(type(self.roles_instance), self.role)
+        self.assertTrue(isinstance(self.roles_instance, self.role))
 
 
 if __name__ == "__main__":
