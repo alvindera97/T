@@ -7,10 +7,11 @@ object.
 Classes:
   Roles: Provides definitions for the [user/client] role object and it's functionalities.
 """
+from enum import Enum
 
 
-class Roles:
+class Roles(Enum):
     """
-    Class definition of [user/client] role.
+    Enum class definition of [user/client] role.
     """
     pass
