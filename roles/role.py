@@ -14,4 +14,5 @@ class Roles(Enum):
     """
     Enum class definition of [user/client] role.
     """
-    pass
+    PUBLISHER = 1
+    SUBSCRIBER = 2
