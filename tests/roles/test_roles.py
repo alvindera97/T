@@ -63,6 +63,10 @@ class TestRolesTestCase(unittest.TestCase):
         """
         self.assertEqual(type(self.roles), type(Enum))
 
+    def test_role_has_both_publisher_and_subscriber_representation_entities(self):
+        self.assertEqual(self.roles.PUBLISHER.value, 1)
+        self.assertEqual(self.roles.SUBSCRIBER.value, 2)
+
 
 if __name__ == "__main__":
     unittest.main()
