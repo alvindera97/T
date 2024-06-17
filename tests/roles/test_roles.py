@@ -12,6 +12,7 @@ Methods:
 """
 import inspect
 import unittest
+from enum import Enum
 
 from roles import role
 
@@ -32,8 +33,7 @@ class TestRolesTestCase(unittest.TestCase):
         :return:
         """
         super().setUpClass()
-        cls.role = role.Roles
-        cls.roles_instance = role.Roles()
+        cls.roles = role.Roles
 
     def setUp(self) -> None:
         """
@@ -49,20 +49,19 @@ class TestRolesTestCase(unittest.TestCase):
         """
         super().tearDown()
 
-    def test_roles_class_exists(self) -> None:
+    def test_roles_enum_class_exists(self) -> None:
         """
-        Tests if the Roles class exists.
+        Tests if the Roles enum class exists.
         :return: None
         """
-        self.assertTrue(inspect.isclass(self.role))
+        self.assertTrue(inspect.isclass(role.Roles))
 
-    def test_roles_class_instance_is_of_roles_class(self):
+    def test_roles_is_an_enum_instance_is_of_roles_class(self):
         """
-        Tests if the instance of the Roles class is actually an instance of the Roles class
+        Tests if the roles object is of type Enum class
         :return: None
         """
-        self.assertEqual(type(self.roles_instance), self.role)
-        self.assertTrue(isinstance(self.roles_instance, self.role))
+        self.assertEqual(type(self.roles), type(Enum))
 
 
 if __name__ == "__main__":
