@@ -14,7 +14,7 @@ import inspect
 import unittest
 from enum import Enum
 
-from roles import role
+from role import Role
 
 
 class TestRolesTestCase(unittest.TestCase):
@@ -33,7 +33,7 @@ class TestRolesTestCase(unittest.TestCase):
         :return:
         """
         super().setUpClass()
-        cls.roles = role.Roles
+        cls.role = Role
 
     def setUp(self) -> None:
         """
@@ -49,23 +49,23 @@ class TestRolesTestCase(unittest.TestCase):
         """
         super().tearDown()
 
-    def test_roles_enum_class_exists(self) -> None:
+    def test_role_enum_class_exists(self) -> None:
         """
-        Tests if the Roles enum class exists.
+        Tests if the Role enum class exists.
         :return: None
         """
-        self.assertTrue(inspect.isclass(role.Roles))
+        self.assertTrue(inspect.isclass(Role))
 
-    def test_roles_is_an_enum_instance_is_of_roles_class(self):
+    def test_role_is_an_enum_instance_is_of_roles_class(self):
         """
-        Tests if the roles object is of type Enum class
+        Tests if the role object is of type Enum class
         :return: None
         """
-        self.assertEqual(type(self.roles), type(Enum))
+        self.assertEqual(type(self.role), type(Enum))
 
-    def test_role_has_both_publisher_and_subscriber_representation_entities(self):
-        self.assertEqual(self.roles.PUBLISHER.value, 1)
-        self.assertEqual(self.roles.SUBSCRIBER.value, 2)
+    def test_role_enum_has_both_publisher_and_subscriber_representation_entities(self):
+        self.assertEqual(self.role.PUBLISHER.value, 1)
+        self.assertEqual(self.role.SUBSCRIBER.value, 2)
 
 
 if __name__ == "__main__":
