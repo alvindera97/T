@@ -7,7 +7,7 @@ Classes:
   TestRolesTestCase: Provides test methods for unit tests on user roles.
 
 Methods:
-  setUp(): Prepares test environment before each individual test.
+  setUp(): Prepares test environment before each test.
   tearDown(): Cleans up test environment after each test.
 """
 import inspect
