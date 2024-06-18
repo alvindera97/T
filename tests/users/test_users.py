@@ -11,6 +11,7 @@ Methods:
   setUp(): Prepares test environment before each test.
   tearDown(): Cleans up test environment after each test.
   test_user_class_exists(): Tests if class defining User entity exists.
+  test_user_has_telegram_client_attribute(): Test if User class has Telegram client attribute
 """
 import inspect
 import unittest
@@ -43,3 +44,12 @@ class TestUserTestCase(unittest.TestCase):
         :return: None
         """
         self.assertTrue(inspect.isclass(User))
+
+    def test_user_has_telethon_client_attribute(self) -> None:
+        """
+        Test if User class has an attribute for Telegram client.
+
+        :return: None
+        """
+        self.assertIsNotNone(User().telethon_client)
+        self.assertIsInstance(User().telethon_client, TelegramClient)
