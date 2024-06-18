@@ -34,7 +34,7 @@ class TestRolesTestCase(unittest.TestCase):
         Differs from self.setUp() as self.setUp() is called before every test
         while self.setUpClass() is called before start of all the tests in the
         class exactly once.
-        :return:
+        :return: None
         """
         super().setUpClass()
         cls.role = Role
