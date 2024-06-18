@@ -15,6 +15,8 @@ Methods:
 import inspect
 import unittest
 
+from user.user import User
+
 
 class TestUserTestCase(unittest.TestCase):
     """
