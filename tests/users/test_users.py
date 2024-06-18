@@ -34,7 +34,7 @@ class TestUserTestCase(unittest.TestCase):
         :return: None
         """
         super().setUpClass()
-        cls.user = TelegramClient()
+        cls.user = User(12345, "|")
 
     def setUp(self) -> None:
         """
