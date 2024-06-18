@@ -10,6 +10,7 @@ Classes:
 Methods:
   setUp(): Prepares test environment before each test.
   tearDown(): Cleans up test environment after each test.
+  setUpClass(): Defines code executions and attributes for all tests.
   test_user_class_exists(): Tests if class defining User entity exists.
   test_user_has_telegram_client_attribute(): Test if User class has Telegram client attribute
 """
@@ -23,6 +24,15 @@ class TestUserTestCase(unittest.TestCase):
     """
     Test case class for tests for User entity
     """
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        """
+        Defines attributes and calls for test case, before tests are executed.
+        :return: None
+        """
+        super().setUpClass()
+        cls.user = TelegramClient()
 
     def setUp(self) -> None:
         """
@@ -51,5 +61,5 @@ class TestUserTestCase(unittest.TestCase):
 
         :return: None
         """
-        self.assertIsNotNone(User().telethon_client)
-        self.assertIsInstance(User().telethon_client, TelegramClient)
+        self.assertIsNotNone(self.user.telegram_client)
+        self.assertIsInstance(self.user.telegram_client, TelegramClient)
