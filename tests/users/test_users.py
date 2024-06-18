@@ -3,5 +3,32 @@ Module for tests on user / client.
 
 This module contains test cases or testing the "User" (otherwise called Client) entity
 and all related functionality.
-"""
 
+Classes:
+  TestUserTestCase
+
+Methods:
+  setUp(): Prepares test environment before each test.
+  tearDown(): Cleans up test environment after each test.
+"""
+import unittest
+
+
+class TestUserTestCase(unittest.TestCase):
+    """
+    Test case class for tests for User entity
+    """
+
+    def setUp(self) -> None:
+        """
+        Method defining what must be run before each test method within this class.
+        :return:
+        """
+        super().setUp()
+
+    def tearDown(self):
+        """
+        Method defining actions after each test method within this class.
+        :return:
+        """
+        super().tearDown()
