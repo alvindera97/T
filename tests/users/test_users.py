@@ -30,7 +30,7 @@ class TestUserTestCase(unittest.TestCase):
         """
         super().setUp()
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         """
         Method defining actions after each test method within this class.
         :return: None
@@ -39,7 +39,7 @@ class TestUserTestCase(unittest.TestCase):
 
     def test_user_class_exists(self) -> None:
         """
-        Tests if user class exists
+        Tests if User class exists
         :return: None
         """
         self.assertTrue(inspect.isclass(User))
