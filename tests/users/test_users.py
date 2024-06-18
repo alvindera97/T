@@ -17,6 +17,8 @@ Methods:
 import inspect
 import unittest
 
+from telethon import TelegramClient
+
 from user.user import User
 
 
