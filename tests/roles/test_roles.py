@@ -41,14 +41,14 @@ class TestRolesTestCase(unittest.TestCase):
 
     def setUp(self) -> None:
         """
-        Method defining what must be run before each individual test.
+        Method defining what must be run before each test method within this class.
         :return: None
         """
         super().setUp()
 
     def teatDown(self) -> None:
         """
-        Method defining actions after each individual test.
+        Method defining actions after each test method within this class.
         :return: None
         """
         super().tearDown()
