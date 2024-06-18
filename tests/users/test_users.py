@@ -22,13 +22,13 @@ class TestUserTestCase(unittest.TestCase):
     def setUp(self) -> None:
         """
         Method defining what must be run before each test method within this class.
-        :return:
+        :return: None
         """
         super().setUp()
 
     def tearDown(self):
         """
         Method defining actions after each test method within this class.
-        :return:
+        :return: None
         """
         super().tearDown()
