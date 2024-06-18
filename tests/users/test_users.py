@@ -10,7 +10,9 @@ Classes:
 Methods:
   setUp(): Prepares test environment before each test.
   tearDown(): Cleans up test environment after each test.
+  test_user_class_exists(): Tests if class defining User entity exists.
 """
+import inspect
 import unittest
 
 
@@ -32,3 +34,10 @@ class TestUserTestCase(unittest.TestCase):
         :return: None
         """
         super().tearDown()
+
+    def test_user_class_exists(self) -> None:
+        """
+        Tests if user class exists
+        :return: None
+        """
+        self.assertTrue(inspect.isclass(User))
