@@ -68,6 +68,10 @@ class TestRolesTestCase(unittest.TestCase):
         self.assertEqual(type(self.role), type(Enum))
 
     def test_role_enum_has_both_publisher_and_subscriber_representation_entities(self):
+        """
+        Tests if the role enum has both publisher and subscriber attributes.
+        :return: None
+        """
         self.assertEqual(self.role.PUBLISHER.value, 1)
         self.assertEqual(self.role.SUBSCRIBER.value, 2)
 
