@@ -13,6 +13,7 @@ Methods:
   setUpClass(): Defines code executions and attributes for all tests.
   test_user_class_exists(): Tests if class defining User entity exists.
   test_user_has_telegram_client_attribute(): Test if User class has Telegram client attribute
+  test_user_has_role_attribute(): Test if User class has role attribute
 """
 import inspect
 import unittest
@@ -65,3 +66,7 @@ class TestUserTestCase(unittest.TestCase):
         """
         self.assertIsNotNone(self.user.telegram_client)
         self.assertIsInstance(self.user.telegram_client, TelegramClient)
+
+    def test_user_has_role_attribute(self):
+        """Test that initialized user object has role attribute."""
+        self.assertTrue(hasattr(User, 'role'))

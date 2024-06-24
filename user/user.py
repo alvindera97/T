@@ -15,6 +15,8 @@ class User:
     Class definition for the User entity
     """
 
+    role = None
+
     def __init__(self, api_id: int, api_hash: str) -> None:
         """
         Class initializer
@@ -24,3 +26,4 @@ class User:
         """
 
         self.telegram_client = TelegramClient("default", api_id, api_hash)
+
