@@ -23,7 +23,7 @@ import unittest
 
 from telethon import TelegramClient
 
-from user.user import User
+from user import User
 
 
 class TestUserTestCase(unittest.TestCase):
