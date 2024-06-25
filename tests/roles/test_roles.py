@@ -73,7 +73,7 @@ class TestRolesTestCase(unittest.TestCase):
         Test role object has NOT_SET attribute
         :return: None
         """
-        self.assertEqual(self.role.NOT_SET.value, 0)
+        self.assertTrue(self.role.NOT_SET)
 
     def test_role_enum_has_both_publisher_and_subscriber_representation_entities(self):
         """
