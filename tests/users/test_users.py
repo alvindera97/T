@@ -14,6 +14,9 @@ Methods:
   test_user_class_exists(): Tests if class defining User entity exists.
   test_user_has_telegram_client_attribute(): Test if User class has Telegram client attribute
   test_user_has_role_attribute(): Test if User class has role attribute
+  test_user_role_attribute_is_null_at_initialisation(): Test that user role has no value at initialisation
+  test_user_role_getter_returns_user_role_value(): Test user roles getter returns appropriate value
+  test_user_role_setter_sets_user_role_value(): Test user role setter sets given arg to the object instance
 """
 import inspect
 import unittest
@@ -71,3 +74,17 @@ class TestUserTestCase(unittest.TestCase):
     def test_user_has_role_attribute(self):
         """Test that initialized user object has role attribute."""
         self.assertTrue(hasattr(User, '_User__role'))
+
+    def test_user_role_attribute_is_null_at_initialisation(self):
+        """Test that the user role attribute is null at initialisation"""
+        self.assertIsNone(self.user._User__role)
+
+    def test_user_role_getter_returns_user_role_value(self):
+        """Test that initialised user object's getter for role returns expected value"""
+        self.user._User__role = 'Some role'
+        self.assertEqual(self.user.get_role(), self.user._User__role)
+
+    def test_user_role_setter_sets_user_role_value(self):
+        """Test that initialised user object's setter for role sets the supplied role"""
+        self.user.set_role('Some new role')
+        self.assertTrue(self.user.get_role(), 'Some new role')
