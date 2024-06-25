@@ -12,6 +12,7 @@ Methods:
   setUpClass(): Defines code executions before start of tests.
   test_role_enum_class_exists(): Tests if Role class enum exists.
   test_role_is_an_enum_instance_is_of_roles_class(): Test that that Role instance is of the Role class.
+  test_role_enum_has_NOT_SET_attribute(): Test that role object has NOT_SET attribute.
   test_role_enum_has_both_publisher_and_subscriber_representation_entities(): Test Role has Subscriber & Publisher attrs
 """
 import inspect
@@ -66,6 +67,13 @@ class TestRolesTestCase(unittest.TestCase):
         :return: None
         """
         self.assertEqual(type(self.role), type(Enum))
+
+    def test_role_enum_has_NOT_SET_attribute(self) -> None:
+        """
+        Test role object has NOT_SET attribute
+        :return: None
+        """
+        self.assertEqual(self.role.NOT_SET.value, 0)
 
     def test_role_enum_has_both_publisher_and_subscriber_representation_entities(self):
         """
