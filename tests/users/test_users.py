@@ -54,7 +54,6 @@ class TestUserTestCase(unittest.TestCase):
         :return: None
         """
         super().tearDown()
-        self.user._User__role = None
 
     def test_user_class_exists(self) -> None:
         """

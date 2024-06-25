@@ -9,13 +9,15 @@ Classes:
 """
 from telethon import TelegramClient
 
+from role import Role
+
 
 class User:
     """
     Class definition for the User entity
     """
 
-    __role = None
+    __role: Role = Role.NOT_SET
 
     def __init__(self, api_id: int, api_hash: str) -> None:
         """
