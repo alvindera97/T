@@ -50,6 +50,7 @@ class TestUserTestCase(unittest.TestCase):
         :return: None
         """
         super().tearDown()
+        self.user._User__role = None
 
     def test_user_class_exists(self) -> None:
         """
@@ -69,4 +70,4 @@ class TestUserTestCase(unittest.TestCase):
 
     def test_user_has_role_attribute(self):
         """Test that initialized user object has role attribute."""
-        self.assertTrue(hasattr(User, 'role'))
+        self.assertTrue(hasattr(User, '_User__role'))

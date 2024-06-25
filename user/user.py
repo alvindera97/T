@@ -15,7 +15,7 @@ class User:
     Class definition for the User entity
     """
 
-    role = None
+    __role = None
 
     def __init__(self, api_id: int, api_hash: str) -> None:
         """
