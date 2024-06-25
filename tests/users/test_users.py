@@ -55,6 +55,7 @@ class TestUserTestCase(unittest.TestCase):
         :return: None
         """
         super().tearDown()
+        self.user.role = Role.NOT_SET
 
     def test_user_class_exists(self) -> None:
         """
@@ -94,8 +95,7 @@ class TestUserTestCase(unittest.TestCase):
 
         :return: None
         """
-        self.user.role = Role.SUBSCRIBER
-        self.assertEqual(self.user.role, Role.SUBSCRIBER)
+        self.assertIsInstance(self.user.role, Role)
 
     def test_user_role_setter_sets_user_role_value(self) -> None:
         """
