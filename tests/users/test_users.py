@@ -17,6 +17,7 @@ Methods:
   test_user_role_attribute_is_Role_NOT_SET_at_initialisation(): Test that user role is unset at initialisation
   test_user_role_getter_returns_user_role_value(): Test user roles getter returns appropriate value
   test_user_role_setter_sets_user_role_value(): Test user role setter sets given arg to the object instance
+  test_role_setter_only_accepts_Role_object_argument(): Test user role setter only accepts Role object arguments.
 """
 import inspect
 import unittest
