@@ -23,6 +23,7 @@ import unittest
 
 from telethon import TelegramClient
 
+from role import Role
 from user import User
 
 
@@ -93,8 +94,8 @@ class TestUserTestCase(unittest.TestCase):
 
         :return: None
         """
-        self.user.role = 'Some role'
-        self.assertEqual(self.user.role, self.user.role)
+        self.user.role = Role.SUBSCRIBER
+        self.assertEqual(self.user.role, Role.SUBSCRIBER)
 
     def test_user_role_setter_sets_user_role_value(self) -> None:
         """
@@ -102,8 +103,8 @@ class TestUserTestCase(unittest.TestCase):
 
         :return: None
         """
-        self.user.role = 'Some new role'
-        self.assertTrue(self.user.role, 'Some new role')
+        self.user.role = Role.PUBLISHER
+        self.assertTrue(self.user.role, Role.PUBLISHER)
 
     def test_user_role_getter_and_setter_are_properties(self) -> None:
         """
