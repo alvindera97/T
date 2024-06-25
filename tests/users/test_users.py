@@ -71,20 +71,36 @@ class TestUserTestCase(unittest.TestCase):
         self.assertIsNotNone(self.user.telegram_client)
         self.assertIsInstance(self.user.telegram_client, TelegramClient)
 
-    def test_user_has_role_attribute(self):
-        """Test that initialized user object has role attribute."""
+    def test_user_has_role_attribute(self) -> None:
+        """
+        Test that initialized user object has role attribute.
+
+        :return: None
+        """
         self.assertTrue(hasattr(User, '_User__role'))
 
-    def test_user_role_attribute_is_null_at_initialisation(self):
-        """Test that the user role attribute is null at initialisation"""
+    def test_user_role_attribute_is_null_at_initialisation(self) -> None:
+        """
+        Test that the user role attribute is null at initialisation
+
+        :return: None
+        """
         self.assertIsNone(self.user._User__role)
 
-    def test_user_role_getter_returns_user_role_value(self):
-        """Test that initialised user object's getter for role returns expected value"""
+    def test_user_role_getter_returns_user_role_value(self) -> None:
+        """
+        Test that initialised user object's getter for role returns expected value
+
+        :return: None
+        """
         self.user._User__role = 'Some role'
         self.assertEqual(self.user.get_role(), self.user._User__role)
 
-    def test_user_role_setter_sets_user_role_value(self):
-        """Test that initialised user object's setter for role sets the supplied role"""
+    def test_user_role_setter_sets_user_role_value(self) -> None:
+        """
+        Test that initialised user object's setter for role sets the supplied role
+
+        :return: None
+        """
         self.user.set_role('Some new role')
         self.assertTrue(self.user.get_role(), 'Some new role')
