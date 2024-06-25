@@ -28,7 +28,7 @@ class User:
         self.telegram_client = TelegramClient("default", api_id, api_hash)
 
     def get_role(self):
-        pass
+        return self.__role
 
     def set_role(self, role):
-        pass
+        self.__role = role
