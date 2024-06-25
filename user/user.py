@@ -30,11 +30,12 @@ class User:
         self.telegram_client = TelegramClient("default", api_id, api_hash)
 
     @property
-    def role(self) -> None:
+    def role(self) -> Role:
         """
         Getter for User role
         :return: None
         """
+        assert isinstance(self.__role, Role)
         return self.__role
 
     @role.setter
@@ -44,4 +45,5 @@ class User:
         :param role: user role
         :return: None
         """
+        assert isinstance(role, Role)
         self.__role = role

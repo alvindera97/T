@@ -18,6 +18,7 @@ Methods:
   test_user_role_getter_returns_user_role_value(): Test user roles getter returns appropriate value
   test_user_role_setter_sets_user_role_value(): Test user role setter sets given arg to the object instance
   test_role_setter_only_accepts_Role_object_argument(): Test user role setter only accepts Role object arguments.
+  test_role_getter_only_returns_Role_objects(): Test user role getter only returns Role objects, else raise an exception
 """
 import inspect
 import unittest
@@ -113,3 +114,13 @@ class TestUserTestCase(unittest.TestCase):
         :return: None
         """
         self.assertIsInstance(User.role, property)
+
+    def test_role_setter_only_accepts_Role_object_argument(self) -> None:
+        """
+        Test that initialised User role setter only accepts Role objects
+
+        :return: None
+        """
+        self.user._User__role = "Some role"
+
+        self.assertRaises(AssertionError, lambda: self.user.role)
