@@ -77,7 +77,7 @@ class TestUserTestCase(unittest.TestCase):
 
         :return: None
         """
-        self.assertTrue(hasattr(User, '_User__role'))
+        self.assertTrue(hasattr(User, 'role'))
 
     def test_user_role_attribute_is_null_at_initialisation(self) -> None:
         """
@@ -93,8 +93,8 @@ class TestUserTestCase(unittest.TestCase):
 
         :return: None
         """
-        self.user._User__role = 'Some role'
-        self.assertEqual(self.user.get_role(), self.user._User__role)
+        self.user.role = 'Some role'
+        self.assertEqual(self.user.role, self.user.role)
 
     def test_user_role_setter_sets_user_role_value(self) -> None:
         """
@@ -102,5 +102,13 @@ class TestUserTestCase(unittest.TestCase):
 
         :return: None
         """
-        self.user.set_role('Some new role')
-        self.assertTrue(self.user.get_role(), 'Some new role')
+        self.user.role = 'Some new role'
+        self.assertTrue(self.user.role, 'Some new role')
+
+    def test_user_role_getter_and_setter_are_properties(self) -> None:
+        """
+        Test that User object getter and setter are properties
+
+        :return: None
+        """
+        self.assertIsInstance(User.role, property)

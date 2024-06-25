@@ -27,8 +27,19 @@ class User:
 
         self.telegram_client = TelegramClient("default", api_id, api_hash)
 
-    def get_role(self):
+    @property
+    def role(self) -> None:
+        """
+        Getter for User role
+        :return: None
+        """
         return self.__role
 
-    def set_role(self, role):
+    @role.setter
+    def role(self, role) -> None:
+        """
+        Setter for User role
+        :param role: user role
+        :return: None
+        """
         self.__role = role
