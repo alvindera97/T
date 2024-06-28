@@ -20,6 +20,7 @@ jobs:
         make html
     - name: Check for uncommitted changes (if there are, it could mean that pre-commit hooks weren't run to build the sphinx documentation)
       run: |
+        git status
         if [[ -n $(git status -s) ]]; then
           echo "There are uncommitted changes after building the documentation."
           exit 1
