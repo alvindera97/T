@@ -13,10 +13,13 @@ jobs:
         python-version: '3.10'
     - name: Install dependencies
       run: |
-        pip install sphinx sphinx-book-theme
+        pip install sphinx telethon sphinx-book-theme
     - name: Build Sphinx documentation
       run: |
         cd docs
+        ls
+        ls ../
+        ls ../../
         sphinx-apidoc -o source/ ../        
         make clean
         make html
