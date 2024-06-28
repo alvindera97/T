@@ -1,0 +1,29 @@
+name: Validate Sphinx Documentation Was Built And Included In The Commit Before Pushing
+
+on: [push, pull_request]
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10'
+    - name: Install dependencies
+      run: |
+        pip install sphinx telethon sphinx-book-theme
+    - name: Build Sphinx documentation
+      run: |
+        cd docs
+        sphinx-apidoc -o source ../
+        make html
+    - name: Check for uncommitted changes (if this step fails, it means that sphinx built new doc files)
+      run: |
+        git status
+        git diff
+        if [[ -n $(git status -s) ]]; then
+          echo "There are uncommitted changes after building the documentation."
+          exit 1
+        fi

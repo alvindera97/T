@@ -1,1 +1,5 @@
 **/__pycache__
+**/**.session
+**/environment.pickle
+docs/build/doctrees
+docs/build/html/.buildinfo
