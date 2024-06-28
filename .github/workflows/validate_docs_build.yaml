@@ -22,6 +22,7 @@ jobs:
     - name: Check for uncommitted changes (if this step fails, it means that sphinx built new doc files)
       run: |
         git status
+        git diff
         if [[ -n $(git status -s) ]]; then
           echo "There are uncommitted changes after building the documentation."
           exit 1
