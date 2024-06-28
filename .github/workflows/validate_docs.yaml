@@ -16,12 +16,13 @@ jobs:
         pip install sphinx sphinx-book-theme
     - name: Build Sphinx documentation
       run: |
-        sphinx-apidoc -o source/ ../
         cd docs
+        sphinx-apidoc -o source/ ../        
         make clean
         make html
     - name: Check for uncommitted changes (if there are, it could mean that pre-commit hooks weren't run to build the sphinx documentation)
       run: |
+        git log --oneline -5
         git status
         if [[ -n $(git status -s) ]]; then
           echo "There are uncommitted changes after building the documentation."
