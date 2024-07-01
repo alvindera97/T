@@ -4,16 +4,7 @@ Module for tests on [user] roles.
 This module contains test cases for testing user roles and their functionality.
 
 Classes:
-  TestRolesTestCase: Provides test methods for unit tests on user roles.
-
-Methods:
-  setUp(): Prepares test environment before each test.
-  tearDown(): Cleans up test environment after each test.
-  setUpClass(): Defines code executions before start of tests.
-  test_role_enum_class_exists(): Tests if Role class enum exists.
-  test_role_is_an_enum_instance_is_of_roles_class(): Test that that Role instance is of the Role class.
-  test_role_enum_has_NOT_SET_attribute(): Test that role object has NOT_SET attribute.
-  test_role_enum_has_both_publisher_and_subscriber_representation_entities(): Test Role has Subscriber & Publisher attrs
+  TestRolesTestCase
 """
 import inspect
 import unittest
