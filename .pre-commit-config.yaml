@@ -5,4 +5,4 @@ repos:
         name: Build Sphinx Docs
         entry: ./build_docs.sh
         language: script
-        files: docs/
+        files: .
