@@ -12,6 +12,8 @@ make html
 # Navigate back to the root directory
 cd .. || exit
 
+git status
+
 # Check if there are any unstaged changes in the docs build directory
 if [[ -n $(git status -s docs/build/html) ]]; then
     echo "Documentation needs rebuilding. Please stage the changes and commit again."
