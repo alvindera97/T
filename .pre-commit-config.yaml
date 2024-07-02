@@ -1,8 +1,0 @@
-repos:
--   repo: local
-    hooks:
-    -   id: build-sphinx-docs
-        name: Build Sphinx Docs
-        entry: ./build_docs.sh
-        language: script
-        files: .
