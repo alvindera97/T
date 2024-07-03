@@ -8,6 +8,7 @@ Classes:
 
 """
 import random
+from typing import List
 
 from telethon import TelegramClient
 
@@ -20,6 +21,7 @@ class User:
     """
 
     __role: Role = Role.NOT_SET
+    __role_members: List[Role] = list(Role.__members__.values())
 
     def __init__(self, api_id: int, api_hash: str) -> None:
         """
@@ -55,4 +57,4 @@ class User:
         Set random role on instance
         :return: None
         """
-        self.role = random.SystemRandom().choice(list(Role.__members__.values()))
+        self.role = random.SystemRandom().choice(self.__role_members)
