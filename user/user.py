@@ -7,6 +7,8 @@ Classes:
   User
 
 """
+import random
+
 from telethon import TelegramClient
 
 from role import Role
@@ -47,3 +49,10 @@ class User:
         """
         assert isinstance(role, Role)
         self.__role = role
+
+    def set_random_role(self) -> None:
+        """
+        Set random role on instance
+        :return: None
+        """
+        self.role = random.SystemRandom().choice(list(Role.__members__.values()))
