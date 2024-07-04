@@ -114,9 +114,9 @@ class TestUserTestCase(unittest.TestCase):
         self.assertRaises(AssertionError, lambda: self.user.role)
 
     @unittest.skipIf(len(Role.__members__) < 2, "Not Enough Roles (i.e. Role Enum Members) To Perform This Test!")
-    def test_user_set_random_role_method_randomly_selects_role_on_user_instance(self):
+    def test_user_set_random_role_method_randomly_selects_role_on_user_instance(self) -> None:
         """
-        Tests if the set_random_role method on the initialised user object changes the role of
+        Test if the set_random_role method on the initialised user object changes the role of
         the user object.
 
         WARNING:
