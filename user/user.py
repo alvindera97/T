@@ -8,9 +8,10 @@ Classes:
 
 """
 import random
-from typing import List
+from typing import List, Optional
 
 from telethon import TelegramClient
+from telethon.sessions import StringSession
 
 from role import Role
 
@@ -23,15 +24,16 @@ class User:
     __role: Role = Role.NOT_SET
     __role_members: List[Role] = list(Role.__members__.values())
 
-    def __init__(self, api_id: int, api_hash: str) -> None:
+    def __init__(self, api_id: int, api_hash: str, session_token: Optional[str] = None) -> None:
         """
         Class initializer
         :param api_id: Telegram client API ID (issued by telegram)
         :param api_hash: Telegram client API_HASH for corresponding API_ID
+        :param session_token: Telegram string session token for user, see https://docs.telethon.dev/en/stable/concepts/sessions.html#string-sessions
         :return: None
         """
 
-        self.telegram_client = TelegramClient("default", api_id, api_hash)
+        self.telegram_client = TelegramClient(StringSession(session_token), api_id, api_hash)
 
     @property
     def role(self) -> Role:
