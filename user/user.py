@@ -24,16 +24,19 @@ class User:
     __role: Role = Role.NOT_SET
     __role_members: List[Role] = list(Role.__members__.values())
 
-    def __init__(self, api_id: int, api_hash: str, session_token: Optional[str] = None) -> None:
+    def __init__(self, api_id: int, api_hash: str, session_token: Optional[str] = None, role: Optional[Role] = None) -> None:
         """
         Class initializer
         :param api_id: Telegram client API ID (issued by telegram)
         :param api_hash: Telegram client API_HASH for corresponding API_ID
         :param session_token: Telegram string session token for user, see https://docs.telethon.dev/en/stable/concepts/sessions.html#string-sessions
+        :param role: Role initialised user assumes
         :return: None
         """
 
         self.telegram_client = TelegramClient(StringSession(session_token), api_id, api_hash)
+        if role:
+            self.role = role
 
     @property
     def role(self) -> Role:
