@@ -137,3 +137,15 @@ class TestUserTestCase(unittest.TestCase):
 
         selected_roles = [role for role, count in role_state_count.items() if count > 0]
         self.assertTrue(len(selected_roles) > 1, "Expected more than one role to be randomly selected.")
+
+    def test_user_can_be_initialised_with_particular_role(self):
+        """
+        Test if User object can be initialised with a particular role.
+
+        :return: None
+        """
+        publisher_user = User(12345, '|', role=Role.PUBLISHER)
+        subscriber_user = User(12345, '|', role=Role.SUBSCRIBER)
+
+        self.assertEqual(publisher_user.role, Role.PUBLISHER)
+        self.assertEqual(subscriber_user.subscriber, Role.SUBSCRIBER)
