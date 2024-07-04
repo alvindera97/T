@@ -148,4 +148,4 @@ class TestUserTestCase(unittest.TestCase):
         subscriber_user = User(12345, '|', role=Role.SUBSCRIBER)
 
         self.assertEqual(publisher_user.role, Role.PUBLISHER)
-        self.assertEqual(subscriber_user.subscriber, Role.SUBSCRIBER)
+        self.assertEqual(subscriber_user.role, Role.SUBSCRIBER)
