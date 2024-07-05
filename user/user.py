@@ -43,7 +43,8 @@ class User:
             self.role = role
 
         if from_role:
-            if type(from_role) is not type(list()) or [k for k in filter(lambda l: l not in Role.__members__.values(), from_role)]:
+            if type(from_role) is not type(list()) or [k for k in
+                                                       filter(lambda l: l not in Role.__members__.values(), from_role)]:
                 raise ValueError("from_role must be a list of Role objects")
             self.role = random.SystemRandom().choice(from_role)
 
