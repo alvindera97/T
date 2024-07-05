@@ -152,6 +152,14 @@ class TestUserTestCase(unittest.TestCase):
         self.assertEqual(publisher_user.role, PUBLISHER)
         self.assertEqual(subscriber_user.role, SUBSCRIBER)
 
+    def test_with_role_method_raises_exceptions_on_missing_kwargs(self) -> None:
+        """
+        Test that if required keyword arguments are missing in the .with_role() call,
+        it raises the appropriate exception.
+        :return: None
+        """
+        self.assertRaises(ValueError, lambda: User.with_role(Role.NOT_SET))
+
     @unittest.skipIf(len(Role.__members__) < 2, "Not Enough Roles (i.e. Role Enum Members) To Perform This Test!")
     def test_user_can_be_initialised_with_random_role(self) -> None:
         """
