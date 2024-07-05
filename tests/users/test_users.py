@@ -140,7 +140,7 @@ class TestUserTestCase(unittest.TestCase):
 
     def test_user_can_be_initialised_with_particular_role(self) -> None:
         """
-        Test if User object can be initialised with a particular role.
+        Test that User object can be initialised with a particular role.
 
         :return: None
         """
