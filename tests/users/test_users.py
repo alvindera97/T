@@ -176,9 +176,9 @@ class TestUserTestCase(unittest.TestCase):
 
         role_state_count, ROLE_OPTIONS = Counter(), [Role.PUBLISHER, Role.NOT_SET]
 
-        for _ in range(len(Role.__members__) * 2):
+        for _ in range(len(Role.__members__) * 4):
             self.user.set_random_role()
-            role_state_count[(user := User(12345, api_hash='|', from_role=ROLE_OPTIONS)).role] += 1
+            role_state_count[User(12345, api_hash='|', from_role=ROLE_OPTIONS).role] += 1
 
         selected_roles = [role for role, count in role_state_count.items() if count > 0]
-        self.assertTrue(len(selected_roles) > 1, "Expected more than one role to be randomly selected.")
+        self.assertTrue(len(selected_roles) >= 2, "Expected more than one role to be randomly selected.")
