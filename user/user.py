@@ -56,6 +56,11 @@ class User:
         :param role: The role to set user to.
         :return:  None
         """
+        EXPECTED_KWARGS = ['api_id', 'api_hash']
+
+        for ek in EXPECTED_KWARGS:
+            if not kwargs.get(ek):
+                raise ValueError
 
         new_user = User(kwargs['api_id'], kwargs['api_hash'])
         new_user.role = role
