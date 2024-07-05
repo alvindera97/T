@@ -7,6 +7,7 @@ Classes:
   User
 
 """
+from __future__ import annotations
 import random
 from typing import List, Optional
 
@@ -47,6 +48,18 @@ class User:
                                                        filter(lambda l: l not in Role.__members__.values(), from_role)]:
                 raise ValueError("from_role must be a list of Role objects")
             self.role = random.SystemRandom().choice(from_role)
+
+    @classmethod
+    def with_role(cls, role: Role, **kwargs) -> User:
+        """
+        Constructor to create new User with supplied Role
+        :param role: The role to set user to.
+        :return:  None
+        """
+
+        new_user = User(kwargs['api_id'], kwargs['api_hash'])
+        new_user.role = role
+        return new_user
 
     @property
     def role(self) -> Role:
