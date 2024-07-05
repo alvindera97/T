@@ -144,11 +144,13 @@ class TestUserTestCase(unittest.TestCase):
 
         :return: None
         """
-        publisher_user = User(12345, '|', role=Role.PUBLISHER)
-        subscriber_user = User(12345, '|', role=Role.SUBSCRIBER)
+        PUBLISHER, SUBSCRIBER = Role.PUBLISHER, Role.SUBSCRIBER
 
-        self.assertEqual(publisher_user.role, Role.PUBLISHER)
-        self.assertEqual(subscriber_user.role, Role.SUBSCRIBER)
+        publisher_user = User.with_role(PUBLISHER, api_id=12345, api_hash="|")
+        subscriber_user = User.with_role(SUBSCRIBER, api_id=12345, api_hash="|")
+
+        self.assertEqual(publisher_user.role, PUBLISHER)
+        self.assertEqual(subscriber_user.role, SUBSCRIBER)
 
     @unittest.skipIf(len(Role.__members__) < 2, "Not Enough Roles (i.e. Role Enum Members) To Perform This Test!")
     def test_user_can_be_initialised_with_random_role(self) -> None:
