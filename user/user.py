@@ -56,7 +56,7 @@ class User:
         :param role: The role to set user to.
         :return:  None
         """
-        EXPECTED_KWARGS = ['api_id', 'api_hash']
+        EXPECTED_KWARGS = ['api_id', 'api_hash']  # this is not good design but will suffice for now
 
         for ek in EXPECTED_KWARGS:
             if not kwargs.get(ek):
