@@ -149,3 +149,36 @@ class TestUserTestCase(unittest.TestCase):
 
         self.assertEqual(publisher_user.role, Role.PUBLISHER)
         self.assertEqual(subscriber_user.role, Role.SUBSCRIBER)
+
+    @unittest.skipIf(len(Role.__members__) < 2, "Not Enough Roles (i.e. Role Enum Members) To Perform This Test!")
+    def test_user_can_be_initialised_with_random_role(self) -> None:
+        """
+        Test that User object can be initialised with random role.
+
+        In this case the constructor should be able to take stock of what roles the user intends on a random choice being
+        made of at initialisation of the object. Another important check that happens is that:
+
+            IN THE CASE WHERE THE USER SUPPLIES 'role' FOR A FIXED ROLE AT INITIALISATION, THE CONSTRUCTOR SHOULD RAISE
+            AN EXCEPTION TO INFORM THAT A USER CAN EITHER:
+
+            1. BE UNSET (default)
+            2. BE SET TO A SUPPLIED ROLE (which can also be Role.NOT_SET) AT INITIALISATION (via __init__ 'role' argument).
+            3. BE SET TO RANDOM ROLE FROM GIVEN LIST OF ROLE OBJECTS (via the __init__ 'from_roles' argument)
+
+
+        Only one of such initialisation workflows is valid.
+        :return: None
+        """
+        self.assertRaises(ValueError,
+                          lambda: User(12345, '|', role=Role.PUBLISHER, from_role=[Role.PUBLISHER, Role.NOT_SET]))
+        self.assertRaises(ValueError,
+                          lambda: User(12345, '|', role=Role.PUBLISHER, from_role=[]))
+
+        role_state_count, ROLE_OPTIONS = Counter(), [Role.PUBLISHER, Role.NOT_SET]
+
+        for _ in range(len(Role.__members__) * 2):
+            self.user.set_random_role()
+            role_state_count[(user := User(12345, api_hash='|', from_role=ROLE_OPTIONS)).role] += 1
+
+        selected_roles = [role for role, count in role_state_count.items() if count > 0]
+        self.assertTrue(len(selected_roles) > 1, "Expected more than one role to be randomly selected.")
