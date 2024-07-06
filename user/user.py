@@ -64,6 +64,22 @@ class User:
         except KeyError as e:
             raise ValueError(f'{e.__str__()} must be supplied as keyword argument with this method.')
 
+    @classmethod
+    def from_role_options(cls, roles: List[Role], **kwargs) -> Union[User, NoReturn]:
+        """
+        Constructor to create new Role selected from random selection of supplied Role objects in 'roles'
+        :param roles: List of roles to make a random selection from.
+        :return:  User or NoReturn (NoReturn because the function may never return as it can raise an exception.)
+        """
+        try:
+            new_user = User(kwargs['api_id'], kwargs['api_hash'])
+            new_user.role = random.choice(roles)
+            return new_user
+        except KeyError as e:
+            raise ValueError(f'{e.__str__()} must be supplied as keyword argument with this method.')
+        except IndexError:
+            raise ValueError
+
     @property
     def role(self) -> Role:
         """
