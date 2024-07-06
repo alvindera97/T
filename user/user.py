@@ -9,10 +9,11 @@ Classes:
 """
 from __future__ import annotations
 import random
-from typing import List, Optional
+from typing import List, Optional, NoReturn, Union
 
 from telethon import TelegramClient
 from telethon.sessions import StringSession
+
 
 from role import Role
 
@@ -50,11 +51,11 @@ class User:
             self.role = random.SystemRandom().choice(from_role)
 
     @classmethod
-    def with_role(cls, role: Role, **kwargs) -> User:
+    def with_role(cls, role: Role, **kwargs) -> Union[User, NoReturn]:
         """
         Constructor to create new User with supplied Role
         :param role: The role to set user to.
-        :return:  None
+        :return:  User or NoReturn (NoReturn because the function may never return as it can raise an exception.)
         """
         EXPECTED_KWARGS = ['api_id', 'api_hash']  # this is not good design but will suffice for now
 
