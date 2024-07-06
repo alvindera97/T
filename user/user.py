@@ -60,7 +60,7 @@ class User:
 
         for ek in EXPECTED_KWARGS:
             if not kwargs.get(ek):
-                raise ValueError
+                raise ValueError(f'{ek} must be supplied as keyword argument with this method.')
 
         new_user = User(kwargs['api_id'], kwargs['api_hash'])
         new_user.role = role
