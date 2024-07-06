@@ -167,31 +167,21 @@ class TestUserTestCase(unittest.TestCase):
     def test_user_can_be_initialised_with_random_role(self) -> None:
         """
         Test that User object can be initialised with random role.
-
-        In this case the constructor should be able to take stock of what roles the user intends on a random choice being
-        made of at initialisation of the object. Another important check that happens is that:
-
-            IN THE CASE WHERE THE USER SUPPLIES 'role' FOR A FIXED ROLE AT INITIALISATION, THE CONSTRUCTOR SHOULD RAISE
-            AN EXCEPTION TO INFORM THAT A USER CAN EITHER:
-
-            1. BE UNSET (default)
-            2. BE SET TO A SUPPLIED ROLE (which can also be Role.NOT_SET) AT INITIALISATION (via __init__ 'role' argument).
-            3. BE SET TO RANDOM ROLE FROM GIVEN LIST OF ROLE OBJECTS (via the __init__ 'from_roles' argument)
-
-
-        Only one of such initialisation workflows is valid.
         :return: None
         """
-        self.assertRaises(ValueError,
-                          lambda: User(12345, '|', role=Role.PUBLISHER, from_role=[Role.PUBLISHER, Role.NOT_SET]))
-        self.assertRaises(ValueError,
-                          lambda: User(12345, '|', role=Role.PUBLISHER, from_role=[]))
+
+        # If the list of roles to make a random choice from is not supplied raise, ValueError
 
         role_state_count, ROLE_OPTIONS = Counter(), [Role.PUBLISHER, Role.NOT_SET]
+        self.assertRaises(ValueError,
+                          lambda: User.from_role_options([], api_id=12345, api_hash='|'))
+
+        self.assertRaises(ValueError,
+                          lambda: User.from_role_options(ROLE_OPTIONS))
 
         for _ in range(len(Role.__members__) * 4):
             self.user.set_random_role()
-            role_state_count[User(12345, api_hash='|', from_role=ROLE_OPTIONS).role] += 1
+            role_state_count[User.from_role_options(ROLE_OPTIONS, api_id=12345, api_hash='|').role] += 1
 
         selected_roles = [role for role, count in role_state_count.items() if count > 0]
         self.assertTrue(len(selected_roles) >= 2, "Expected more than one role to be randomly selected.")
