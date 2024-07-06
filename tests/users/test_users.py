@@ -152,9 +152,9 @@ class TestUserTestCase(unittest.TestCase):
         self.assertEqual(publisher_user.role, PUBLISHER)
         self.assertEqual(subscriber_user.role, SUBSCRIBER)
 
-    def test_with_role_method_raises_exceptions_on_missing_kwargs(self) -> None:
+    def test_with_role_method_raises_exceptions_on_missing_kwargs_at_user__with_role(self) -> None:
         """
-        Test that if required keyword arguments are missing in the .with_role() call,
+        Test that if required keyword arguments are missing at the User.with_role() call,
         it raises the appropriate exception.
         :return: None
         """
