@@ -77,8 +77,8 @@ class User:
             return new_user
         except KeyError as e:
             raise ValueError(f'{e.__str__()} must be supplied as keyword argument with this method.')
-        except IndexError:
-            raise ValueError
+        except (IndexError, AssertionError):
+            raise ValueError(f'You must supply a non-empty list of Role objects, not {roles}')
 
     @property
     def role(self) -> Role:

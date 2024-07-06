@@ -185,3 +185,28 @@ class TestUserTestCase(unittest.TestCase):
 
         selected_roles = [role for role, count in role_state_count.items() if count > 0]
         self.assertTrue(len(selected_roles) >= 2, "Expected more than one role to be randomly selected.")
+
+    def test_with_role_method_raises_exceptions_on_missing_kwargs_at_user__from_role_options(self) -> None:
+        """
+        Test that if required keyword arguments are missing at the User.from_role_options() call,
+        it raises the appropriate exception.
+        :return: None
+        """
+
+        ROLES = [Role.NOT_SET, Role.PUBLISHER]
+        with self.assertRaises(ValueError) as context:
+            User.from_role_options(ROLES)
+
+        self.assertEqual(str(context.exception), "'api_id' must be supplied as keyword argument with this method.")
+
+        ROLES = []
+        with self.assertRaises(ValueError) as context:
+            User.from_role_options(ROLES, api_id=12345, api_hash='|')
+
+        self.assertEqual(str(context.exception), f"You must supply a non-empty list of Role objects, not {ROLES}")
+
+        ROLES = ["hello", "world"]
+        with self.assertRaises(ValueError) as context:
+            User.from_role_options(ROLES, api_id=12345, api_hash='|')
+
+        self.assertEqual(str(context.exception), f"You must supply a non-empty list of Role objects, not {ROLES}")
