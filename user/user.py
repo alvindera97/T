@@ -57,15 +57,12 @@ class User:
         :param role: The role to set user to.
         :return:  User or NoReturn (NoReturn because the function may never return as it can raise an exception.)
         """
-        EXPECTED_KWARGS = ['api_id', 'api_hash']  # this is not good design but will suffice for now
-
-        for ek in EXPECTED_KWARGS:
-            if not kwargs.get(ek):
-                raise ValueError(f'{ek} must be supplied as keyword argument with this method.')
-
-        new_user = User(kwargs['api_id'], kwargs['api_hash'])
-        new_user.role = role
-        return new_user
+        try:
+            new_user = User(kwargs['api_id'], kwargs['api_hash'])
+            new_user.role = role
+            return new_user
+        except KeyError as e:
+            raise ValueError(f'{e.__str__()} must be supplied as keyword argument with this method.')
 
     @property
     def role(self) -> Role:

@@ -161,7 +161,7 @@ class TestUserTestCase(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             User.with_role(Role.NOT_SET)
 
-        self.assertEqual(str(context.exception), "api_id must be supplied as keyword argument with this method.")
+        self.assertEqual(str(context.exception), "'api_id' must be supplied as keyword argument with this method.")
 
     @unittest.skipIf(len(Role.__members__) < 2, "Not Enough Roles (i.e. Role Enum Members) To Perform This Test!")
     def test_user_can_be_initialised_with_random_role(self) -> None:
