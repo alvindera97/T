@@ -26,29 +26,15 @@ class User:
     __role: Role = Role.NOT_SET
     __role_members: List[Role] = list(Role.__members__.values())
 
-    def __init__(self, api_id: int, api_hash: str, session_token: Optional[str] = None, role: Optional[Role] = None,
-                 from_role: List[Optional[Role]] = None) -> None:
+    def __init__(self, api_id: int, api_hash: str, session_token: Optional[str] = None) -> None:
         """
         Class initializer
         :param api_id: Telegram client API ID (issued by telegram)
         :param api_hash: Telegram client API_HASH for corresponding API_ID
-        :param session_token: Telegram string session token for user, see https://docs.telethon.dev/en/stable/concepts/sessions.html#string-sessions
-        :param role: Role initialised user assumes
         :return: None
         """
 
         self.telegram_client = TelegramClient(StringSession(session_token), api_id, api_hash)
-        if role:
-            if from_role is not None:
-                raise ValueError(
-                    "You have supplied objects for both 'from_role' and 'role' which is forbidden.")
-            self.role = role
-
-        if from_role:
-            if type(from_role) is not type(list()) or [k for k in
-                                                       filter(lambda l: l not in Role.__members__.values(), from_role)]:
-                raise ValueError("from_role must be a list of Role objects")
-            self.role = random.SystemRandom().choice(from_role)
 
     @classmethod
     def with_role(cls, role: Role, **kwargs) -> Union[User, NoReturn]:
