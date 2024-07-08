@@ -7,7 +7,13 @@ Classes:
   User
 
 """
+from __future__ import annotations
+import random
+from typing import List, Optional, NoReturn, Union
+
 from telethon import TelegramClient
+from telethon.sessions import StringSession
+
 
 from role import Role
 
@@ -18,8 +24,9 @@ class User:
     """
 
     __role: Role = Role.NOT_SET
+    __role_members: List[Role] = list(Role.__members__.values())
 
-    def __init__(self, api_id: int, api_hash: str) -> None:
+    def __init__(self, api_id: int, api_hash: str, session_token: Optional[str] = None) -> None:
         """
         Class initializer
         :param api_id: Telegram client API ID (issued by telegram)
@@ -27,7 +34,37 @@ class User:
         :return: None
         """
 
-        self.telegram_client = TelegramClient("default", api_id, api_hash)
+        self.telegram_client = TelegramClient(StringSession(session_token), api_id, api_hash)
+
+    @classmethod
+    def with_role(cls, role: Role, **kwargs) -> Union[User, NoReturn]:
+        """
+        Constructor to create new User with supplied Role
+        :param role: The role to set user to.
+        :return:  User or NoReturn (NoReturn because the function may never return as it can raise an exception.)
+        """
+        try:
+            new_user = User(kwargs['api_id'], kwargs['api_hash'])
+            new_user.role = role
+            return new_user
+        except KeyError as e:
+            raise ValueError(f'{e.__str__()} must be supplied as keyword argument with this method.')
+
+    @classmethod
+    def from_role_options(cls, roles: List[Role], **kwargs) -> Union[User, NoReturn]:
+        """
+        Constructor to create new Role selected from random selection of supplied Role objects in 'roles'
+        :param roles: List of roles to make a random selection from.
+        :return:  User or NoReturn (NoReturn because the function may never return as it can raise an exception.)
+        """
+        try:
+            new_user = User(kwargs['api_id'], kwargs['api_hash'])
+            new_user.role = random.choice(roles)
+            return new_user
+        except KeyError as e:
+            raise ValueError(f'{e.__str__()} must be supplied as keyword argument with this method.')
+        except (IndexError, AssertionError):
+            raise ValueError(f'You must supply a non-empty list of Role objects, not {roles}')
 
     @property
     def role(self) -> Role:
@@ -47,3 +84,10 @@ class User:
         """
         assert isinstance(role, Role)
         self.__role = role
+
+    def set_random_role(self) -> None:
+        """
+        Set random role on instance
+        :return: None
+        """
+        self.role = random.SystemRandom().choice(self.__role_members)
