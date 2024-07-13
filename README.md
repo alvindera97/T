@@ -9,7 +9,7 @@ We are committed to ensuring that our project is used for positive and construct
 
 For more information, please read our [Code of Conduct](CODE_OF_CONDUCT.md), [Contributing Guidelines](CONTRIBUTING.md), and [Security Policy](SECURITY.md).
 
-If you suspect any misuse of our project, please report it immediately [here](https://github.com/[your username]/[your repo]/issues/new?template=report-abuse.md).
+If you suspect any misuse of our project, please report it immediately [here](https://github.com/alvindera97/PubSub-Telegram-Bot-Comments/issues/new?template=report-abuse.md).
 
 ## Introduction
 
