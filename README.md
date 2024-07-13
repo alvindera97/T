@@ -1,4 +1,15 @@
 # Telegram Event Chat Bot
+## Contributor Covenant Code of Conduct
+
+This project adheres to the Contributor Covenant [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [nwokolo.godwin.chidera@gmail.com](mailto:nwokolo.godwin.chidera@gmail.com).
+
+## Commitment to Ethical Use
+
+We are committed to ensuring that our project is used for positive and constructive purposes. We have implemented policies and guidelines to prevent and address any misuse. 
+
+For more information, please read our [Code of Conduct](CODE_OF_CONDUCT.md), [Contributing Guidelines](CONTRIBUTING.md), and [Security Policy](SECURITY.md).
+
+If you suspect any misuse of our project, please report it immediately [here](https://github.com/[your username]/[your repo]/issues/new?template=report-abuse.md).
 
 ## Introduction
 
