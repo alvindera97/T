@@ -29,7 +29,7 @@ The system employs an asynchronous publisher-subscriber design pattern:
 
 ## User Roles
 
-- **Publisher (pub):** Sends messages to the group.
+- [**Publisher (pub):**](https://github.com/alvindera97/PubSub-Telegram-Bot-Comments/blob/dev/design/docs/Publisher.md#publisher) Sends messages to the group.
 - **Subscriber (sub):** Responds to messages sent by publishers.
 
 ## Functional Requirements
