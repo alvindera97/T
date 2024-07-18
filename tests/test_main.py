@@ -18,7 +18,7 @@ from main import main, MAIN_USAGE_TEXT
 class TestMain(unittest.TestCase):
     """Test case for tests for main entry point of program"""
 
-    def test_program_prints_usage_instructions_on_invalid_input(self):
+    def test_program_prints_usage_instructions_on_invalid_input(self) -> None:
         """
         Test that the program prints usage instructions to terminal on
         wrong/invalid input.
