@@ -26,9 +26,9 @@ class UtilsTestCase(unittest.TestCase):
         with CaptureTerminalOutput() as captured_output:
             print("hello world")
 
-        captured_text = captured_output.getvalue()
-        expected_output = "hello world\n"
-        self.assertEqual(captured_text, expected_output)
+            captured_text = captured_output.getvalue()
+            expected_output = "hello world\n"
+            self.assertEqual(captured_text, expected_output)
 
     def test_capture_output_context_manager_stringio_is_closed(self) -> None:
         """

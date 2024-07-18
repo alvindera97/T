@@ -21,3 +21,4 @@ class CaptureTerminalOutput:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         sys.stdout = self._stdout
+        self._stringio.close()
