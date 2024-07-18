@@ -38,3 +38,20 @@ class TestMain(unittest.TestCase):
 
         self.assertEqual(output, MAIN_USAGE_TEXT.strip())
 
+    def test_program_collects_preliminary_information_at_start(self) -> None:
+        """
+        Test that program queries user for certain information at start.
+
+        :return: None
+        """
+        sys.argv = ['main.py']
+        captured_output = StringIO()
+
+        sys.stdout = captured_output
+
+        main(sys.argv)
+
+        sys.stdout = sys.__stdout__
+        output = captured_output.getvalue().strip()
+
+        self.assertEqual(output, "Enter comma separated list of telegram phone numbers:")
