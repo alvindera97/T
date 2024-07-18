@@ -29,3 +29,16 @@ class UtilsTestCase(unittest.TestCase):
         captured_text = captured_output.getvalue()
         expected_output = "hello world\n"
         self.assertEqual(captured_text, expected_output)
+
+    def test_capture_output_context_manager_stringio_is_closed(self) -> None:
+        """
+        Test that capture output context manager StringIO is closed; good for freeing up
+        system resources.
+
+        :return: None
+        """
+        capture = CaptureTerminalOutput()
+        with capture as captured_output:
+            (lambda: None)()
+
+        self.assertTrue(captured_output.closed)
