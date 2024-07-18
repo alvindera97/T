@@ -33,6 +33,9 @@ def main(system_argument: List[Optional[str]]):
     if len(system_argument) > 1:
         print(MAIN_USAGE_TEXT)
 
+    else:
+        print("Enter comma separated list of telegram phone numbers:")
+
 
 if __name__ == '__main__':
     main(sys.argv)
