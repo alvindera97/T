@@ -42,3 +42,52 @@ class UtilsTestCase(unittest.TestCase):
             (lambda: None)()
 
         self.assertTrue(captured_output.closed)
+
+    def test_extract_phone_numbers_function_on_valid_input(self) -> None:
+        """
+        Test that get_phone_numbers() returns all phone numbers on valid
+        string input
+
+        :return: None
+        """
+        self.assertEqual(
+            extract_phone_numbers("+123 456 7890, +12 345-6789, +1(234) 567-8901"),
+            ["+123 456 7890", "+12 345-6789", "+1(234) 567-8901"]
+        )
+
+    def test_extract_phone_numbers_function_on_invalid_input(self) -> None:
+        """
+        Test that get_phone_numbers() returns empty list on invalid string input
+        :return: None
+        """
+
+        self.assertEqual(
+            extract_phone_numbers("+123 456 7890, invalid_number"),
+            []
+        )
+
+    def test_extract_phone_numbers_function_on_empty_input(self) -> None:
+        """
+        Test that get_phone_numbers() returns empty list on empty input
+        :return: None
+        """
+        self.assertEqual(
+            extract_phone_numbers(""),
+            []
+        )
+
+    def test_extract_phone_numbers_function_on_input_without_commas(self) -> None:
+        """
+        Test that get_phone_numbers() returns empty list on input without commas
+        :return: None
+        """
+
+        self.assertEqual(
+            extract_phone_numbers("not_a_phone_number"),
+            []
+        )
+
+        self.assertEqual(
+            extract_phone_numbers("+123 456 7890" "+12 345-6789"),
+            []
+        )
