@@ -131,7 +131,7 @@ class TestUserTestCase(unittest.TestCase):
         """
         role_state_count = Counter()
 
-        for _ in range(len(Role.__members__) * 2):
+        for _ in range(len(Role.__members__) * 10):
             self.user.set_random_role()
             role_state_count[self.user.role] += 1
 
