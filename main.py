@@ -7,6 +7,8 @@ This module contains code calling setup, processing and tear down operations.
 import sys
 from typing import Optional, List
 
+from utils.helper_functions import extract_phone_numbers
+
 MAIN_USAGE_TEXT: str = """Usage: python main.py
 
         PubSub Telegram Bot Comments
@@ -35,6 +37,9 @@ def main(system_argument: List[Optional[str]]):
 
     else:
         print("Enter comma separated list of telegram phone numbers:")
+        PHONE_NUMBERS: List[str] = extract_phone_numbers(input())
+        if not PHONE_NUMBERS:
+            print(f"Invalid phone numbers. All phone numbers must be comma separated and each must include country code (+)")
 
 
 if __name__ == '__main__':
