@@ -8,6 +8,7 @@ Classes:
 """
 import sys
 import unittest
+from unittest.mock import patch
 
 from faker import Faker
 
@@ -43,3 +44,17 @@ class TestMain(unittest.TestCase):
         with CaptureTerminalOutput() as output:
             main(sys.argv)
             self.assertEqual(output.getvalue().strip(), "Enter comma separated list of telegram phone numbers:")
+
+    @patch('builtins.input', return_value='invalid_phone_number')
+    def test_program_quits_with_failure_message_on_invalid_input(self, *_) -> None:
+        """
+        Test that program quits with failure message on receipt of invalid phone number(s) from user
+        :return: None
+        """
+
+        sys.argv = ['main.py']
+
+        with CaptureTerminalOutput() as output:
+            main(sys.argv)
+            self.assertEqual(output.getvalue().strip().split("\n")[1],
+                             "Invalid phone number. All phone numbers must include country code (+)")
