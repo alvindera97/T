@@ -57,4 +57,4 @@ class TestMain(unittest.TestCase):
         with CaptureTerminalOutput() as output:
             main(sys.argv)
             self.assertEqual(output.getvalue().strip().split("\n")[1],
-                             "Invalid phone number. All phone numbers must include country code (+)")
+                             "Invalid phone numbers. All phone numbers must be comma separated and each must include country code (+)")
