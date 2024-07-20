@@ -9,6 +9,7 @@ Classes:
 import unittest
 
 from utils.context_managers import CaptureTerminalOutput
+from utils.helper_functions import extract_phone_numbers
 
 
 class UtilsTestCase(unittest.TestCase):
