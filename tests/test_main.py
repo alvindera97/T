@@ -19,6 +19,8 @@ from utils.context_managers import CaptureTerminalOutput
 class TestMain(unittest.TestCase):
     """Test case for tests for main entry point of program"""
 
+    sys.argv = ['main.py']
+
     @patch('sys.argv', ['main.py', *[other_argv for other_argv in Faker().sentence().split(" ")]])
     def test_program_prints_usage_instructions_on_invalid_input(self) -> None:
         """
@@ -32,7 +34,6 @@ class TestMain(unittest.TestCase):
             main(sys.argv)
             self.assertEqual(output.getvalue().strip(), MAIN_USAGE_TEXT.strip())
 
-    @patch('sys.argv', ['main.py'])
     @patch('builtins.input', return_value="")
     def test_program_collects_preliminary_information_at_start(self, *_) -> None:
         """
@@ -46,7 +47,6 @@ class TestMain(unittest.TestCase):
             self.assertEqual(output.getvalue().strip().split("\n")[0],
                              "Enter comma separated list of telegram phone numbers:")
 
-    @patch('sys.argv', ['main.py'])
     @patch('builtins.input', return_value='invalid_phone_number')
     def test_program_quits_with_failure_message_on_invalid_input(self, *_) -> None:
         """
@@ -59,7 +59,6 @@ class TestMain(unittest.TestCase):
             self.assertEqual(output.getvalue().strip().split("\n")[1],
                              "Invalid phone numbers. All phone numbers must be comma separated and each must include country code (+)")
 
-    @patch('sys.argv', ['main.py'])
     @patch('builtins.input', return_value="+1(234) 567-8901")
     def test_program_asks_for_group_chat_context_after_supplying_valid_phone_numbers(self, *_) -> None:
         """
