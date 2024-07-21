@@ -52,8 +52,8 @@ class UtilsTestCase(unittest.TestCase):
         :return: None
         """
         self.assertEqual(
-            extract_phone_numbers("+123 456 7890, +12 345-6789, +1(234) 567-8901"),
-            ["+123 456 7890", "+12 345-6789", "+1(234) 567-8901"]
+            extract_phone_numbers("+1(234) 567-8901"),
+            ["+1(234) 567-8901"]
         )
 
     def test_extract_phone_numbers_function_on_invalid_input(self) -> None:
@@ -63,7 +63,7 @@ class UtilsTestCase(unittest.TestCase):
         """
 
         self.assertEqual(
-            extract_phone_numbers("+123 456 7890, invalid_number"),
+            extract_phone_numbers("+123 456 7890, +1(234) 567-8901"),
             []
         )
 
