@@ -4,8 +4,9 @@ Utilities helper functions module
 This module contains code for utils (utilities) which are primarily helper functions.
 """
 
-import re
 from typing import List, Optional
+
+import phonenumbers
 
 
 def extract_phone_numbers(input_string) -> List[Optional[str]]:
@@ -20,13 +21,17 @@ def extract_phone_numbers(input_string) -> List[Optional[str]]:
     :return:
     """
 
-    # Regex pattern for valid phone numbers with country code
-    pattern = re.compile(r'^\+\d{1,3}[\s-]?\(?\d{1,4}\)?[\s-]?\d{1,4}[\s-]?\d{1,4}$')
-
     phone_numbers = [num.strip() for num in input_string.split(',')]
+    valid_numbers = []
 
     for number in phone_numbers:
-        if not pattern.fullmatch(number):
-            return []  # no need continuing here.
+        try:
+            parsed_number = phonenumbers.parse(number)
+            if phonenumbers.is_valid_number(parsed_number):
+                valid_numbers.append(number)
+            else:
+                return []
+        except phonenumbers.NumberParseException:
+            return []
 
-    return phone_numbers
+    return valid_numbers
