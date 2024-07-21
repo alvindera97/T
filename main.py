@@ -39,7 +39,7 @@ def main(system_argument: List[Optional[str]]):
         print("Enter comma separated list of telegram phone numbers:")
         PHONE_NUMBERS: List[str] = extract_phone_numbers(input())
         if not PHONE_NUMBERS:
-            print(f"Invalid phone numbers. All phone numbers must be comma separated and each must include country code (+)")
+            print("Invalid phone numbers. All phone numbers must be comma separated and each must include country code (+)")
 
 
 if __name__ == '__main__':
