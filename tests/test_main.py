@@ -69,4 +69,4 @@ class TestMain(unittest.TestCase):
         """
         with CaptureTerminalOutput() as output:
             main(sys.argv)
-            self.assertEqual(output.getvalue().strip().split("\n")[1], "Enter group chat context:")
+            self.assertEqual(output.getvalue().strip().split("\n")[1], "Enter group chat context (mandatory):")

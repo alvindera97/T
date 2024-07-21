@@ -41,7 +41,7 @@ def main(system_argument: List[Optional[str]]):
         if not PHONE_NUMBERS:
             print("Invalid phone numbers. All phone numbers must be comma separated and each must include country code (+)")
         else:
-            print("Enter group chat context:")
+            print("Enter group chat context (mandatory):")
 
 
 if __name__ == '__main__':
