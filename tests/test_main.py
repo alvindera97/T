@@ -58,3 +58,16 @@ class TestMain(unittest.TestCase):
             main(sys.argv)
             self.assertEqual(output.getvalue().strip().split("\n")[1],
                              "Invalid phone numbers. All phone numbers must be comma separated and each must include country code (+)")
+
+    @patch('sys.argv', ['main.py'])
+    @patch('builtins.input', return_value="+1(234) 567-8901")
+    def test_program_asks_for_group_chat_context_after_supplying_valid_phone_numbers(self, *_) -> None:
+        """
+        Test that program asks for group chat context (i.e. nature of chats on the group chat) after
+        user supplies valid phone number(s)
+
+        :return: None
+        """
+        with CaptureTerminalOutput() as output:
+            main(sys.argv)
+            self.assertEqual(output.getvalue().strip().split("\n")[1], "Enter group chat context:")
