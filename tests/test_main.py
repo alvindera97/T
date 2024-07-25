@@ -71,16 +71,16 @@ class TestMain(unittest.TestCase):
             main(sys.argv)
             self.assertEqual(output.getvalue().strip().split("\n")[1], "Enter group chat context (mandatory):")
 
-    @patch('builtins.input', side_effect=["+1(234) 567-8901", "Hello world group"])
-    def test_program_prints_initialisation_message_after_receiving_valid_group_chat_context(self, *_) -> None:
+    @patch('builtins.input', side_effect=["+1(234) 567-8901", "Hello world group", "", ""])
+    def test_program_prompts_for_group_chat_link_after_receiving_valid_group_chat_context(self, *_) -> None:
         """
-        Test that program prints initialisation text after supply of group context.
+        Test that program prompts for group chat link after supply of group context.
 
         :return: None
         """
         with CaptureTerminalOutput() as output:
             main(sys.argv)
-            self.assertEqual(output.getvalue().strip().split("\n")[2], "Initialising...")
+            self.assertEqual(output.getvalue().strip().split("\n")[2], "Enter group chat link:")
 
     @patch('builtins.input', side_effect=["+1(234) 567-8901", ""])
     def test_program_prints_quit_message_after_receiving_no_group_chat_context(self, *_) -> None:
@@ -91,4 +91,28 @@ class TestMain(unittest.TestCase):
         """
         with CaptureTerminalOutput() as output:
             main(sys.argv)
-            self.assertEqual(output.getvalue().strip().split("\n")[2], "Group chat context required but not supplied, quiting...")
+            self.assertEqual(output.getvalue().strip().split("\n")[2],
+                             "Group chat context required but not supplied, quiting...")
+
+    @patch('builtins.input', side_effect=["+1(234) 567-8901", "Hello world group", "https://t.me/someGroupChat"])
+    def test_program_prints_initialisation_message_after_receiving_valid_group_chat_link(self, *_) -> None:
+        """
+        Test that program prints initialisation text after supply of valid group chat link.
+
+        :return: None
+        """
+        with CaptureTerminalOutput() as output:
+            main(sys.argv)
+            self.assertEqual(output.getvalue().strip().split("\n")[3], "Initialising...")
+
+    @patch('builtins.input', side_effect=["+1(234) 567-8901", "Hello world group", ""])
+    def test_program_prints_quit_message_after_not_receiving_group_chat_link(self, *_) -> None:
+        """
+        Test that program prints quit text after not receiving group chat link.
+
+        :return: None
+        """
+        with CaptureTerminalOutput() as output:
+            main(sys.argv)
+            self.assertEqual(output.getvalue().strip().split("\n")[3],
+                             "Group chat link required but not supplied, quiting...")
