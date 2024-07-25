@@ -1,7 +1,5 @@
 """
-Module for tests on utilities (utils)
-
-This module contains test cases for testing source code at the utils pacakge
+Module for tests on utilities (helper functions)
 
 Classes:
   UtilsTestCase
@@ -14,7 +12,7 @@ from utils.helper_functions import extract_phone_numbers
 
 class UtilsTestCase(unittest.TestCase):
     """
-    Test case class for utilities contained at utils package
+    Test case class for helper functions contained at utils package
     """
 
     def test_capture_output_context_manager_captures_correct_output(self) -> None:
