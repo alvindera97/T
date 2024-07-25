@@ -44,7 +44,12 @@ def main(system_argument: List[Optional[str]]):
             print("Enter group chat context (mandatory):")
             group_chat_context = input().strip()
             if group_chat_context:
-                print("Initialising...")
+                print("Enter group chat link:")
+                group_chat_link = input()
+                if group_chat_link:
+                    print("Initialising...")
+                else:
+                    print("Group chat link required but not supplied, quiting...")
             else:
                 print("Group chat context required but not supplied, quiting...")
 
