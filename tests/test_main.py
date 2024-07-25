@@ -99,6 +99,21 @@ class TestMain(unittest.TestCase):
         """
         Test that program prints initialisation text after supply of valid group chat link.
 
+        *** A LITTLE HEADS UP HERE ABOUT TELEGRAM GROUP CHAT LINKS: ***
+
+        Since telegram group chat link structures are properly and popularly known at this point,
+        it would make a world of convenience if invalid links are caught as early as possible.
+        However, this would mean potentially pinging telegram at init-time (or whenever its convenient)
+        to ensure that the link supplied is valid.
+
+        - If a network ping with Telegram is used, it may potentially slow down testing
+          or in extreme (rare) cases cause failed/erroneous tests if telegram's servers
+          are unreachable or for some reason telegram's servers aren't able to correctly
+          validate a given link.
+        - If a regular expression (Regex) utility is used for this check, then it means that
+          maintainers have to keep track of changes to telegram's public API and then update
+          relevant mechanisms.
+
         :return: None
         """
         with CaptureTerminalOutput() as output:
