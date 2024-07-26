@@ -48,10 +48,15 @@ def main(system_argument: List[Optional[str]]):
                 group_chat_link = input()
                 if group_chat_link:
                     print("Initialising...")
+                    initialise_comments(group_chat_link, group_chat_context, PHONE_NUMBERS)
                 else:
                     print("Group chat link required but not supplied, quiting...")
             else:
                 print("Group chat context required but not supplied, quiting...")
+
+
+def initialise_comments(group_link: str, group_context: str, phone_numbers: List[str]) -> None:
+    pass
 
 
 if __name__ == '__main__':
