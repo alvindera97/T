@@ -5,6 +5,7 @@ This module contains test cases for source code contained at ROOT_DIR.main
 
 Classes:
   TestMain
+  TestInitialiseComments
 """
 import sys
 import unittest
@@ -12,12 +13,12 @@ from unittest.mock import patch
 
 from faker import Faker
 
-from main import main, MAIN_USAGE_TEXT
+from main import main, MAIN_USAGE_TEXT, initialise_comments
 from utils.context_managers import CaptureTerminalOutput
 
 
 class TestMain(unittest.TestCase):
-    """Test case for tests for main entry point of program"""
+    """Test case for tests at main entry point of program"""
 
     sys.argv = ['main.py']
 
@@ -150,3 +151,47 @@ class TestMain(unittest.TestCase):
                              "Group chat link required but not supplied, quiting...")
 
         self.initialise_comments_mock.assert_not_called()
+
+
+class TestInitialiseComments(unittest.TestCase):
+    """Test case for tests at 'Red Carpet And Coin Toss Module'"""
+
+    def test_initialise_comments_takes_group_link_group_context_and_phone_numbers_arguments_only(self) -> None:
+        """
+
+        :return: None
+        """
+        self.assertRaises(TypeError, lambda: initialise_comments())
+        self.assertRaises(TypeError, lambda: initialise_comments(""))
+        self.assertRaises(TypeError, lambda: initialise_comments("", ""))
+        self.assertRaises(TypeError, lambda: initialise_comments(
+            "",
+            "",
+            [],
+            *[Faker().sentence().split(" ")]
+        ))
+
+    def test_initialise_comments_takes_arguments_of_expected_content_characteristics(self) -> None:
+        """
+        Test that arguments received are of expected content which includes content type (data type) and some sanity
+        checks for stuff like group_context and group_link length (just for sanity checks).
+
+        *** ANOTHER NOTE ON group_link: ***
+
+        -  An invalid group link would be caught only at the point where there's a network failure while attempting
+           to send a message to the group.
+        :return: None
+        """
+
+        # Test invalid types raise exceptions
+
+        self.assertRaises(TypeError, lambda: initialise_comments(1, "c", ["p"]))
+        self.assertRaises(TypeError, lambda: initialise_comments("l", 1.1, phone_numbers=["p"]))
+        self.assertRaises(TypeError, lambda: initialise_comments("l", "c", phone_numbers=""))
+
+        # Sanity test for argument content sizes
+        self.assertRaises(ValueError, lambda: initialise_comments("", "c", phone_numbers=["p"]))
+        self.assertRaises(ValueError, lambda: initialise_comments("l", "", phone_numbers=["p"]))
+        self.assertRaises(ValueError, lambda: initialise_comments("l", "c", phone_numbers=[]))
+
+        # TODO: Add Custom Exceptions for better readability & developer experience
