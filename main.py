@@ -56,7 +56,25 @@ def main(system_argument: List[Optional[str]]):
 
 
 def initialise_comments(group_link: str, group_context: str, phone_numbers: List[str]) -> None:
-    pass
+    """
+    Initialise comments essentially does 2 things:
+
+    - Generates User objects from the phone numbers list
+    - Passes group_link, group_context and a collection of User objects
+      generated from phone_numbers to start_comments()
+
+    :param group_link:
+    :param group_context:
+    :param phone_numbers:
+    :return: None
+    """
+    if type(group_link) is not str or type(group_context) is not str or type(phone_numbers) is not list:
+        raise TypeError(
+            "Invalid types supplied. See help(initialise_comments) for information on argument types")
+
+    if len(group_link.strip()) == 0 or len(group_context.strip()) == 0 or len(phone_numbers) == 0:
+        raise ValueError(
+            "Invalid content size! See help(initialise_comments) for more information on expected argument content.")
 
 
 if __name__ == '__main__':
