@@ -21,8 +21,16 @@ class TestMain(unittest.TestCase):
 
     sys.argv = ['main.py']
 
+    def setUp(self):
+        self._initialise_comments_patcher = patch('main.initialise_comments')
+        self.initialise_comments_mock = self._initialise_comments_patcher.start()
+
+    def tearDown(self):
+        self.initialise_comments_mock.reset_mock()
+        self._initialise_comments_patcher.stop()
+
     @patch('sys.argv', ['main.py', *[other_argv for other_argv in Faker().sentence().split(" ")]])
-    def test_program_prints_usage_instructions_on_invalid_input(self) -> None:
+    def test_program_prints_usage_instructions_on_invalid_input(self, *_) -> None:
         """
         Test that the program prints usage instructions to terminal on
         wrong/invalid input.
@@ -33,6 +41,8 @@ class TestMain(unittest.TestCase):
         with CaptureTerminalOutput() as output:
             main(sys.argv)
             self.assertEqual(output.getvalue().strip(), MAIN_USAGE_TEXT.strip())
+
+        self.initialise_comments_mock.asssert()
 
     @patch('builtins.input', return_value="")
     def test_program_collects_preliminary_information_at_start(self, *_) -> None:
@@ -58,6 +68,8 @@ class TestMain(unittest.TestCase):
             main(sys.argv)
             self.assertEqual(output.getvalue().strip().split("\n")[1],
                              "Invalid phone numbers. All phone numbers must be comma separated and each must include country code (+)")
+
+        self.initialise_comments_mock.assert_not_called()
 
     @patch('builtins.input', return_value="+1(234) 567-8901")
     def test_program_asks_for_group_chat_context_after_supplying_valid_phone_numbers(self, *_) -> None:
@@ -94,6 +106,8 @@ class TestMain(unittest.TestCase):
             self.assertEqual(output.getvalue().strip().split("\n")[2],
                              "Group chat context required but not supplied, quiting...")
 
+        self.initialise_comments_mock.assert_not_called()
+
     @patch('builtins.input', side_effect=["+1(234) 567-8901", "Hello world group", "https://t.me/someGroupChat"])
     def test_program_prints_initialisation_message_after_receiving_valid_group_chat_link(self, *_) -> None:
         """
@@ -120,6 +134,9 @@ class TestMain(unittest.TestCase):
             main(sys.argv)
             self.assertEqual(output.getvalue().strip().split("\n")[3], "Initialising...")
 
+        self.initialise_comments_mock.assert_called_once_with("https://t.me/someGroupChat", "Hello world group",
+                                                              ["+1(234) 567-8901"])
+
     @patch('builtins.input', side_effect=["+1(234) 567-8901", "Hello world group", ""])
     def test_program_prints_quit_message_after_not_receiving_group_chat_link(self, *_) -> None:
         """
@@ -131,3 +148,5 @@ class TestMain(unittest.TestCase):
             main(sys.argv)
             self.assertEqual(output.getvalue().strip().split("\n")[3],
                              "Group chat link required but not supplied, quiting...")
+
+        self.initialise_comments_mock.assert_not_called()
