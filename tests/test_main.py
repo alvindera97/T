@@ -199,3 +199,20 @@ class TestInitialiseComments(unittest.TestCase):
         self.assertRaises(ValueError, lambda: initialise_comments("l", "c", phone_numbers=[]))
 
         # TODO: Add Custom Exceptions for better readability & developer experience
+
+    def test_initialise_comments_calls_method_for_starting_comments_on_successful_arguments(self) -> None:
+        """
+        Test that initialise_comments() calls start_comments() with expected arguments.
+        :return: None
+        """
+        start_comments_patcher = patch('main.start_comments')
+        start_comments_mock = start_comments_patcher.start()
+
+        initialise_comments("l", "c", ["+1(234) 567-8901"])
+        start_comments_mock.assert_called_once()
+
+        # NOTICE: The nature of the arguments passed to start_comments() will be covered in another test
+        # (ideally one testing start_comments())
+
+        start_comments_mock.reset_mock()
+        start_comments_patcher.stop()
