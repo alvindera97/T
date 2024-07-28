@@ -110,9 +110,12 @@ class TestMain(unittest.TestCase):
         self.initialise_comments_mock.assert_not_called()
 
     @patch('builtins.input', side_effect=["+1(234) 567-8901", "Hello world group", "https://t.me/someGroupChat"])
-    def test_program_prints_initialisation_message_after_receiving_valid_group_chat_link(self, *_) -> None:
+    def test_program_prints_initialisation_message_and_calls_initialise_comments_after_receiving_valid_inputs(self, *_) -> None:
         """
-        Test that program prints initialisation text after supply of valid group chat link.
+        Test that program prints initialisation text after supply of valid inputs required for initialisation which include:
+        - Phone number(s)
+        - Group context
+        - Group link
 
         *** A LITTLE HEADS UP HERE ABOUT TELEGRAM GROUP CHAT LINKS: ***
 
@@ -135,6 +138,7 @@ class TestMain(unittest.TestCase):
             main(sys.argv)
             self.assertEqual(output.getvalue().strip().split("\n")[3], "Initialising...")
 
+        # Extension of test to confirm that initalise_comments() is called.
         self.initialise_comments_mock.assert_called_once_with("https://t.me/someGroupChat", "Hello world group",
                                                               ["+1(234) 567-8901"])
 
