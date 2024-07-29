@@ -82,6 +82,7 @@ def initialise_comments(group_link: str, group_context: str, phone_numbers: List
     users = [User(os.getenv('API_ID'), os.getenv('API_HASH')) for _ in range(len(phone_numbers))]
     start_comments(group_link, group_context, users)
 
+
 def start_comments(*args):
     pass
 
