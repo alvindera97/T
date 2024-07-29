@@ -4,9 +4,11 @@ Main entry point of application
 This module contains code calling setup, processing and tear down operations.
 """
 
+import os
 import sys
 from typing import Optional, List
 
+from user import User
 from utils.helper_functions import extract_phone_numbers
 
 MAIN_USAGE_TEXT: str = """Usage: python main.py
@@ -76,6 +78,12 @@ def initialise_comments(group_link: str, group_context: str, phone_numbers: List
     if len(group_link.strip()) == 0 or len(group_context.strip()) == 0 or len(phone_numbers) == 0:
         raise ValueError(
             "Invalid content size! See help(initialise_comments) for more information on expected argument content.")
+
+    users = [User(os.getenv('API_ID'), os.getenv('API_HASH')) for _ in range(len(phone_numbers))]
+    start_comments(group_link, group_context, users)
+
+def start_comments(*args):
+    pass
 
 
 if __name__ == '__main__':
