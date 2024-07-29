@@ -110,7 +110,8 @@ class TestMain(unittest.TestCase):
         self.initialise_comments_mock.assert_not_called()
 
     @patch('builtins.input', side_effect=["+1(234) 567-8901", "Hello world group", "https://t.me/someGroupChat"])
-    def test_program_prints_initialisation_message_and_calls_initialise_comments_after_receiving_valid_inputs(self, *_) -> None:
+    def test_program_prints_initialisation_message_and_calls_initialise_comments_after_receiving_valid_inputs(self,
+                                                                                                              *_) -> None:
         """
         Test that program prints initialisation text after supply of valid inputs required for initialisation which include:
         - Phone number(s)
@@ -164,15 +165,13 @@ class TestInitialiseComments(unittest.TestCase):
         self.start_commnts_patcher = patch('main.start_comments')
         self.start_comments_mock = self.start_commnts_patcher.start()
 
-
     def tearDown(self):
         self.start_comments_mock.reset_mock()
         self.start_commnts_patcher.stop()
 
-
     def test_initialise_comments_takes_group_link_group_context_and_phone_numbers_arguments_only(self) -> None:
         """
-
+        Test that initialise_comments() takes expected arguments of only expected types.
         :return: None
         """
         self.assertRaises(TypeError, lambda: initialise_comments())
@@ -183,6 +182,7 @@ class TestInitialiseComments(unittest.TestCase):
             "",
             [],
             *[Faker().sentence().split(" ")]
+            # just a sanity test that it doesn't take in any more arguments than necessary
         ))
 
         self.start_comments_mock.assert_not_called()
@@ -225,4 +225,3 @@ class TestInitialiseComments(unittest.TestCase):
 
         # NOTICE: The nature of the arguments passed to start_comments() will be covered in another test
         # (ideally one testing start_comments())
-
