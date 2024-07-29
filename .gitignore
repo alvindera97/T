@@ -3,3 +3,4 @@
 **/environment.pickle
 docs/build/doctrees
 docs/build/html/.buildinfo
+.env
