@@ -11,7 +11,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath('../../'))
 
-project = 'PubSub Telegram Bot Comments'
+project = 'T'
 copyright = '2024, Nwokolo Godwin Chidera'
 author = 'Nwokolo Godwin Chidera'
 

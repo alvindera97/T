@@ -12,9 +12,6 @@ from user import User
 from utils.helper_functions import extract_phone_numbers
 
 MAIN_USAGE_TEXT: str = """Usage: python main.py
-
-        PubSub Telegram Bot Comments
-
         Starts the application without any command-line arguments. This program manages comments using a PubSub architecture on Telegram.
 
         Before starting, ensure you have the following information ready:
