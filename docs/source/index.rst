@@ -1,9 +1,9 @@
-.. PubSub Telegram Bot Comments documentation master file, created by
+.. T's documentation master file, created by
    sphinx-quickstart on Wed Jun 26 19:32:14 2024.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to PubSub Telegram Bot Comments documentation!
+Welcome to T's documentation!
 ========================================================
 
 .. toctree::
