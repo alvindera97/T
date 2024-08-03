@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>tests.users package &#8212; T's  documentation</title>
+    <title>tests.users package &#8212; T  documentation</title>
   
   
   
@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=f0c89327" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -132,7 +132,7 @@
   
   
   
-    <p class="title logo__title">T's  documentation</p>
+    <p class="title logo__title">T  documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -150,7 +150,7 @@
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="modules.html">PubSub-Telegram-Bot-Comments</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="modules.html">T</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="role.html">role package</a></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="tests.html">tests package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="tests.roles.html">tests.roles package</a></li>
@@ -315,13 +315,15 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.setUpClass"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.setUpClass()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.tearDown"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.tearDown()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.test_role_setter_only_accepts_Role_object_argument"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.test_role_setter_only_accepts_Role_object_argument()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.test_user_can_be_initialised_with_particular_role"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.test_user_can_be_initialised_with_particular_role()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.test_user_can_be_initialised_with_random_role"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.test_user_can_be_initialised_with_random_role()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.test_user_class_exists"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.test_user_class_exists()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.test_user_has_role_attribute"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.test_user_has_role_attribute()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.test_user_has_telethon_client_attribute"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.test_user_has_telethon_client_attribute()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.test_user_role_attribute_is_Role_NOT_SET_at_initialisation"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.test_user_role_attribute_is_Role_NOT_SET_at_initialisation()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.test_user_role_getter_and_setter_are_properties"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.test_user_role_getter_and_setter_are_properties()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.test_user_role_getter_returns_user_role_value"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.test_user_role_getter_returns_user_role_value()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.test_user_role_setter_sets_user_role_value"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.test_user_role_setter_sets_user_role_value()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.test_user_set_random_role_method_randomly_selects_role_on_user_instance"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.test_user_set_random_role_method_randomly_selects_role_on_user_instance()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -390,6 +392,24 @@ and all related functionality.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="tests.users.test_users.TestUserTestCase.test_user_can_be_initialised_with_particular_role">
+<span class="sig-name descname"><span class="pre">test_user_can_be_initialised_with_particular_role</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/users/test_users.html#TestUserTestCase.test_user_can_be_initialised_with_particular_role"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.users.test_users.TestUserTestCase.test_user_can_be_initialised_with_particular_role" title="Link to this definition">#</a></dt>
+<dd><p>Test that User object can be initialised with a particular role.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.users.test_users.TestUserTestCase.test_user_can_be_initialised_with_random_role">
+<span class="sig-name descname"><span class="pre">test_user_can_be_initialised_with_random_role</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/users/test_users.html#TestUserTestCase.test_user_can_be_initialised_with_random_role"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.users.test_users.TestUserTestCase.test_user_can_be_initialised_with_random_role" title="Link to this definition">#</a></dt>
+<dd><p>Test that User object can be initialised with random role.
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="tests.users.test_users.TestUserTestCase.test_user_class_exists">
 <span class="sig-name descname"><span class="pre">test_user_class_exists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/users/test_users.html#TestUserTestCase.test_user_class_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.users.test_users.TestUserTestCase.test_user_class_exists" title="Link to this definition">#</a></dt>
 <dd><p>Tests if User class exists
@@ -400,17 +420,6 @@ and all related functionality.</p>
 <dt class="sig sig-object py" id="tests.users.test_users.TestUserTestCase.test_user_has_role_attribute">
 <span class="sig-name descname"><span class="pre">test_user_has_role_attribute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/users/test_users.html#TestUserTestCase.test_user_has_role_attribute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.users.test_users.TestUserTestCase.test_user_has_role_attribute" title="Link to this definition">#</a></dt>
 <dd><p>Test that initialized user object has role attribute.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="tests.users.test_users.TestUserTestCase.test_user_has_telethon_client_attribute">
-<span class="sig-name descname"><span class="pre">test_user_has_telethon_client_attribute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/users/test_users.html#TestUserTestCase.test_user_has_telethon_client_attribute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.users.test_users.TestUserTestCase.test_user_has_telethon_client_attribute" title="Link to this definition">#</a></dt>
-<dd><p>Test if User class has an attribute for Telegram client.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
@@ -455,6 +464,27 @@ and all related functionality.</p>
 <dt class="sig sig-object py" id="tests.users.test_users.TestUserTestCase.test_user_role_setter_sets_user_role_value">
 <span class="sig-name descname"><span class="pre">test_user_role_setter_sets_user_role_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/users/test_users.html#TestUserTestCase.test_user_role_setter_sets_user_role_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.users.test_users.TestUserTestCase.test_user_role_setter_sets_user_role_value" title="Link to this definition">#</a></dt>
 <dd><p>Test that initialised user object’s setter for role sets the supplied role</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.users.test_users.TestUserTestCase.test_user_set_random_role_method_randomly_selects_role_on_user_instance">
+<span class="sig-name descname"><span class="pre">test_user_set_random_role_method_randomly_selects_role_on_user_instance</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/users/test_users.html#TestUserTestCase.test_user_set_random_role_method_randomly_selects_role_on_user_instance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.users.test_users.TestUserTestCase.test_user_set_random_role_method_randomly_selects_role_on_user_instance" title="Link to this definition">#</a></dt>
+<dd><p>Test if the set_random_role method on the initialised user object changes the role of
+the user object.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This test is more of a regression test, and it essentially exists to protect the set_random_role method.
+Because of the relative unpredictability of the usage of the random module here, a more statistical
+distribution approach is employed to test that the method does perform as vaguely expected.</p>
+<p>THIS IN NO WAY IS A TEST OF random.choice() or any such variation. Since future refactors and abstractions
+may consume from the set_random_role method, this is just a sanity test to guarantee that regardless of the
+future refactors done to the source code, random selection is guaranteed.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
@@ -522,13 +552,15 @@ and all related functionality.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.setUpClass"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.setUpClass()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.tearDown"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.tearDown()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.test_role_setter_only_accepts_Role_object_argument"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.test_role_setter_only_accepts_Role_object_argument()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.test_user_can_be_initialised_with_particular_role"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.test_user_can_be_initialised_with_particular_role()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.test_user_can_be_initialised_with_random_role"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.test_user_can_be_initialised_with_random_role()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.test_user_class_exists"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.test_user_class_exists()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.test_user_has_role_attribute"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.test_user_has_role_attribute()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.test_user_has_telethon_client_attribute"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.test_user_has_telethon_client_attribute()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.test_user_role_attribute_is_Role_NOT_SET_at_initialisation"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.test_user_role_attribute_is_Role_NOT_SET_at_initialisation()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.test_user_role_getter_and_setter_are_properties"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.test_user_role_getter_and_setter_are_properties()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.test_user_role_getter_returns_user_role_value"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.test_user_role_getter_returns_user_role_value()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.test_user_role_setter_sets_user_role_value"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.test_user_role_setter_sets_user_role_value()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.users.test_users.TestUserTestCase.test_user_set_random_role_method_randomly_selects_role_on_user_instance"><code class="docutils literal notranslate"><span class="pre">TestUserTestCase.test_user_set_random_role_method_randomly_selects_role_on_user_instance()</span></code></a></li>
 </ul>
 </li>
 </ul>

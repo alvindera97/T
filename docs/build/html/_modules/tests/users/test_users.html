@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>tests.users.test_users &#8212; T's  documentation</title>
+    <title>tests.users.test_users &#8212; T  documentation</title>
   
   
   
@@ -131,7 +131,7 @@
   
   
   
-    <p class="title logo__title">T's  documentation</p>
+    <p class="title logo__title">T  documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -149,7 +149,7 @@
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../modules.html">PubSub-Telegram-Bot-Comments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../modules.html">T</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../role.html">role package</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../tests.html">tests package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../tests.roles.html">tests.roles package</a></li>
@@ -273,8 +273,7 @@ document.write(`
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">import</span> <span class="nn">unittest</span>
-
-<span class="kn">from</span> <span class="nn">telethon</span> <span class="kn">import</span> <span class="n">TelegramClient</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
 
 <span class="kn">from</span> <span class="nn">role</span> <span class="kn">import</span> <span class="n">Role</span>
 <span class="kn">from</span> <span class="nn">user</span> <span class="kn">import</span> <span class="n">User</span>
@@ -296,7 +295,7 @@ document.write(`
 <span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setUpClass</span><span class="p">()</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="mi">12345</span><span class="p">,</span> <span class="s2">&quot;|&quot;</span><span class="p">)</span></div>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="TestUserTestCase.setUp">
@@ -328,18 +327,6 @@ document.write(`
 <span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">User</span><span class="p">))</span></div>
-
-
-<div class="viewcode-block" id="TestUserTestCase.test_user_has_telethon_client_attribute">
-<a class="viewcode-back" href="../../../tests.users.html#tests.users.test_users.TestUserTestCase.test_user_has_telethon_client_attribute">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_user_has_telethon_client_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Test if User class has an attribute for Telegram client.</span>
-
-<span class="sd">        :return: None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">telegram_client</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">telegram_client</span><span class="p">,</span> <span class="n">TelegramClient</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="TestUserTestCase.test_user_has_role_attribute">
@@ -409,6 +396,72 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">_User__role</span> <span class="o">=</span> <span class="s2">&quot;Some role&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">AssertionError</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">role</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestUserTestCase.test_user_set_random_role_method_randomly_selects_role_on_user_instance">
+<a class="viewcode-back" href="../../../tests.users.html#tests.users.test_users.TestUserTestCase.test_user_set_random_role_method_randomly_selects_role_on_user_instance">[docs]</a>
+    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipIf</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Role</span><span class="o">.</span><span class="n">__members__</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Not Enough Roles (i.e. Role Enum Members) To Perform This Test!&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">test_user_set_random_role_method_randomly_selects_role_on_user_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test if the set_random_role method on the initialised user object changes the role of</span>
+<span class="sd">        the user object.</span>
+
+<span class="sd">        WARNING:</span>
+<span class="sd">            This test is more of a regression test, and it essentially exists to protect the set_random_role method.</span>
+<span class="sd">            Because of the relative unpredictability of the usage of the random module here, a more statistical</span>
+<span class="sd">            distribution approach is employed to test that the method does perform as vaguely expected.</span>
+
+<span class="sd">            THIS IN NO WAY IS A TEST OF random.choice() or any such variation. Since future refactors and abstractions</span>
+<span class="sd">            may consume from the set_random_role method, this is just a sanity test to guarantee that regardless of the</span>
+<span class="sd">            future refactors done to the source code, random selection is guaranteed.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">role_state_count</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Role</span><span class="o">.</span><span class="n">__members__</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">set_random_role</span><span class="p">()</span>
+            <span class="n">role_state_count</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">role</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">selected_roles</span> <span class="o">=</span> <span class="p">[</span><span class="n">role</span> <span class="k">for</span> <span class="n">role</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">role_state_count</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">selected_roles</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Expected more than one role to be randomly selected.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestUserTestCase.test_user_can_be_initialised_with_particular_role">
+<a class="viewcode-back" href="../../../tests.users.html#tests.users.test_users.TestUserTestCase.test_user_can_be_initialised_with_particular_role">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_user_can_be_initialised_with_particular_role</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that User object can be initialised with a particular role.</span>
+
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">PUBLISHER</span><span class="p">,</span> <span class="n">SUBSCRIBER</span> <span class="o">=</span> <span class="n">Role</span><span class="o">.</span><span class="n">PUBLISHER</span><span class="p">,</span> <span class="n">Role</span><span class="o">.</span><span class="n">SUBSCRIBER</span>
+
+        <span class="n">publisher_user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">with_role</span><span class="p">(</span><span class="n">PUBLISHER</span><span class="p">)</span>
+        <span class="n">subscriber_user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">with_role</span><span class="p">(</span><span class="n">SUBSCRIBER</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">publisher_user</span><span class="o">.</span><span class="n">role</span><span class="p">,</span> <span class="n">PUBLISHER</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">subscriber_user</span><span class="o">.</span><span class="n">role</span><span class="p">,</span> <span class="n">SUBSCRIBER</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestUserTestCase.test_user_can_be_initialised_with_random_role">
+<a class="viewcode-back" href="../../../tests.users.html#tests.users.test_users.TestUserTestCase.test_user_can_be_initialised_with_random_role">[docs]</a>
+    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipIf</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Role</span><span class="o">.</span><span class="n">__members__</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Not Enough Roles (i.e. Role Enum Members) To Perform This Test!&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">test_user_can_be_initialised_with_random_role</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that User object can be initialised with random role.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># If the list of roles to make a random choice from is not supplied raise, ValueError</span>
+
+        <span class="n">role_state_count</span><span class="p">,</span> <span class="n">ROLE_OPTIONS</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(),</span> <span class="p">[</span><span class="n">Role</span><span class="o">.</span><span class="n">PUBLISHER</span><span class="p">,</span> <span class="n">Role</span><span class="o">.</span><span class="n">NOT_SET</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Role</span><span class="o">.</span><span class="n">__members__</span><span class="p">)</span> <span class="o">*</span> <span class="mi">4</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">set_random_role</span><span class="p">()</span>
+            <span class="n">role_state_count</span><span class="p">[</span><span class="n">User</span><span class="o">.</span><span class="n">from_role_options</span><span class="p">(</span><span class="n">ROLE_OPTIONS</span><span class="p">)</span><span class="o">.</span><span class="n">role</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">selected_roles</span> <span class="o">=</span> <span class="p">[</span><span class="n">role</span> <span class="k">for</span> <span class="n">role</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">role_state_count</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">selected_roles</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Expected more than one role to be randomly selected.&quot;</span><span class="p">)</span></div>
 </div>
 
 </pre></div>
