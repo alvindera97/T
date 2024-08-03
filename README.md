@@ -1,23 +1,25 @@
-# Telegram Event Chat Bot
+# T
+
+*Simulating meaningful conversations for enhanced understanding of group dynamics.*
+
 ## Contributor Covenant Code of Conduct
 
-This project adheres to the Contributor Covenant [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [nwokolo.godwin.chidera@gmail.com](mailto:nwokolo.godwin.chidera@gmail.com).
+This project adheres to the Contributor Covenant [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behaviour to [nwokolo.godwin.chidera@gmail.com](mailto:nwokolo.godwin.chidera@gmail.com).
 
 ## Commitment to Ethical Use
 
-We are committed to ensuring that our project is used for positive and constructive purposes. We have implemented policies and guidelines to prevent and address any misuse. 
+We are committed to ensuring that our project is used for positive and constructive purposes. We have implemented policies and guidelines to prevent and address any misuse.
 
-For more information, please read our [Code of Conduct](CODE_OF_CONDUCT.md), [Contributing Guidelines](CONTRIBUTING.md), and [Security Policy](SECURITY.md).
-
-If you suspect any misuse of our project, please report it immediately [here](https://github.com/alvindera97/PubSub-Telegram-Bot-Comments/issues/new?template=report-abuse.md).
+For more information, please read our [Code of Conduct](CODE_OF_CONDUCT.md).
+If you suspect any misuse of our project, please report it immediately [here](https://github.com/alvindera97/T/issues/new?template=report-abuse.md).
 
 ## Introduction
 
-The Telegram Event Chat Bot is designed to simulate human conversation within a Telegram group chat during an event. This software aims to enhance understanding of human communication, coordination, and perception in social event contexts by generating and managing intelligent conversations around a specified event.
+The T project is designed to simulate human conversation within a web-based group chat. This software aims to enhance understanding of human communication, coordination, and perception in social contexts by generating and managing intelligent conversations around a specified context.
 
 ## Purpose
 
-The primary goal of this bot is to facilitate realistic interaction among participants in a Telegram group during an event, thereby offering insights into human communication dynamics. It is particularly useful for social event planning, behavioral studies, and software engineering teams looking to beta test interactive communication systems.
+The primary goal of this project is to facilitate realistic interaction among participants in a group chat, thereby offering insights into human communication dynamics. It is particularly useful for social event planning, behavioral studies, and software engineering teams looking to beta test interactive communication systems.
 
 ## Scope
 
@@ -25,10 +27,10 @@ This project is intended for software engineers and beta testers within the conf
 
 ## Features
 
-- **Event-based conversation simulation:** Messages and responses center around the event.
-- **Message broadcasting:** Users can send event-related messages to the group.
-- **Intelligent responses:** The bot generates contextually relevant replies.
-- **Off-topic message limitation:** The percentage of messages that are off-topic are configurable.
+- **Context-based conversation simulation:** Messages and responses center around the context.
+- **Message broadcasting:** Users can send context-related messages to the group.
+- **Intelligent responses:** The system generates contextually relevant replies.
+- **Off-topic message limitation:** The percentage of messages that are off-topic is configurable.
 - **AI-generated content:** Automated creation of messages and responses.
 
 ## System Architecture
@@ -40,19 +42,19 @@ The system employs an asynchronous publisher-subscriber design pattern:
 
 ## User Roles
 
-- [**Publisher (pub):**](https://github.com/alvindera97/PubSub-Telegram-Bot-Comments/blob/dev/design/docs/Publisher.md#publisher) Sends messages to the group.
+- [**Publisher (pub):**](https://github.com/alvindera97/T/blob/dev/design/docs/Publisher.md#publisher) Sends messages to the group.
 - **Subscriber (sub):** Responds to messages sent by publishers.
 
 ## Functional Requirements
 
-- Simulate human interaction around a specific event in a group chat.
+- Simulate human interaction around a specific context in a group chat.
 - Manage publisher-subscriber interactions effectively.
 
 ## Non-functional Requirements
 
 - **Security:** Managed by the frameworks and hosting platforms.
 - **Performance:** Fault tolerance to ensure consistent message streams.
-- **Execution:** Available on Telegram groups, initiated via hosting platform terminals.
+- **Execution:** Available on web-based groups, initiated via hosting platform terminals.
 
 ## System Design
 
@@ -68,27 +70,27 @@ The system design includes sequence and use case diagrams, as well as class diag
 - **Message Normalizer:** Standardizes message formats.
 - **Recipient Poll:** Determines which users receive messages.
 - **Message Dispatcher:** Sends messages to the appropriate recipients.
-- **Smart Proxy:** Manages interactions with the Telegram API.
+- **Smart Proxy:** Manages interactions with external APIs.
 
 ## Data Design
 
 The system involves three primary entities:
 
-1. **Message Object:** Based on the default Telegram Message object.
+1. **Message Object:** Represents messages in the group chat.
 2. **Message Stream:** Managed by Apache Kafka, categorizing messages for processing.
-3. **User Object:** Defined by Telegram, representing users in the group.
+3. **User Object:** Represents users in the group.
 
 ## Programming Languages and Frameworks
 
 - **Languages:** Python
 - **Frameworks:**
-  - Telethon (for Telegram API interactions)
+  - FastAPI (for API interactions)
   - Apache Kafka (for message streaming)
   - Sphinx (for documentation)
 
 ## External Libraries and APIs
 
-- **Telegram API:** For messaging features.
+- **External Messaging API:** For messaging features.
 - **Apache Kafka Streams API:** For building stream processing apps.
 - **OpenAI API | Gemini API:** For AI-generated content.
 
@@ -119,7 +121,7 @@ The system involves three primary entities:
 
 ## Conclusion
 
-This readme outlines the creation of a Telegram bot that simulates human conversations during events. It leverages Python, Telethon, and Apache Kafka to provide a robust solution for studying and enhancing group communication dynamics.
+This README outlines the creation of a web-based chat application that simulates human conversations around specified contexts. It leverages Python, FastAPI, and Apache Kafka to provide a robust solution for studying and enhancing group communication dynamics.
 
 ## References
 
