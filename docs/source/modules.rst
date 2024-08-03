@@ -1,4 +1,4 @@
-PubSub-Telegram-Bot-Comments
+T
 ============================
 
 .. toctree::
