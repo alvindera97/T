@@ -11,6 +11,9 @@ import inspect
 import unittest
 from collections import Counter
 
+from aiokafka import AIOKafkaProducer
+from utils.exceptions import OperationNotAllowedException
+
 from role import Role
 from user import User
 
@@ -158,3 +161,30 @@ class TestUserTestCase(unittest.TestCase):
 
         selected_roles = [role for role, count in role_state_count.items() if count > 0]
         self.assertTrue(len(selected_roles) >= 2, "Expected more than one role to be randomly selected.")
+
+    def test_user_has_immutable_producer_object(self) -> None:
+        """
+        Test that User object has an attribute that will be performing Kafka producer-related operations
+        for the user object. This attribute should be private and should not be
+        :return: None
+        """
+
+        def modify_producer() -> None:
+            """
+            This function ideally shouldn't run successfully, the producer attribute
+            must be immutable!
+            :return:
+            """
+            self.user.producer = 'some other producer'
+
+        def delete_producer() -> None:
+            """
+            This function ideally shouldn't run successfully, the producer attribute
+            is protected from deletions.
+            :return: None
+            """
+            del self.user.producer
+
+        self.assertIsInstance(self.user.producer, AIOKafkaProducer)
+        self.assertRaises(OperationNotAllowedException, modify_producer)
+        self.assertRaises(OperationNotAllowedException, delete_producer)

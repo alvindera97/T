@@ -9,10 +9,14 @@ Classes:
 """
 from __future__ import annotations
 
+import asyncio
 import random
-from typing import List, NoReturn, Union
+from typing import List, NoReturn, Union, Coroutine
+
+from aiokafka import AIOKafkaProducer
 
 from role import Role
+from utils.exceptions import OperationNotAllowedException
 
 
 class User:
@@ -25,9 +29,19 @@ class User:
 
     def __init__(self) -> None:
         super().__init__()
+        self.__producer = asyncio.run(self.generate_producer_object())
 
-    @classmethod
-    def with_role(cls, role: Role) -> Union[User, NoReturn]:
+    @staticmethod
+    async def generate_producer_object() -> AIOKafkaProducer:
+        """
+        Coroutine that creates an AIOKafkaProducer and returns the Producer instance.
+
+        :return: AIOKafkaProducer instance
+        """
+        return AIOKafkaProducer(bootstrap_servers='localhost:9092')
+
+    @staticmethod
+    def with_role(role: Role) -> Union[User, NoReturn]:
         """
         Constructor to create new User with supplied Role
         :param role: The role to set user to.
@@ -40,8 +54,8 @@ class User:
         except KeyError as e:
             raise ValueError(f'{e.__str__()} must be supplied as keyword argument with this method.')
 
-    @classmethod
-    def from_role_options(cls, roles: List[Role]) -> Union[User, NoReturn]:
+    @staticmethod
+    def from_role_options(roles: List[Role]) -> Union[User, NoReturn]:
         """
         Constructor to create new Role selected from random selection of supplied Role objects in 'roles'
         :param roles: List of roles to make a random selection from.
@@ -75,9 +89,26 @@ class User:
         assert isinstance(role, Role)
         self.__role = role
 
+    @property
+    def producer(self) -> AIOKafkaProducer:
+        """Getter for User producer"""
+        assert isinstance(self.__producer, AIOKafkaProducer)
+        return self.__producer
+
+    @producer.setter
+    def producer(self, *args):
+        raise OperationNotAllowedException("User producer attribute is private and is intended to be unmodifiable.")
+
+    @producer.deleter
+    def producer(self, *args, **kwargs):
+        raise OperationNotAllowedException("User producer attribute is private and is intended to be unmodifiable.")
+
     def set_random_role(self) -> None:
         """
         Set random role on instance
         :return: None
         """
         self.role = random.SystemRandom().choice(self.__role_members)
+
+    def __del__(self):
+        self.producer._closed = True
