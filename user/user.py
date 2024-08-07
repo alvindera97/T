@@ -30,6 +30,7 @@ class User:
     def __init__(self) -> None:
         super().__init__()
         self.__producer = asyncio.run(self.generate_producer_object())
+        self.__consumer = asyncio.run(self.generate_consumer_object())
 
     @staticmethod
     async def generate_producer_object() -> AIOKafkaProducer:
@@ -111,6 +112,20 @@ class User:
     def producer(self, *args, **kwargs):
         raise OperationNotAllowedException("User producer attribute is private and is intended to be unmodifiable.")
 
+    @property
+    def consumer(self) -> AIOKafkaConsumer:
+        """Getter for User consumer"""
+        assert isinstance(self.__consumer, AIOKafkaConsumer)
+        return self.__consumer
+
+    @consumer.setter
+    def consumer(self, *args):
+        raise OperationNotAllowedException("User consumer attribute is private and is intended to be unmodifiable.")
+
+    @consumer.deleter
+    def consumer(self, *args, **kwargs):
+        raise OperationNotAllowedException("User consumer attribute is private and is intended to be unmodifiable.")
+
     def set_random_role(self) -> None:
         """
         Set random role on instance
@@ -119,4 +134,5 @@ class User:
         self.role = random.SystemRandom().choice(self.__role_members)
 
     def __del__(self):
+        asyncio.run(self.consumer.stop())
         asyncio.run(self.producer.stop())
