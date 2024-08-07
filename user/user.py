@@ -13,7 +13,7 @@ import asyncio
 import random
 from typing import List, NoReturn, Union, Coroutine
 
-from aiokafka import AIOKafkaProducer
+from aiokafka import AIOKafkaProducer, AIOKafkaConsumer
 
 from role import Role
 from utils.exceptions import OperationNotAllowedException
@@ -38,7 +38,15 @@ class User:
 
         :return: AIOKafkaProducer instance
         """
-        return AIOKafkaProducer(bootstrap_servers='localhost:9092')
+        return AIOKafkaProducer(bootstrap_servers="localhost:9092")
+
+    @staticmethod
+    async def generate_consumer_object() -> AIOKafkaConsumer:
+        """
+        Coroutine that creates an AIOKafkaConsumer and returns the Consumer instance
+        :return: AIOKafkaConsumer instance
+        """
+        return AIOKafkaConsumer(bootstrap_servers="localhost:9092")
 
     @staticmethod
     def with_role(role: Role) -> Union[User, NoReturn]:
