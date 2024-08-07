@@ -223,3 +223,17 @@ class TestUserTestCase(unittest.TestCase):
 
         user_2, user_3 = User(), User()
         self.assertNotEqual(user_2.consumer, user_3.consumer)
+
+
+class TestUserAsyncioMethodsTestCase(unittest.IsolatedAsyncioTestCase):
+    """
+    Test case class for testing functionalities of the user class utilising asyncio.
+    """
+    async def test_static_method_creating_producer_objects(self) -> None:
+        """
+        Test that static method that returns AIOKafkaProducer objects returns expected object type
+        :return:
+        """
+        static_method_call_result = await User.generate_producer_object()
+        self.assertIsInstance(static_method_call_result, AIOKafkaProducer)
+        await static_method_call_result.stop()
