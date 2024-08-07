@@ -6,6 +6,7 @@ and all related functionality.
 
 Classes:
   TestUserTestCase
+  TestUserAsyncioMethodsTestCase
 """
 import inspect
 import unittest
@@ -229,10 +230,11 @@ class TestUserAsyncioMethodsTestCase(unittest.IsolatedAsyncioTestCase):
     """
     Test case class for testing functionalities of the user class utilising asyncio.
     """
+
     async def test_static_method_creating_producer_objects(self) -> None:
         """
         Test that static method that returns AIOKafkaProducer objects returns expected object type
-        :return:
+        :return: None
         """
         static_method_call_result = await User.generate_producer_object()
         self.assertIsInstance(static_method_call_result, AIOKafkaProducer)
