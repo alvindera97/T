@@ -176,7 +176,7 @@ class TestUserTestCase(unittest.TestCase):
             must be immutable!
             :return:
             """
-            self.user.producer = 'some other producer'
+            self.user.producer = "some other producer"
 
         def delete_producer() -> None:
             """
