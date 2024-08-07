@@ -165,7 +165,8 @@ class TestUserTestCase(unittest.TestCase):
     def test_user_has_immutable_producer_object(self) -> None:
         """
         Test that User object has an attribute that will be performing Kafka producer-related operations
-        for the user object. This attribute should be private and should not be
+        for the user object. This attribute should be able to exist as a truly private, final and
+         non-modifiable. Every User object is assigned one at initialization.
         :return: None
         """
 
