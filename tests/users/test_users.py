@@ -12,10 +12,10 @@ import unittest
 from collections import Counter
 
 from aiokafka import AIOKafkaProducer
-from utils.exceptions import OperationNotAllowedException
 
 from role import Role
 from user import User
+from utils.exceptions import OperationNotAllowedException
 
 
 class TestUserTestCase(unittest.TestCase):
@@ -188,3 +188,6 @@ class TestUserTestCase(unittest.TestCase):
         self.assertIsInstance(self.user.producer, AIOKafkaProducer)
         self.assertRaises(OperationNotAllowedException, modify_producer)
         self.assertRaises(OperationNotAllowedException, delete_producer)
+
+        user_2, user_3 = User(), User()
+        self.assertNotEqual(user_2.producer, user_3.producer)
