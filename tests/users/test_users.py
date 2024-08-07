@@ -237,3 +237,12 @@ class TestUserAsyncioMethodsTestCase(unittest.IsolatedAsyncioTestCase):
         static_method_call_result = await User.generate_producer_object()
         self.assertIsInstance(static_method_call_result, AIOKafkaProducer)
         await static_method_call_result.stop()
+
+    async def test_static_method_creating_consumer_objects(self) -> None:
+        """
+        Test that static method returns AIOKafkaConsumer objects returns expected object type
+        :return: None
+        """
+        static_method_call = await User.generate_consumer_object()
+        self.assertIsInstance(static_method_call, AIOKafkaConsumer)
+        await static_method_call.stop()
