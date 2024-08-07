@@ -6,16 +6,17 @@ and all related functionality.
 
 Classes:
   TestUserTestCase
+  TestUserAsyncioMethodsTestCase
 """
 import inspect
 import unittest
 from collections import Counter
 
-from aiokafka import AIOKafkaProducer
-from utils.exceptions import OperationNotAllowedException
+from aiokafka import AIOKafkaProducer, AIOKafkaConsumer
 
 from role import Role
 from user import User
+from utils.exceptions import OperationNotAllowedException
 
 
 class TestUserTestCase(unittest.TestCase):
@@ -165,7 +166,8 @@ class TestUserTestCase(unittest.TestCase):
     def test_user_has_immutable_producer_object(self) -> None:
         """
         Test that User object has an attribute that will be performing Kafka producer-related operations
-        for the user object. This attribute should be private and should not be
+        for the user object. This attribute should be able to exist as a truly private, final and
+         non-modifiable. Every User object is assigned one at initialization.
         :return: None
         """
 
@@ -175,7 +177,7 @@ class TestUserTestCase(unittest.TestCase):
             must be immutable!
             :return:
             """
-            self.user.producer = 'some other producer'
+            self.user.producer = "some other producer"
 
         def delete_producer() -> None:
             """
@@ -188,3 +190,61 @@ class TestUserTestCase(unittest.TestCase):
         self.assertIsInstance(self.user.producer, AIOKafkaProducer)
         self.assertRaises(OperationNotAllowedException, modify_producer)
         self.assertRaises(OperationNotAllowedException, delete_producer)
+
+        user_2, user_3 = User(), User()
+        self.assertNotEqual(user_2.producer, user_3.producer)
+
+    def test_user_immutable_consumer_object(self) -> None:
+        """
+        Test that User object has an attribute that wil be performing Kafka consumer-related operations for the
+        user object. This attribute should be able to exists as a truly private, final and non-modifiable. Every
+        user is assigned one at initialization.
+        :return:
+        """
+
+        def modify_consumer() -> None:
+            """
+            This function ideally shouldn't run successfully, the consumer attribute
+            must be immutable!
+            :return: None
+            """
+            self.user.consumer = "some other consumer"
+
+        def delete_consumer() -> None:
+            """
+            This function ideally shouldn't run successfully, the consumer attribute
+            is protected from deletions.
+            :return: None
+            """
+            del self.user.consumer
+
+        self.assertIsInstance(self.user.consumer, AIOKafkaConsumer)
+        self.assertRaises(OperationNotAllowedException, modify_consumer)
+        self.assertRaises(OperationNotAllowedException, delete_consumer)
+
+        user_2, user_3 = User(), User()
+        self.assertNotEqual(user_2.consumer, user_3.consumer)
+
+
+class TestUserAsyncioMethodsTestCase(unittest.IsolatedAsyncioTestCase):
+    """
+    Test case class for testing functionalities of the user class utilising asyncio.
+    """
+
+    async def test_static_method_creating_producer_objects(self) -> None:
+        """
+        Test that static method that returns AIOKafkaProducer objects returns expected object type
+        :return: None
+        """
+        static_method_call_result = await User.generate_producer_object()
+        self.assertIsInstance(static_method_call_result, AIOKafkaProducer)
+        await static_method_call_result.stop()
+
+    async def test_static_method_creating_consumer_objects(self) -> None:
+        """
+        Test that static method returns AIOKafkaConsumer objects returns expected object type
+        :return: None
+        """
+        static_method_call = await User.generate_consumer_object()
+        self.assertIsInstance(static_method_call, AIOKafkaConsumer)
+        await static_method_call.stop()

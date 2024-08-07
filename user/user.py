@@ -13,7 +13,7 @@ import asyncio
 import random
 from typing import List, NoReturn, Union, Coroutine
 
-from aiokafka import AIOKafkaProducer
+from aiokafka import AIOKafkaProducer, AIOKafkaConsumer
 
 from role import Role
 from utils.exceptions import OperationNotAllowedException
@@ -30,6 +30,7 @@ class User:
     def __init__(self) -> None:
         super().__init__()
         self.__producer = asyncio.run(self.generate_producer_object())
+        self.__consumer = asyncio.run(self.generate_consumer_object())
 
     @staticmethod
     async def generate_producer_object() -> AIOKafkaProducer:
@@ -38,7 +39,15 @@ class User:
 
         :return: AIOKafkaProducer instance
         """
-        return AIOKafkaProducer(bootstrap_servers='localhost:9092')
+        return AIOKafkaProducer(bootstrap_servers="localhost:9092")
+
+    @staticmethod
+    async def generate_consumer_object() -> AIOKafkaConsumer:
+        """
+        Coroutine that creates an AIOKafkaConsumer and returns the Consumer instance
+        :return: AIOKafkaConsumer instance
+        """
+        return AIOKafkaConsumer(bootstrap_servers="localhost:9092")
 
     @staticmethod
     def with_role(role: Role) -> Union[User, NoReturn]:
@@ -103,6 +112,20 @@ class User:
     def producer(self, *args, **kwargs):
         raise OperationNotAllowedException("User producer attribute is private and is intended to be unmodifiable.")
 
+    @property
+    def consumer(self) -> AIOKafkaConsumer:
+        """Getter for User consumer"""
+        assert isinstance(self.__consumer, AIOKafkaConsumer)
+        return self.__consumer
+
+    @consumer.setter
+    def consumer(self, *args):
+        raise OperationNotAllowedException("User consumer attribute is private and is intended to be unmodifiable.")
+
+    @consumer.deleter
+    def consumer(self, *args, **kwargs):
+        raise OperationNotAllowedException("User consumer attribute is private and is intended to be unmodifiable.")
+
     def set_random_role(self) -> None:
         """
         Set random role on instance
@@ -111,4 +134,5 @@ class User:
         self.role = random.SystemRandom().choice(self.__role_members)
 
     def __del__(self):
-        self.producer._closed = True
+        asyncio.run(self.consumer.stop())
+        asyncio.run(self.producer.stop())
