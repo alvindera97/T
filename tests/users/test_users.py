@@ -11,7 +11,7 @@ import inspect
 import unittest
 from collections import Counter
 
-from aiokafka import AIOKafkaProducer
+from aiokafka import AIOKafkaProducer, AIOKafkaConsumer
 
 from role import Role
 from user import User
@@ -192,3 +192,34 @@ class TestUserTestCase(unittest.TestCase):
 
         user_2, user_3 = User(), User()
         self.assertNotEqual(user_2.producer, user_3.producer)
+
+    def test_user_immutable_consumer_object(self) -> None:
+        """
+        Test that User object has an attribute that wil be performing Kafka consumer-related operations for the
+        user object. This attribute should be able to exists as a truly private, final and non-modifiable. Every
+        user is assigned one at initialization.
+        :return:
+        """
+
+        def modify_consumer() -> None:
+            """
+            This function ideally shouldn't run successfully, the consumer attribute
+            must be immutable!
+            :return: None
+            """
+            self.user.consumer = "some other consumer"
+
+        def delete_consumer() -> None:
+            """
+            This function ideally shouldn't run successfully, the consumer attribute
+            is protected from deletions.
+            :return: None
+            """
+            del self.user.consumer
+
+        self.assertIsInstance(self.user.consumer, AIOKafkaConsumer)
+        self.assertRaises(OperationNotAllowedException, modify_consumer)
+        self.assertRaises(OperationNotAllowedException, delete_consumer)
+
+        user_2, user_3 = User(), User()
+        self.assertNotEqual(user_2.consumer, user_3.consumer)
