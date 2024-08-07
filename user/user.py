@@ -111,4 +111,4 @@ class User:
         self.role = random.SystemRandom().choice(self.__role_members)
 
     def __del__(self):
-        self.producer._closed = True
+        asyncio.run(self.producer.stop())
