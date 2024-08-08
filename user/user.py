@@ -35,11 +35,11 @@ class User:
 
     def __init__(self) -> None:
         super().__init__()
-        self.__producer = asyncio.run(self.generate_producer_object())
-        self.__consumer = asyncio.run(self.generate_consumer_object())
+        self.__producer = asyncio.run(self.__generate_producer_object())
+        self.__consumer = asyncio.run(self.__generate_consumer_object())
 
-    @staticmethod
-    async def generate_producer_object() -> AIOKafkaProducer:
+    @classmethod
+    async def __generate_producer_object(cls) -> AIOKafkaProducer:
         """
         Coroutine that creates an AIOKafkaProducer and returns the Producer instance.
 
@@ -47,8 +47,8 @@ class User:
         """
         return AIOKafkaProducer(bootstrap_servers="localhost:9092")
 
-    @staticmethod
-    async def generate_consumer_object() -> AIOKafkaConsumer:
+    @classmethod
+    async def __generate_consumer_object(cls) -> AIOKafkaConsumer:
         """
         Coroutine that creates an AIOKafkaConsumer and returns the Consumer instance
         :return: AIOKafkaConsumer instance
