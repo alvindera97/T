@@ -18,6 +18,12 @@ from aiokafka import AIOKafkaProducer, AIOKafkaConsumer
 from role import Role
 from utils.exceptions import OperationNotAllowedException
 
+import google.generativeai as genai
+import os
+
+
+model = genai.GenerativeModel('gemini-1.0-pro-latest')
+genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
 
 class User:
     """
@@ -132,6 +138,16 @@ class User:
         :return: None
         """
         self.role = random.SystemRandom().choice(self.__role_members)
+
+    async def generate_message(self) -> Union[str, NoReturn]:
+        """
+        Generate message from LLM
+
+        :return: Generated string message
+        """
+
+        message = await model.generate_content_async("Just say hello", stream=False)
+        return message.text
 
     def __del__(self):
         asyncio.run(self.consumer.stop())
