@@ -231,6 +231,8 @@ class TestUserAsyncioMethodsTestCase(unittest.IsolatedAsyncioTestCase):
     Test case class for testing functionalities of the user class utilising asyncio.
     """
 
+    user = User()
+
     async def test_static_method_creating_producer_objects(self) -> None:
         """
         Test that static method that returns AIOKafkaProducer objects returns expected object type
@@ -248,3 +250,11 @@ class TestUserAsyncioMethodsTestCase(unittest.IsolatedAsyncioTestCase):
         static_method_call = await User.generate_consumer_object()
         self.assertIsInstance(static_method_call, AIOKafkaConsumer)
         await static_method_call.stop()
+
+    async def test_user_generate_message_method(self) -> None:
+        """
+        Test that the User object generate method returns some non-empty string result.
+        :return: None
+        """
+        generated_message = await self.user.generate_message()
+        self.assertNotEqual(len(generated_message.strip()), 0)
