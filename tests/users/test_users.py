@@ -199,7 +199,7 @@ class TestUserTestCase(unittest.TestCase):
         Test that User object has an attribute that wil be performing Kafka consumer-related operations for the
         user object. This attribute should be able to exists as a truly private, final and non-modifiable. Every
         user is assigned one at initialization.
-        :return:
+        :return: None
         """
 
         def modify_consumer() -> None:
