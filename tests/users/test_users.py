@@ -11,6 +11,8 @@ Classes:
 import inspect
 import unittest
 from collections import Counter
+from types import SimpleNamespace
+from unittest.mock import patch
 
 from aiokafka import AIOKafkaProducer, AIOKafkaConsumer
 
@@ -199,7 +201,7 @@ class TestUserTestCase(unittest.TestCase):
         Test that User object has an attribute that wil be performing Kafka consumer-related operations for the
         user object. This attribute should be able to exists as a truly private, final and non-modifiable. Every
         user is assigned one at initialization.
-        :return:
+        :return: None
         """
 
         def modify_consumer() -> None:
@@ -231,12 +233,14 @@ class TestUserAsyncioMethodsTestCase(unittest.IsolatedAsyncioTestCase):
     Test case class for testing functionalities of the user class utilising asyncio.
     """
 
+    user = User()
+
     async def test_static_method_creating_producer_objects(self) -> None:
         """
         Test that static method that returns AIOKafkaProducer objects returns expected object type
         :return: None
         """
-        static_method_call_result = await User.generate_producer_object()
+        static_method_call_result = await User._User__generate_producer_object()
         self.assertIsInstance(static_method_call_result, AIOKafkaProducer)
         await static_method_call_result.stop()
 
@@ -245,6 +249,22 @@ class TestUserAsyncioMethodsTestCase(unittest.IsolatedAsyncioTestCase):
         Test that static method returns AIOKafkaConsumer objects returns expected object type
         :return: None
         """
-        static_method_call = await User.generate_consumer_object()
+        static_method_call = await User._User__generate_consumer_object()
         self.assertIsInstance(static_method_call, AIOKafkaConsumer)
         await static_method_call.stop()
+
+    async def test_user_generate_message_method(self) -> None:
+        """
+        Test that the User object generate method returns some non-empty string result.
+        :return: None
+        """
+        user_model_mock = patch("google.generativeai.GenerativeModel.generate_content_async").start()
+
+        user_model_mock.return_value = SimpleNamespace(text = "some generated message")  # we need the text attribute implemented at AsyncGenerateContentResponse
+        generated_messsage = await self.user.generate_message()
+
+        user_model_mock.assert_called_once()
+
+        self.assertEqual(generated_messsage, "some generated message")
+
+        self.assertNotEqual(len(generated_messsage.strip()), 0)

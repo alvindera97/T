@@ -87,12 +87,13 @@ The system involves three primary entities:
   - FastAPI (for API interactions)
   - Apache Kafka (for message streaming)
   - Sphinx (for documentation)
+  - Google AI Python SDK for the Gemini API < `google-generativeai` > (for message generation based on context analysis)
 
 ## External Libraries and APIs
 
 - **External Messaging API:** For messaging features.
 - **Apache Kafka Streams API:** For building stream processing apps.
-- **OpenAI API | Gemini API:** For AI-generated content.
+- **Google AI Python SDK for the Gemini API:** For AI-generated content.
 
 ## Testing and Quality Assurance
 

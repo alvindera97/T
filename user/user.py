@@ -18,6 +18,12 @@ from aiokafka import AIOKafkaProducer, AIOKafkaConsumer
 from role import Role
 from utils.exceptions import OperationNotAllowedException
 
+import google.generativeai as genai
+import os
+
+
+model = genai.GenerativeModel('gemini-1.0-pro-latest')
+genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
 
 class User:
     """
@@ -29,11 +35,11 @@ class User:
 
     def __init__(self) -> None:
         super().__init__()
-        self.__producer = asyncio.run(self.generate_producer_object())
-        self.__consumer = asyncio.run(self.generate_consumer_object())
+        self.__producer = asyncio.run(self.__generate_producer_object())
+        self.__consumer = asyncio.run(self.__generate_consumer_object())
 
-    @staticmethod
-    async def generate_producer_object() -> AIOKafkaProducer:
+    @classmethod
+    async def __generate_producer_object(cls) -> AIOKafkaProducer:
         """
         Coroutine that creates an AIOKafkaProducer and returns the Producer instance.
 
@@ -41,37 +47,37 @@ class User:
         """
         return AIOKafkaProducer(bootstrap_servers="localhost:9092")
 
-    @staticmethod
-    async def generate_consumer_object() -> AIOKafkaConsumer:
+    @classmethod
+    async def __generate_consumer_object(cls) -> AIOKafkaConsumer:
         """
         Coroutine that creates an AIOKafkaConsumer and returns the Consumer instance
         :return: AIOKafkaConsumer instance
         """
         return AIOKafkaConsumer(bootstrap_servers="localhost:9092")
 
-    @staticmethod
-    def with_role(role: Role) -> Union[User, NoReturn]:
+    @classmethod
+    def with_role(cls, role: Role) -> Union[User, NoReturn]:
         """
         Constructor to create new User with supplied Role
         :param role: The role to set user to.
         :return:  User or NoReturn (NoReturn because the function may never return as it can raise an exception.)
         """
         try:
-            new_user = User()
+            new_user = cls()
             new_user.role = role
             return new_user
         except KeyError as e:
             raise ValueError(f'{e.__str__()} must be supplied as keyword argument with this method.')
 
-    @staticmethod
-    def from_role_options(roles: List[Role]) -> Union[User, NoReturn]:
+    @classmethod
+    def from_role_options(cls, roles: List[Role]) -> Union[User, NoReturn]:
         """
         Constructor to create new Role selected from random selection of supplied Role objects in 'roles'
         :param roles: List of roles to make a random selection from.
         :return:  User or NoReturn (NoReturn because the function may never return as it can raise an exception.)
         """
         try:
-            new_user = User()
+            new_user = cls()
             new_user.role = random.choice(roles)
             return new_user
         except KeyError as e:
@@ -132,6 +138,16 @@ class User:
         :return: None
         """
         self.role = random.SystemRandom().choice(self.__role_members)
+
+    async def generate_message(self) -> Union[str, NoReturn]:
+        """
+        Generate message from LLM
+
+        :return: Generated string message
+        """
+
+        message = await model.generate_content_async("Just say hello", stream=False)
+        return message.text
 
     def __del__(self):
         asyncio.run(self.consumer.stop())
