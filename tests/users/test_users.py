@@ -11,6 +11,8 @@ Classes:
 import inspect
 import unittest
 from collections import Counter
+from types import SimpleNamespace
+from unittest.mock import patch
 
 from aiokafka import AIOKafkaProducer, AIOKafkaConsumer
 
@@ -256,5 +258,13 @@ class TestUserAsyncioMethodsTestCase(unittest.IsolatedAsyncioTestCase):
         Test that the User object generate method returns some non-empty string result.
         :return: None
         """
-        generated_message = await self.user.generate_message()
-        self.assertNotEqual(len(generated_message.strip()), 0)
+        user_model_mock = patch("google.generativeai.GenerativeModel.generate_content_async").start()
+
+        user_model_mock.return_value = SimpleNamespace(text = "some generated message")  # we need the text attribute implemented at AsyncGenerateContentResponse
+        generated_messsage = await self.user.generate_message()
+
+        user_model_mock.assert_called_once()
+
+        self.assertEqual(generated_messsage, "some generated message")
+
+        self.assertNotEqual(len(generated_messsage.strip()), 0)
