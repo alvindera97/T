@@ -42,8 +42,6 @@ class User:
         :param display_picture_url: String display picture url for user
         """
 
-        # TODO: add checks to ensure that passed display_picture_url kwarg is valid image resource url
-
         super().__init__()
         self.name = name
         self.display_picture_url = display_picture_url
