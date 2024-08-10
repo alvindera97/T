@@ -33,8 +33,21 @@ class User:
     __role: Role = Role.NOT_SET
     __role_members: List[Role] = list(Role.__members__.values())
 
-    def __init__(self) -> None:
+    def __init__(self, name: str = "", display_picture_url: str = "") -> None:
+        """
+        Constructor for User object.
+
+        The user object can operate as a Kafka producer or a Kafka comsumer.
+
+        :param name: String name attribute for user
+        :param display_picture_url: String display picture url for user
+        """
+
+        # TODO: add checks to ensure that passed display_picture_url kwarg is valid image resource url
+
         super().__init__()
+        self.name = name
+        self.display_picture_url = display_picture_url
         self.__producer = asyncio.run(self.__generate_producer_object())
         self.__consumer = asyncio.run(self.__generate_consumer_object())
 
