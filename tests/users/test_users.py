@@ -253,9 +253,10 @@ class TestUserAsyncioMethodsTestCase(unittest.IsolatedAsyncioTestCase):
         self.assertIsInstance(static_method_call, AIOKafkaConsumer)
         await static_method_call.stop()
 
-    async def test_user_generate_message_method(self) -> None:
+    async def test_user_generate_message_method_calls_google_gemini_api_method_to_generate_message(self) -> None:
         """
-        Test that the User object generate method returns some non-empty string result.
+        Test that the User object generate method returns some non-empty string result which is also the
+        result of the Google Gemini API call.
         :return: None
         """
         user_model_mock = patch("google.generativeai.GenerativeModel.generate_content_async").start()
