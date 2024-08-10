@@ -259,12 +259,13 @@ class TestUserAsyncioMethodsTestCase(unittest.IsolatedAsyncioTestCase):
         result of the Google Gemini API call.
         :return: None
         """
+        message_context = "Some message context"
         user_model_mock = patch("google.generativeai.GenerativeModel.generate_content_async").start()
 
         user_model_mock.return_value = SimpleNamespace(text = "some generated message")  # we need the text attribute implemented at AsyncGenerateContentResponse
-        generated_messsage = await self.user.generate_message()
+        generated_messsage = await self.user.generate_message(message_context)
 
-        user_model_mock.assert_called_once()
+        user_model_mock.assert_called_once_with(message_context)
 
         self.assertEqual(generated_messsage, "some generated message")
 
