@@ -20,6 +20,8 @@ from role import Role
 from user import User
 from utils.exceptions import OperationNotAllowedException
 
+from faker import Faker
+
 
 class TestUserTestCase(unittest.TestCase):
     """
@@ -64,6 +66,48 @@ class TestUserTestCase(unittest.TestCase):
         :return: None
         """
         self.assertTrue(hasattr(User, 'role'))
+
+    def test_user_has_name_attribute(self) -> None:
+        """
+        Test that initialized user object has name attribute
+        :return: None
+        """
+        self.assertTrue(hasattr(User(), 'name'))
+
+    def test_user_has_display_picture_attribute(self) -> None:
+        """
+        Test that user object has display pciture attribute
+        :return: None
+        """
+        self.assertTrue(hasattr(User(), 'display_picture_url'))
+
+    def test_that_user_object_by_default_has_empty_username_and_image_url(self):
+        """
+        Test that at initialisation of User object, if user name and or display picture is not supplied
+        as arguments to the construtor, name and display_picture_url attributes default to empty string.
+        :return: None
+        """
+        self.assertEqual(self.user.name, "")
+        self.assertEqual(self.user.display_picture_url, "")
+
+    def test_that_passed_name_and_display_picture_url_are_applied_to_user_instance(self):
+        """
+        Test that name and or dispaly_picture_url keyword arguments passed to User constuctor are set as
+        attributes on user.
+        :return: None
+        """
+
+        faker = Faker()
+
+        name, display_picture_url = "Some name", "https://some_display_picture.url"
+
+        new_user = User(name, display_picture_url)
+
+        self.assertNotEqual(new_user.name, faker.name())
+        self.assertNotEqual(new_user.display_picture_url, faker.image_url())
+
+        self.assertEqual(new_user.name, name)
+        self.assertEqual(new_user.display_picture_url, display_picture_url)
 
     def test_user_role_attribute_is_Role_NOT_SET_at_initialisation(self) -> None:
         """
@@ -253,17 +297,20 @@ class TestUserAsyncioMethodsTestCase(unittest.IsolatedAsyncioTestCase):
         self.assertIsInstance(static_method_call, AIOKafkaConsumer)
         await static_method_call.stop()
 
-    async def test_user_generate_message_method(self) -> None:
+    async def test_user_generate_message_method_calls_google_gemini_api_method_to_generate_message(self) -> None:
         """
-        Test that the User object generate method returns some non-empty string result.
+        Test that the User object generate method returns some non-empty string result which is also the
+        result of the Google Gemini API call.
         :return: None
         """
+        message_context = "Some message context"
         user_model_mock = patch("google.generativeai.GenerativeModel.generate_content_async").start()
 
-        user_model_mock.return_value = SimpleNamespace(text = "some generated message")  # we need the text attribute implemented at AsyncGenerateContentResponse
-        generated_messsage = await self.user.generate_message()
+        user_model_mock.return_value = SimpleNamespace(
+            text="some generated message")  # we need the text attribute implemented at AsyncGenerateContentResponse
+        generated_messsage = await self.user.generate_message(message_context)
 
-        user_model_mock.assert_called_once()
+        user_model_mock.assert_called_once_with(message_context)
 
         self.assertEqual(generated_messsage, "some generated message")
 
