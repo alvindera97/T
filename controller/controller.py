@@ -3,6 +3,9 @@ Controller module (also referable to as 'Application Controller' module)
 
 This module contains the class and module definitions for the Application Controller
 """
+import random
+
+from role import Role
 from user import User
 
 
@@ -24,3 +27,6 @@ class Controller:
         assert number_of_users > 0
 
         self.participating_users = [User() for _ in range(number_of_users)]
+        self.first_publisher: User = random.choice(self.participating_users)
+
+        self.first_publisher.role = Role.PUBLISHER
