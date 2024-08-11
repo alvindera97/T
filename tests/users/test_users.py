@@ -1,7 +1,7 @@
 """
 Module for tests on user / client.
 
-This module contains test cases or testing the "User" (otherwise called Client) entity
+This module contains test cases for testing the "User" (otherwise called Client) entity
 and all related functionality.
 
 Classes:
@@ -76,7 +76,7 @@ class TestUserTestCase(unittest.TestCase):
 
     def test_user_has_display_picture_attribute(self) -> None:
         """
-        Test that user object has display pciture attribute
+        Test that user object has display picture attribute
         :return: None
         """
         self.assertTrue(hasattr(User(), 'display_picture_url'))
@@ -84,7 +84,7 @@ class TestUserTestCase(unittest.TestCase):
     def test_that_user_object_by_default_has_empty_username_and_image_url(self):
         """
         Test that at initialisation of User object, if user name and or display picture is not supplied
-        as arguments to the construtor, name and display_picture_url attributes default to empty string.
+        as arguments to the constructor, name and display_picture_url attributes default to empty string.
         :return: None
         """
         self.assertEqual(self.user.name, "")
@@ -92,7 +92,7 @@ class TestUserTestCase(unittest.TestCase):
 
     def test_that_passed_name_and_display_picture_url_are_applied_to_user_instance(self):
         """
-        Test that name and or dispaly_picture_url keyword arguments passed to User constuctor are set as
+        Test that name and or display_picture_url keyword arguments passed to User constructor are set as
         attributes on user.
         :return: None
         """
@@ -308,10 +308,10 @@ class TestUserAsyncioMethodsTestCase(unittest.IsolatedAsyncioTestCase):
 
         user_model_mock.return_value = SimpleNamespace(
             text="some generated message")  # we need the text attribute implemented at AsyncGenerateContentResponse
-        generated_messsage = await self.user.generate_message(message_context)
+        generated_message = await self.user.generate_message(message_context)
 
         user_model_mock.assert_called_once_with(message_context)
 
-        self.assertEqual(generated_messsage, "some generated message")
+        self.assertEqual(generated_message, "some generated message")
 
-        self.assertNotEqual(len(generated_messsage.strip()), 0)
+        self.assertNotEqual(len(generated_message.strip()), 0)
