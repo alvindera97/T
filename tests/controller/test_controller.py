@@ -10,6 +10,8 @@ Classes:
 import random
 import unittest
 
+from controller import Controller
+
 
 class ApplicationControllerTestCase(unittest.TestCase):
     """
