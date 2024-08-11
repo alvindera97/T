@@ -20,4 +20,7 @@ class Controller:
         :param number_of_users:  Number of users to participate in application lifecycle
         """
 
+        assert isinstance(number_of_users, int)
+        assert number_of_users > 0
+
         self.participating_users = [User() for _ in range(number_of_users)]
