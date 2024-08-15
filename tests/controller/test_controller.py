@@ -9,6 +9,7 @@ Classes:
 """
 import random
 import unittest
+from unittest.mock import patch
 
 from controller import Controller
 from role import Role
@@ -58,3 +59,14 @@ class ApplicationControllerTestCase(unittest.TestCase):
         """
         self.assertTrue(hasattr(Controller, "is_connected"))
         self.assertEqual(Controller.is_connected, False)
+
+    def test_controller_connects_to_chat_websocket_on_init(self) -> None:
+        """
+        Test that controller connects to chat web socket on init.
+        :return: None
+        """
+        controller = Controller(3)
+        controller_connect_ws_mock = patch("controller.Controller.connect_ws").start()
+
+        controller_connect_ws_mock.assert_called_once()
+        self.assertTrue(controller.is_connected)
