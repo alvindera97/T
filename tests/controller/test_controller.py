@@ -60,6 +60,16 @@ class ApplicationControllerTestCase(unittest.TestCase):
         self.assertTrue(hasattr(Controller, "is_connected"))
         self.assertEqual(Controller.is_connected, False)
 
+    def test_controller_has_web_socket_url_attribute_gotten_from_constructor(self) -> None:
+        """
+        Test that web socket gets web socket URL as part of keyword arguments from constructor.
+        :return:
+        """
+        controller = Controller(3, "wss://localhost:8000/")
+
+        self.assertTrue(hasattr(Controller, "ws_url"))
+        self.assertEqual(controller.ws_url, "wss://localhost:8000")
+
     def test_controller_connects_to_chat_websocket_on_init(self) -> None:
         """
         Test that controller connects to chat web socket on init.
