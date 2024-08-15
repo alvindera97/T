@@ -50,3 +50,11 @@ class ApplicationControllerTestCase(unittest.TestCase):
         controller = Controller(2)
         self.assertTrue(hasattr(controller, 'first_publisher'))
         self.assertEqual(controller.first_publisher.role, Role.PUBLISHER)
+
+    def test_controller_has_web_socket_connection_status_attribute(self) -> None:
+        """
+        Test that controller has attribute for status on connection to group chat web socket.
+        :return: None
+        """
+        self.assertTrue(hasattr(Controller, "is_connected"))
+        self.assertEqual(Controller.is_connected, False)
