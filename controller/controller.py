@@ -13,6 +13,7 @@ class Controller:
     """
     Class definition for application controller.
     """
+    is_connected = False
 
     def __init__(self, number_of_users: int) -> None:
         """
