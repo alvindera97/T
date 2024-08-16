@@ -27,7 +27,7 @@ class ApplicationControllerTestCase(unittest.TestCase):
         :return: None
         """
         number_of_participating_users = random.randint(2, 10)
-        controller = Controller(number_of_participating_users)
+        controller = Controller(number_of_participating_users, "wss://localhost:8000")
 
         self.assertEqual(len(set(controller.participating_users)), number_of_participating_users)
 
@@ -38,9 +38,9 @@ class ApplicationControllerTestCase(unittest.TestCase):
 
         :return: None
         """
-        self.assertRaises(AssertionError, lambda: Controller(0))
-        self.assertRaises(AssertionError, lambda: Controller(-1))
-        self.assertRaises(AssertionError, lambda: Controller("0"))
+        self.assertRaises(AssertionError, lambda: Controller(0, "wss://localhost:8000"))
+        self.assertRaises(AssertionError, lambda: Controller(-1, "wss://localhost:8000"))
+        self.assertRaises(AssertionError, lambda: Controller("0", "wss://localhost:3000"))
 
     def test_that_controller_has_first_publisher_attribute_which_must_have_role_of_publisher(self) -> None:
         """
@@ -48,7 +48,7 @@ class ApplicationControllerTestCase(unittest.TestCase):
         :return: None
         """
 
-        controller = Controller(2)
+        controller = Controller(2, "wss://localhost:8000")
         self.assertTrue(hasattr(controller, 'first_publisher'))
         self.assertEqual(controller.first_publisher.role, Role.PUBLISHER)
 
