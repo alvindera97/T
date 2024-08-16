@@ -36,7 +36,7 @@ class User:
         """
         Constructor for User object.
 
-        The user object can operate as a Kafka producer or a Kafka comsumer.
+        The user object can operate as a Kafka producer or a Kafka consumer.
 
         :param name: String name attribute for user
         :param display_picture_url: String display picture url for user
