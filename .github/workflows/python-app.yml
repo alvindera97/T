@@ -5,9 +5,9 @@ name: T's Unittest CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "trunk" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "trunk" ]
 
 permissions:
   contents: read
