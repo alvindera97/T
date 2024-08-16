@@ -34,3 +34,10 @@ class Controller:
         self.first_publisher: User = random.choice(self.participating_users)
 
         self.first_publisher.role = Role.PUBLISHER
+        self.connect_ws()
+
+    def connect_ws(self):
+        """
+        Connects controller to websocket with web socket url
+        :return:
+        """
