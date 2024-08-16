@@ -72,13 +72,13 @@ class ApplicationControllerTestCase(unittest.TestCase):
         self.assertEqual(Controller.ws_url, None)
         self.assertEqual(controller.ws_url, "wss://localhost:8000/")
 
-    def test_controller_connects_to_chat_websocket_on_init(self) -> None:
+    @staticmethod
+    def test_controller_connects_to_chat_websocket_on_init() -> None:
         """
-        Test that controller connects to chat web socket on init.
+        Test that controller calls method to connect to chat web socket on init.
         :return: None
         """
-        controller = Controller(3)
         controller_connect_ws_mock = patch("controller.Controller.connect_ws").start()
+        Controller(3, "wss://localhost:8000")
 
         controller_connect_ws_mock.assert_called_once()
-        self.assertTrue(controller.is_connected)
