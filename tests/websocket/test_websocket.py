@@ -30,7 +30,7 @@ class WebSocketTestCase(unittest.TestCase):
         In this instance, the validation check will be a hash set lookup.
         :return: None
         """
-        url_to_connect_to = "/ws/" + os.getenv('TEST_CHAT_URL')
+        url_to_connect_to = "/ws/" + os.getenv('TEST_CHAT_UUID')
 
         try:
             with self.client.websocket_connect(url_to_connect_to) as websocket:
