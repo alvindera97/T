@@ -7,6 +7,7 @@ and all related functionality.
 Classes:
   ApplicationControllerTestCase
 """
+import os
 import random
 import unittest
 from unittest.mock import patch
@@ -20,6 +21,10 @@ class ApplicationControllerTestCase(unittest.TestCase):
     Test case class for Application Controller
     """
 
+    @classmethod
+    def setUpClass(cls):
+        cls.ws_url = "/chat/" + os.getenv('TEST_CHAT_URL')
+
     def test_controller_constructor_has_array_of_unique_users_based_on_constructor_argument(self) -> None:
         """
         Test that the controller constructor takes in kwarg for number of users and populates participating_users
@@ -27,7 +32,7 @@ class ApplicationControllerTestCase(unittest.TestCase):
         :return: None
         """
         number_of_participating_users = random.randint(2, 10)
-        controller = Controller(number_of_participating_users, "wss://localhost:8000")
+        controller = Controller(number_of_participating_users, self.ws_url)
 
         self.assertEqual(len(set(controller.participating_users)), number_of_participating_users)
 
@@ -38,9 +43,9 @@ class ApplicationControllerTestCase(unittest.TestCase):
 
         :return: None
         """
-        self.assertRaises(AssertionError, lambda: Controller(0, "wss://localhost:8000"))
-        self.assertRaises(AssertionError, lambda: Controller(-1, "wss://localhost:8000"))
-        self.assertRaises(AssertionError, lambda: Controller("0", "wss://localhost:3000"))
+        self.assertRaises(AssertionError, lambda: Controller(0, self.ws_url))
+        self.assertRaises(AssertionError, lambda: Controller(-1, self.ws_url))
+        self.assertRaises(AssertionError, lambda: Controller("0", self.ws_url))
 
     def test_that_controller_has_first_publisher_attribute_which_must_have_role_of_publisher(self) -> None:
         """
@@ -48,7 +53,7 @@ class ApplicationControllerTestCase(unittest.TestCase):
         :return: None
         """
 
-        controller = Controller(2, "wss://localhost:8000")
+        controller = Controller(2, self.ws_url)
         self.assertTrue(hasattr(controller, 'first_publisher'))
         self.assertEqual(controller.first_publisher.role, Role.PUBLISHER)
 
@@ -66,19 +71,19 @@ class ApplicationControllerTestCase(unittest.TestCase):
         part of kwargs from constructor.
         :return:
         """
-        controller = Controller(3, "wss://localhost:8000/")
+        controller = Controller(3, self.ws_url)
 
         self.assertTrue(hasattr(Controller, "ws_url"))
         self.assertEqual(Controller.ws_url, None)
-        self.assertEqual(controller.ws_url, "wss://localhost:8000/")
+        self.assertEqual(controller.ws_url, self.ws_url)
 
-    @staticmethod
-    def test_controller_connects_to_chat_websocket_on_init() -> None:
+    def test_controller_connects_to_chat_websocket_on_init(self) -> None:
         """
         Test that controller calls method to connect to chat web socket on init.
         :return: None
         """
         controller_connect_ws_mock = patch("controller.Controller.connect_ws").start()
-        Controller(3, "wss://localhost:8000")
+
+        Controller(3, self.ws_url)
 
         controller_connect_ws_mock.assert_called_once()
