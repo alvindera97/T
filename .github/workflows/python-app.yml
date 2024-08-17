@@ -38,5 +38,6 @@ jobs:
     - name: Test with unnitest
       env:
         GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+        TEST_CHAT_URL: ${{ secrets.TEST_CHAT_URL }}
       run: |
         python -m unittest
