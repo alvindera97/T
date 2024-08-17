@@ -8,7 +8,7 @@ import os
 import unittest
 
 from fastapi.testclient import TestClient
-from starlette.websockets import WebSocketDisconnect
+from fastapi.websockets import WebSocketDisconnect
 
 from api.web_socket.web_socket import app
 
