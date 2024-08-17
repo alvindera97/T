@@ -29,6 +29,11 @@ jobs:
           # Navigate to the Sphinx documentation directory
           cd docs || exit
           
+                    
+          # Remove old .rst files
+          rm source/*.rst
+          
+          
           # Build the docs .rst files
           sphinx-apidoc -o source/ ../
           
