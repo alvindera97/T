@@ -12,6 +12,8 @@ import random
 import unittest
 from unittest.mock import patch, AsyncMock
 
+import websockets
+
 from controller import Controller
 from role import Role
 
@@ -99,3 +101,10 @@ class ApplicationControllerTestCase(unittest.TestCase):
             websockets_mock.assert_called_once_with(self.ws_url)
 
         self.assertTrue(controller.is_connected)
+
+    def test_controller_fails_to_connect_to_chat_websocket_on_invalid_url(self):
+        """
+        Test that controller fails to connect to the chat web socket on init when supplied with invalid url
+        :return:
+        """
+        self.assertRaises(websockets.InvalidURI, Controller, 2, "some-invalid-uuid")
