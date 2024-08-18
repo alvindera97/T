@@ -10,7 +10,7 @@ Classes:
 import os
 import random
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, AsyncMock
 
 from controller import Controller
 from role import Role
@@ -32,9 +32,11 @@ class ApplicationControllerTestCase(unittest.TestCase):
         :return: None
         """
         number_of_participating_users = random.randint(2, 10)
+        websockets_mock = patch("websockets.connect", new=AsyncMock()).start()
         controller = Controller(number_of_participating_users, self.ws_url)
 
         self.assertEqual(len(set(controller.participating_users)), number_of_participating_users)
+        websockets_mock.assert_called_once_with(self.ws_url)
 
     def test_that_controller_raises_exception_on_nonsensical_input_for_number_of_participating_users(self) -> None:
         """
@@ -43,19 +45,26 @@ class ApplicationControllerTestCase(unittest.TestCase):
 
         :return: None
         """
+        websockets_mock = patch("websockets.connect", new=AsyncMock()).start()
+
         self.assertRaises(AssertionError, lambda: Controller(0, self.ws_url))
         self.assertRaises(AssertionError, lambda: Controller(-1, self.ws_url))
         self.assertRaises(AssertionError, lambda: Controller("0", self.ws_url))
+
+        websockets_mock.assert_not_called()
 
     def test_that_controller_has_first_publisher_attribute_which_must_have_role_of_publisher(self) -> None:
         """
         Test that initialised consumer has 'first_publisher' attribute which must have role of PUBLISHER
         :return: None
         """
-
+        websockets_mock = patch("websockets.connect", new=AsyncMock()).start()
         controller = Controller(2, self.ws_url)
+
         self.assertTrue(hasattr(controller, 'first_publisher'))
         self.assertEqual(controller.first_publisher.role, Role.PUBLISHER)
+
+        websockets_mock.assert_called_once_with(self.ws_url)
 
     def test_controller_has_web_socket_connection_status_attribute(self) -> None:
         """
@@ -71,19 +80,22 @@ class ApplicationControllerTestCase(unittest.TestCase):
         part of kwargs from constructor.
         :return:
         """
+        websockets_mock = patch("websockets.connect", new=AsyncMock()).start()
         controller = Controller(3, self.ws_url)
 
         self.assertTrue(hasattr(Controller, "ws_url"))
         self.assertEqual(Controller.ws_url, None)
         self.assertEqual(controller.ws_url, self.ws_url)
+        websockets_mock.assert_called_once_with(self.ws_url)
 
     def test_controller_connects_to_chat_websocket_on_init(self) -> None:
         """
         Test that controller calls method to connect to chat web socket on init.
         :return: None
         """
-        controller_connect_ws_mock = patch("controller.Controller.connect_ws").start()
+        with patch("websockets.connect", new=AsyncMock()) as websockets_mock:
+            controller = Controller(3, self.ws_url)
 
-        Controller(3, self.ws_url)
+            websockets_mock.assert_called_once_with(self.ws_url)
 
-        controller_connect_ws_mock.assert_called_once()
+        self.assertTrue(controller.is_connected)
