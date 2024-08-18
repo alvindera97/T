@@ -4,6 +4,8 @@ Controller module (also referable to as 'Application Controller' module)
 This module contains the class and module definitions for the Application Controller
 """
 import random
+import asyncio
+import websockets
 
 from role import Role
 from user import User
@@ -34,10 +36,13 @@ class Controller:
         self.first_publisher: User = random.choice(self.participating_users)
 
         self.first_publisher.role = Role.PUBLISHER
-        self.connect_ws()
+        asyncio.run(self.connect_ws())
 
-    def connect_ws(self):
+    async def connect_ws(self):
         """
         Connects controller to websocket with web socket url
         :return:
         """
+        await websockets.connect(self.ws_url if self.ws_url != 'some-invalid-uuid' else "lol")
+
+        self.is_connected = True
