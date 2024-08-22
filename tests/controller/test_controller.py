@@ -102,9 +102,9 @@ class ApplicationControllerTestCase(unittest.TestCase):
 
         self.assertTrue(controller.is_connected)
 
-    def test_controller_fails_to_connect_to_chat_websocket_on_invalid_url(self):
+    def test_controller_fails_to_connect_to_chat_websocket_on_invalid_url(self) -> None:
         """
         Test that controller fails to connect to the chat web socket on init when supplied with invalid url
-        :return:
+        :return: None
         """
         self.assertRaises(websockets.InvalidURI, Controller, 2, "some-invalid-uuid")
