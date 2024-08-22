@@ -16,6 +16,7 @@ class Controller:
     Class definition for application controller.
     """
     ws_url = None
+    websocket = None
     is_connected = False
 
     def __init__(self, number_of_users: int, ws_url: str) -> None:
@@ -43,6 +44,6 @@ class Controller:
         Connects controller to websocket with web socket url
         :return:
         """
-        await websockets.connect(self.ws_url if self.ws_url != 'some-invalid-uuid' else "lol")
+        self.websocket = await websockets.connect(self.ws_url)
 
         self.is_connected = True
