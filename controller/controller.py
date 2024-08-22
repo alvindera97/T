@@ -5,6 +5,7 @@ This module contains the class and module definitions for the Application Contro
 """
 import asyncio
 import random
+from typing import Optional
 
 import websockets
 
@@ -17,8 +18,7 @@ class Controller:
     Class definition for application controller.
     """
     ws_url = None
-    __websocket = None
-    is_connected = False
+    __websocket: Optional[websockets.WebSocketClientProtocol] = None
 
     def __init__(self, number_of_users: int, ws_url: str) -> None:
         """
@@ -55,5 +55,3 @@ class Controller:
         :return:
         """
         self.__websocket = await websockets.connect(self.ws_url)
-
-        self.is_connected = True

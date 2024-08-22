@@ -70,14 +70,6 @@ class ApplicationControllerTestCase(unittest.TestCase):
 
             websockets_mock.assert_called_once_with(self.ws_url)
 
-    def test_controller_has_web_socket_connection_status_attribute(self) -> None:
-        """
-        Test that controller has attribute for status on connection to group chat web socket.
-        :return: None
-        """
-        self.assertTrue(hasattr(Controller, "is_connected"))
-        self.assertEqual(Controller.is_connected, False)
-
     def test_controller_has_web_socket_url_attribute_gotten_from_constructor(self) -> None:
         """
         Test that controller has web socket url attribute and gets web socket URL as
@@ -98,11 +90,9 @@ class ApplicationControllerTestCase(unittest.TestCase):
         :return: None
         """
         with patch("websockets.connect", new=AsyncMock()) as websockets_mock:
-            controller = Controller(3, self.ws_url)
+            Controller(3, self.ws_url)
 
             websockets_mock.assert_called_once_with(self.ws_url)
-
-        self.assertTrue(controller.is_connected)
 
     def test_controller_fails_to_connect_to_chat_websocket_on_invalid_url(self) -> None:
         """
@@ -129,7 +119,6 @@ class AsyncControllerTest(unittest.IsolatedAsyncioTestCase):
             websockets_mock.return_value = websockets.WebSocketClientProtocol()
             controller = Controller(2, self.ws_url)
 
-            self.assertTrue(controller.is_connected)
             self.assertIsNotNone(controller.websocket)
             self.assertIsNotNone(controller._Controller__websocket)
             self.assertIsInstance(controller.websocket, websockets.WebSocketClientProtocol)
