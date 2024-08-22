@@ -109,16 +109,25 @@ class ApplicationControllerTestCase(unittest.TestCase):
         """
         self.assertRaises(websockets.InvalidURI, Controller, 2, "some-invalid-uuid")
 
+
+class AsyncControllerTest(unittest.IsolatedAsyncioTestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.ws_url = ApplicationControllerTestCase.ws_url
+
     def test_controller_has_null_websocket_attribute_which_becomes_populated_on_connection(self) -> None:
         """
         Test that controller has null 'websocket' attribute before connection to chat websocket;
         after connection Controller.websocket becomes populated ideally with a websockets.WebSocketClientProtocol object.
         :return: None
         """
-        self.assertIsNone(Controller.websocket)
+        self.assertIsNone(Controller._Controller__websocket)
 
-        with patch("websockets.connect", new=AsyncMock()):
+        with patch("websockets.connect", new=AsyncMock()) as websockets_mock:
+            websockets_mock.return_value = websockets.WebSocketClientProtocol()
             controller = Controller(2, self.ws_url)
 
             self.assertTrue(controller.is_connected)
             self.assertIsNotNone(controller.websocket)
+            self.assertIsNotNone(controller._Controller__websocket)
+            self.assertIsInstance(controller.websocket, websockets.WebSocketClientProtocol)
