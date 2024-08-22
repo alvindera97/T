@@ -6,10 +6,12 @@ and all related functionality.
 
 Classes:
   ApplicationControllerTestCase
+  AsyncControllerTest
 """
 import os
 import random
 import unittest
+from typing import NoReturn
 from unittest.mock import patch, AsyncMock
 
 import websockets
@@ -131,3 +133,20 @@ class AsyncControllerTest(unittest.IsolatedAsyncioTestCase):
             self.assertIsNotNone(controller.websocket)
             self.assertIsNotNone(controller._Controller__websocket)
             self.assertIsInstance(controller.websocket, websockets.WebSocketClientProtocol)
+
+    def test_set_websocket_invalid_type(self) -> None:
+        """
+        Test that setting Controller websocket attribute to invalid type will raise Exception.
+        :return:
+        """
+        with patch("websockets.connect", new=AsyncMock()):
+            def f() -> NoReturn:
+                """
+                This ideally shouldn't work as trying to set Controller.websocket to anything other than
+                a websockets.WebSocketClientProtocol object will cause an Exception to be raised.
+
+                :return: This should ideally never return
+                """
+                Controller(2, self.ws_url).websocket = "invalid object"
+
+            self.assertRaises(AssertionError, f)
