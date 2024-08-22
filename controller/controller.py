@@ -49,9 +49,15 @@ class Controller:
         assert type(new_websocket_value) is websockets.WebSocketClientProtocol
         self.__websocket = new_websocket_value
 
-    async def connect_ws(self):
+    async def connect_ws(self, message=None):
         """
         Connects controller to websocket with web socket url
+
+        :param message: Optional message to send to the websocket
         :return:
         """
-        self.__websocket = await websockets.connect(self.ws_url)
+        if not message:
+            self.__websocket = await websockets.connect(self.ws_url)
+        else:
+            async with websockets.connect(self.ws_url) as websocket:
+                await websocket.send(message)

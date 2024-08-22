@@ -15,9 +15,14 @@ from typing import NoReturn
 from unittest.mock import patch, AsyncMock
 
 import websockets
+from starlette.testclient import TestClient
+from starlette.websockets import WebSocketDisconnect
 
+from api.web_socket.web_socket import app
 from controller import Controller
 from role import Role
+
+test_client = TestClient(app)
 
 
 class ApplicationControllerTestCase(unittest.TestCase):
@@ -139,3 +144,21 @@ class AsyncControllerTest(unittest.IsolatedAsyncioTestCase):
                 Controller(2, self.ws_url).websocket = "invalid object"
 
             self.assertRaises(AssertionError, f)
+
+    def test_controller_method_for_connecting_to_websocket_can_send_messages_to_websocket(self) -> None:
+        """
+        Test that Controller websocket connector can send message to websocket.
+        :return:
+        """
+        try:
+            with test_client.websocket_connect("/ws/" + os.getenv('TEST_CHAT_UUID')) as test_websocket_client:
+                controller = Controller(2, self.ws_url)
+                controller.connect_ws("hello world")
+                data = test_websocket_client.receive_text()
+                self.assertEqual(data, "hello world")
+                test_websocket_client.close(reason="Done with test")
+
+        except WebSocketDisconnect:
+            pass
+        except Exception as e:
+            self.fail(f"Exception not expected from this test, raised exception is: {e}")
