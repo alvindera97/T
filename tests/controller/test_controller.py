@@ -25,7 +25,7 @@ class ApplicationControllerTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.ws_url = "wss://localhost:8000/chat/" + os.getenv('TEST_CHAT_UUID')
+        cls.ws_url = "ws://localhost:8000/chat/" + os.getenv('TEST_CHAT_UUID')
 
     def test_controller_constructor_has_array_of_unique_users_based_on_constructor_argument(self) -> None:
         """
