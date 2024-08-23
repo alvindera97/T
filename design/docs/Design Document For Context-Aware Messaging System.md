@@ -1,5 +1,5 @@
 ### Objective
-Each message can either start a new context bubble or continue an existing one. The system should allows consumers (primarily consume context via an LLM) to access the full context of a message thread and some non-empty context from the entire group chat to generate appropriate responses.
+Each message can either start a new context bubble or continue an existing one. The system should allow consumers (primarily LLM(s)) to access the full context of a message thread and some non-empty context from the entire group chat to generate appropriate responses.
 
 ### System Components
 1. **Kafka Topics**: Each user has a dedicated topic, thus their messages will be found in the user's topic.
@@ -10,7 +10,7 @@ Each message can either start a new context bubble or continue an existing one. 
    - Sending a direct rely to a message from a pool of messages it's consuming from.
    - Quoting a message from a pool of messages it's currently consuming from.
    - Emoji-reacting to a message from a pool of messages it's currently consuming from.
-   - Mentioning the username of a user that previously sent a message from a pool of messages it's currently consuming from.
+   - Mentioning the username of a user that previously sent a message among a pool of messages it's currently consuming from.
 
 ### Design Details
 
@@ -22,8 +22,9 @@ Each message can either start a new context bubble or continue an existing one. 
 
 #### 2. Message Metadata
 Each message includes:
+- `content`: Message content.
 - `context_id`: Unique identifier for the context bubble. New messages get a new `context_id`. Replies inherit the `context_id` of the referenced message.
-- `parent_message_id`: Identifier of the message being referenced or replied to.
+- `parent_message_id`: Identifier of the message being referenced or replied to. If there is no such message referenced, the value is null.
 - `thread_id`: Identifier that groups related context bubbles. It can be the same as `context_id` for the first message in a thread.
 - `partition_hint`: Used to determine which partition to send the message to. It ensures messages in the same context bubble are directed to the same partition.
 
