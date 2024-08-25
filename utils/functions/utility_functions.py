@@ -62,5 +62,5 @@ def generate_message_from_user(
         ),
         partition_hint=partition_hint,
         parent_message_id=parent_message_id,
-        content=asyncio.run(user.generate_message(""))
+        content=asyncio.run(user.generate_message(""))  # TODO: Add prompt for querying of LLM
     )
