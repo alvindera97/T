@@ -7,6 +7,7 @@ Classes:
   TestMessagesJSON
 """
 import unittest
+import random
 
 from pydantic import ValidationError
 
@@ -28,8 +29,8 @@ class TestMessagesJSON(unittest.TestCase):
             "thread_id": 789,
             "context_id": 123,
             "partition_hint": 1,
-            "parent_message_id": 456,
-            "content": "Hello, world!"
+            "content": "Hello, world!",
+            "parent_message_id": random.choice([456, None]),
         }
 
         try:
