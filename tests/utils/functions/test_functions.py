@@ -104,3 +104,14 @@ class TestGenerateMessage(unittest.TestCase):
         context_id = 0
         message_json = utils.generate_message_from_user(self.user, 0, 0, 0)
         self.assertNotEqual(message_json.context_id, context_id)
+
+    @patch("user.User.generate_message", return_value="hello world")
+    def test_function_returns_message_json_with_same_context_id_from_passed_context_id_if_parent_id_is_not_None(
+            self, *_) -> None:
+        """
+        Test that function returns message json with same context_id as passed context_id if parent_id is not None
+        :return: None
+        """
+        context_id = 0
+        message_json = utils.generate_message_from_user(self.user, 0, 0, 0, context_id)
+        self.assertEqual(message_json.context_id, context_id)

@@ -54,7 +54,7 @@ def generate_message_from_user(
 
     return create_message_JSON(
         thread_id=thread_id,
-        context_id=context_id if parent_message_id else random.choice(
+        context_id=context_id if parent_message_id is not None else random.choice(
             list(
                 {i for i in range(0, 1000)}.  # TODO: Refactor new context_id generation
                 difference({context_id})
