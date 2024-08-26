@@ -1,5 +1,5 @@
 """
-Module for tests for application web sockets powering group chat functionality
+Module for tests for application api endpoints.
 
 Classes:
   WebSocketTestCase
@@ -10,7 +10,7 @@ import unittest
 from fastapi.testclient import TestClient
 from fastapi.websockets import WebSocketDisconnect
 
-from api.web_socket.web_socket import app
+from api.endpoints import app
 
 
 class WebSocketTestCase(unittest.TestCase):

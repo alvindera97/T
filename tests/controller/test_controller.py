@@ -18,7 +18,7 @@ import websockets
 from starlette.testclient import TestClient
 from starlette.websockets import WebSocketDisconnect
 
-from api.web_socket.web_socket import app
+from api.endpoints import app
 from controller import Controller
 from role import Role
 
