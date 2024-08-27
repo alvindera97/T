@@ -23,3 +23,19 @@ async def handle_chat(websocket: WebSocket, chat_uuid: uuid.UUID):
 
     if chat_uuid.__str__() != os.getenv('TEST_CHAT_UUID'):
         raise Exception("Invalid chat URL")
+
+    while True:
+        data = await websocket.receive_text()
+        print(f'message just sent now: {data.__str__()}')
+        break
+
+
+@app.post("/set_up_chat")
+async def set_up_chat():
+    """
+    Endpoint for setting up chat.
+
+    Creates a unique chat uuid and saves in database returning a redirect response.
+    :return:
+    """
+    pass

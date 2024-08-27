@@ -2,6 +2,7 @@
 Module for tests for application api endpoints.
 
 Classes:
+  SetUpChatEndpointTestCase
   WebSocketTestCase
 """
 import os
@@ -43,3 +44,32 @@ class WebSocketTestCase(unittest.TestCase):
         except Exception as e:
             self.fail(
                 f"Web socket connection to {url_to_connect_to} isn't supposed to raise an exception, exception raised is: {e} ")
+
+
+class SetUpChatEndpointTestCase(unittest.TestCase):
+    """
+    Test case class for end point setting up chat.
+    """
+
+    def setUp(self):
+        self.client = TestClient(app)
+
+    def test_endpoint_only_takes_post_requests(self) -> None:
+        """
+        Test that the endpoint only takes post request.
+        :return: None
+        """
+        post_response = self.client.post("/set_up_chat/")
+        get_response = self.client.put("/set_up_chat/")
+        delete_response = self.client.delete("/set_up_chat/")
+        patch_response = self.client.patch("/set_up_chat/")
+
+        self.assertEqual(post_response.status_code.__str__()[0], "2",  # required for OK responses.
+                         f"Endpoint to set up chat is incorrect, the returned status code is: {post_response.status_code}")
+
+        self.assertEqual(gr := get_response.status_code, 405,
+                         f"Endpoint isn't supposed to accept/process get requests, the returned status code is: {gr}")
+        self.assertEqual(dr := delete_response.status_code, 405,
+                         f"Endpoint isn't supposed to accept/process delete requests, the returned status code is: {dr}")
+        self.assertEqual(pr := patch_response.status_code, 405,
+                         f"Endpoint isn't supposed to accept/process patch requests, the returned status code is: {pr}")
