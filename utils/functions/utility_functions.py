@@ -7,7 +7,7 @@ import asyncio
 import random
 from typing import Optional
 
-from message import MessageJSON
+from _json.message import MessageJSON
 from user import User
 
 

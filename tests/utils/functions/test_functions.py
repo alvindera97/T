@@ -15,7 +15,7 @@ from unittest.mock import patch
 
 from pydantic import ValidationError
 
-from message import MessageJSON
+from _json.message import MessageJSON
 from user import User
 from utils.functions import utility_functions as utils
 
