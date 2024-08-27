@@ -32,8 +32,7 @@ class ChatModelTestCase(unittest.TestCase):
 
         # DeclarativeMeta in this instance will require some primary key and __tablename__
 
-        self.assertIsNotNone(models.Chat.id)
-        self.assertTrue(models.Chat.id.primary_key, "id isn't primary  key!")
+        self.assertTrue(models.Chat.uuid.primary_key, "uuid is supposed to be the primary key but it isn't the primary key!")
 
         self.assertIsNotNone(models.Chat.__tablename__)
         self.assertEqual(models.Chat.__tablename__, "Chats")
