@@ -7,7 +7,10 @@ import asyncio
 import random
 from typing import Optional
 
+from sqlalchemy.orm import Session
+
 from _json.message import MessageJSON
+from models import Chat
 from user import User
 
 
@@ -64,3 +67,15 @@ def generate_message_from_user(
         parent_message_id=parent_message_id,
         content=asyncio.run(user.generate_message(""))  # TODO: Add prompt for querying of LLM
     )
+
+
+def add_new_chat(session: Session) -> Chat:
+    """
+    Add new chat to database.
+    :param session: Database session object
+    :return: Added Chat object to the database
+    """
+    new_chat = Chat()
+    session.add(new_chat)
+    session.commit()
+    return new_chat

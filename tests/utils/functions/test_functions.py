@@ -8,14 +8,19 @@ function module.
 Classes:
   TestCreateMessageJSON
   TestGenerateMessage
+  TestAddChat
 """
 
 import unittest
 from unittest.mock import patch
 
 from pydantic import ValidationError
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 from _json.message import MessageJSON
+from models import Chat
+from models.chat import Base
 from user import User
 from utils.functions import utility_functions as utils
 
@@ -115,3 +120,57 @@ class TestGenerateMessage(unittest.TestCase):
         context_id = 0
         message_json = utils.generate_message_from_user(self.user, 0, 0, 0, context_id)
         self.assertEqual(message_json.context_id, context_id)
+
+
+class TestAddChat(unittest.TestCase):
+    """
+    Test case class for tests on function for adding Chat to database
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.engine = create_engine("sqlite:///:memory:")
+        Base.metadata.create_all(cls.engine)
+
+        cls.__session = sessionmaker(bind=cls.engine)
+
+    def setUp(self):
+        self.session = self.__session()
+
+    def tearDown(self):
+        self.session.rollback()
+        self.session.close()
+
+    @classmethod
+    def tearDownClass(cls):
+        Base.metadata.drop_all(cls.engine)
+
+    def test_function_takes_session_argument(self) -> None:
+        """
+        Test that function takes in session argument, this argument is used internally
+        by the function to pick a database to operate on.
+        :return: None
+        """
+
+        self.assertRaises(TypeError, lambda: utils.add_new_chat())
+
+        try:
+            utils.add_new_chat(self.session)
+        except Exception as e:
+            self.fail(f"Unexpected exception raised: {e}")
+
+    def test_function_adds_new_chat_record_to_database(self) -> None:
+        """
+        Test that function adds new chat record to database.
+
+        :return: None
+        """
+
+        count_before_addition = self.session.query(Chat).count()
+
+        chat = utils.add_new_chat(self.session)
+        query = self.session.query(Chat).filter(Chat.uuid.is_(chat.uuid))
+
+        self.assertEqual([i for i in query][0], chat)
+        self.assertEqual(len([i for i in query]), 1)
+        self.assertEqual(self.session.query(Chat).count(), count_before_addition + 1)
