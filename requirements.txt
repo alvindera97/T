@@ -46,6 +46,7 @@ packaging==24.1
 phonenumbers==8.13.40
 proto-plus==1.24.0
 protobuf==4.25.4
+psycopg2==2.9.9
 pyaes==1.6.1
 pyasn1==0.6.0
 pyasn1_modules==0.4.0
