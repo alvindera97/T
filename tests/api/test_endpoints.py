@@ -12,6 +12,8 @@ from fastapi.testclient import TestClient
 from fastapi.websockets import WebSocketDisconnect
 
 from api.endpoints import app
+from models import Chat
+from tests.database import base
 
 
 class WebSocketTestCase(unittest.TestCase):
@@ -46,13 +48,13 @@ class WebSocketTestCase(unittest.TestCase):
                 f"Web socket connection to {url_to_connect_to} isn't supposed to raise an exception, exception raised is: {e} ")
 
 
-class SetUpChatEndpointTestCase(unittest.TestCase):
+class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
     """
     Test case class for end point setting up chat.
     """
 
     def setUp(self):
-        self.client = TestClient(app)
+        super().setUp()
 
     def test_endpoint_only_takes_post_requests(self) -> None:
         """
@@ -73,3 +75,15 @@ class SetUpChatEndpointTestCase(unittest.TestCase):
                          f"Endpoint isn't supposed to accept/process delete requests, the returned status code is: {dr}")
         self.assertEqual(pr := patch_response.status_code, 405,
                          f"Endpoint isn't supposed to accept/process patch requests, the returned status code is: {pr}")
+
+    def test_endpoint_creates_new_chat_uuid_in_database_chats_table(self) -> None:
+        """
+        Test that request to endpoint creates new unique UUID record in test database
+        :return: None
+        """
+        previous_chat_count = self.session.query(Chat).count()
+
+        response = self.client.post("/set_up_chat/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.session.query(Chat).count(), previous_chat_count + 1)

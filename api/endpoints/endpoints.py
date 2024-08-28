@@ -6,7 +6,11 @@ This module contains method(s) defining application any web socket endpoint(s)
 import os
 import uuid
 
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI, WebSocket, Depends
+from sqlalchemy.orm import Session
+
+from database import db
+from utils.functions import utility_functions
 
 app = FastAPI()
 
@@ -31,11 +35,13 @@ async def handle_chat(websocket: WebSocket, chat_uuid: uuid.UUID):
 
 
 @app.post("/set_up_chat")
-async def set_up_chat():
+async def set_up_chat(db_session: Session = Depends(db.get_db)):
     """
     Endpoint for setting up chat.
 
     Creates a unique chat uuid and saves in database returning a redirect response.
     :return:
     """
-    pass
+    utility_functions.add_new_chat(db_session)
+
+    # TODO: Add redirect to chat

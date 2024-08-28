@@ -15,12 +15,10 @@ import unittest
 from unittest.mock import patch
 
 from pydantic import ValidationError
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 
 from _json.message import MessageJSON
 from models import Chat
-from models.chat import Base
+from tests.database import base
 from user import User
 from utils.functions import utility_functions as utils
 
@@ -122,28 +120,10 @@ class TestGenerateMessage(unittest.TestCase):
         self.assertEqual(message_json.context_id, context_id)
 
 
-class TestAddChat(unittest.TestCase):
+class TestAddChat(base.BaseTestDatabaseTestCase):
     """
     Test case class for tests on function for adding Chat to database
     """
-
-    @classmethod
-    def setUpClass(cls):
-        cls.engine = create_engine("sqlite:///:memory:")
-        Base.metadata.create_all(cls.engine)
-
-        cls.__session = sessionmaker(bind=cls.engine)
-
-    def setUp(self):
-        self.session = self.__session()
-
-    def tearDown(self):
-        self.session.rollback()
-        self.session.close()
-
-    @classmethod
-    def tearDownClass(cls):
-        Base.metadata.drop_all(cls.engine)
 
     def test_function_takes_session_argument(self) -> None:
         """
