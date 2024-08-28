@@ -6,24 +6,17 @@ Classes:
   WebSocketTestCase
 """
 import os
-import unittest
 
-from fastapi.testclient import TestClient
 from fastapi.websockets import WebSocketDisconnect
 
-from api.endpoints import app
 from models import Chat
 from tests.database import base
 
 
-class WebSocketTestCase(unittest.TestCase):
+class WebSocketTestCase(base.BaseTestDatabaseTestCase):
     """
     Test case class for application web socket tests.
     """
-
-    @classmethod
-    def setUpClass(cls):
-        cls.client = TestClient(app)
 
     def test_that_connection_to_invalid_chat_websocket_url_cannot_be_established(self) -> None:
         """
