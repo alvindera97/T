@@ -44,10 +44,10 @@ class TestGetDB(base.BaseTestDatabaseTestCase):
         session: Session = next(db_generator)
 
         inspector = inspect(session.get_bind())
-        existing_tables_in_db_returned_db_session = inspector.get_table_names()
+        existing_tables_in_db_returned_by_get_db = inspector.get_table_names()
 
         all_db_tables = Base.metadata.tables.keys()
 
         self.assertEqual(0,  # alembic_version table is not created in test database
-                         len(set(existing_tables_in_db_returned_db_session).difference({'alembic_version'}).difference(
+                         len(set(existing_tables_in_db_returned_by_get_db).difference({'alembic_version'}).difference(
                              set(all_db_tables))))
