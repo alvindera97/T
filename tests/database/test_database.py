@@ -4,9 +4,11 @@ Module for tests for application database
 Classes:
   TestGetDB
 """
+
 from sqlalchemy import inspect
 from sqlalchemy.orm import Session
 
+from api.endpoints import app
 from database import db
 from models.chat import Base
 from tests.database import base
@@ -23,7 +25,14 @@ class TestGetDB(base.BaseTestDatabaseTestCase):
         :return: None
         """
 
-        self.assertTrue(isinstance(db.get_db(), Session))
+        override_get_db = app.dependency_overrides[db.get_db]
+        db_generator = override_get_db()
+        session = next(db_generator)
+
+        self.assertTrue(isinstance(session, Session), f"The returned type is: {type(session)}")
+
+        # Session needs to be properly closed.
+        session.close()
 
     def test_get_db_returns_session_object_without_any_missing_tables(self) -> None:
         """
