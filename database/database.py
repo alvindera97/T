@@ -1,3 +1,9 @@
+"""
+Database module
+
+This module contains database definitions and initialisations for the application.
+"""
+
 import os
 
 from sqlalchemy import create_engine, inspect
