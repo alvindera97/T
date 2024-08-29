@@ -4,7 +4,6 @@ Base database test class module.
 Classes:
   BaseTestDatabaseTestCase
 """
-import os
 import unittest
 
 from sqlalchemy import create_engine
@@ -23,8 +22,6 @@ class BaseTestDatabaseTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        os.environ['DEBUG'] = "True"
-
         cls.engine = create_engine(
             "sqlite:///:memory:",
             connect_args={"check_same_thread": False}

@@ -37,9 +37,13 @@ class TestGetDB(base.BaseTestDatabaseTestCase):
     def test_get_db_returns_session_object_without_any_missing_tables(self) -> None:
         """
         Test that get_db returns session of database without any missing tables
-        :return: NOne
+        :return: None
         """
-        inspector = inspect(db.get_db().get_bind())
+        overridden_get_db = app.dependency_overrides[db.get_db]
+        db_generator = overridden_get_db()
+        session: Session = next(db_generator)
+
+        inspector = inspect(session.get_bind())
         existing_tables_in_db_returned_db_session = inspector.get_table_names()
 
         all_db_tables = Base.metadata.tables.keys()

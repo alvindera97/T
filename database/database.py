@@ -20,7 +20,7 @@ def init_db():
 
     # if DEBUG environment variable is set to False, DATABASE_URL is set as database else SQLite In-memory database.
 
-    DATABASE_URL = os.getenv("DATABASE_URL") if os.getenv('DEBUG', "True") == "False" else "sqlite:///:memory:"
+    DATABASE_URL = os.getenv("DATABASE_URL")
     engine = create_engine(DATABASE_URL, pool_pre_ping=True)
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
     session = scoped_session(SessionLocal)  # ensure thread-safety
