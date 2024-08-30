@@ -7,6 +7,7 @@ import os
 import uuid
 
 from fastapi import FastAPI, WebSocket
+from starlette.responses import RedirectResponse
 
 from utils.functions import utility_functions
 
@@ -32,7 +33,7 @@ async def handle_chat(websocket: WebSocket, chat_uuid: uuid.UUID):
         break
 
 
-@app.post("/set_up_chat")
+@app.post("/set_up_chat", response_class=RedirectResponse, status_code=302)
 async def set_up_chat():
     """
     Endpoint for setting up chat.
@@ -40,4 +41,4 @@ async def set_up_chat():
     Creates a unique chat uuid and saves in database returning a redirect response.
     :return:
     """
-    return {"chat_url": utility_functions.add_new_chat()}
+    return "chat/" + utility_functions.add_new_chat()

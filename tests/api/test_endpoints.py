@@ -5,7 +5,6 @@ Classes:
   SetUpChatEndpointTestCase
   WebSocketTestCase
 """
-import json
 import os
 
 from fastapi.websockets import WebSocketDisconnect
@@ -52,7 +51,7 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
         Test that the endpoint only takes post request.
         :return: None
         """
-        post_response = self.client.post("/set_up_chat/")
+        post_response = self.client.post("/set_up_chat/", follow_redirects=False)
         get_response = self.client.put("/set_up_chat/")
         delete_response = self.client.delete("/set_up_chat/")
         patch_response = self.client.patch("/set_up_chat/")
@@ -73,10 +72,8 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
         :return: None
         """
         previous_chat_count = self.session.query(Chat).count()
+        self.client.post("/set_up_chat/")
 
-        response = self.client.post("/set_up_chat/")
-
-        self.assertEqual(response.status_code, 200)
         self.assertEqual(self.session.query(Chat).count(), previous_chat_count + 1)
 
     def test_endpoint_returns_redirect_response_pointing_to_the_url_for_the_chat(self) -> None:
@@ -85,8 +82,16 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
         :return: None
         """
 
-        post_response = self.client.post("/set_up_chat/")
-        chat_uuids = [i for i in self.session.query(Chat).all()]
+        post_response = self.client.post("/set_up_chat/", follow_redirects=False)
 
-        self.assertEqual(post_response.status_code, 200)
-        self.assertEqual(chat_uuids[-1].uuid.__str__(), json.loads(post_response.content)['chat_url'])
+        self.assertTrue(post_response.status_code.__str__().startswith('3'))
+
+    def test_endpoint_redirect_url_matches_that_of_the_expected_chat_url(self) -> None:
+        """
+        Test that URL redirected to from endpoint matches expected chat url
+        :return: None
+        """
+        response = self.client.post("/set_up_chat/", follow_redirects=True)
+
+        self.assertEqual(f'chat/{[i for i in self.session.query(Chat)][-1].uuid.__str__()}',
+                         '/'.join(response.url.__str__().split("/")[-2:]))
