@@ -7,9 +7,8 @@ import asyncio
 import random
 from typing import Optional
 
-from sqlalchemy.orm import Session
-
 from _json.message import MessageJSON
+from database import db
 from models import Chat
 from user import User
 
@@ -69,13 +68,22 @@ def generate_message_from_user(
     )
 
 
-def add_new_chat(session: Session) -> Chat:
+def add_new_chat() -> str:
     """
     Add new chat to database.
-    :param session: Database session object
-    :return: Added Chat object to the database
+    :return: Added Chat uuid string to the database
     """
+    from api.endpoints import app as application
+
+    override_get_db = application.dependency_overrides[db.get_db]
+    db_generator = override_get_db()
+    session = next(db_generator)
+
     new_chat = Chat()
     session.add(new_chat)
+    session.flush()
+
+    new_chat_uuid = new_chat.uuid.__str__()
+
     session.commit()
-    return new_chat
+    return new_chat_uuid

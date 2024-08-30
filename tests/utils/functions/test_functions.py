@@ -125,6 +125,7 @@ class TestAddChat(base.BaseTestDatabaseTestCase):
     Test case class for tests on function for adding Chat to database
     """
 
+    @unittest.skip("Function signature changed")
     def test_function_takes_session_argument(self) -> None:
         """
         Test that function takes in session argument, this argument is used internally
@@ -148,9 +149,7 @@ class TestAddChat(base.BaseTestDatabaseTestCase):
 
         count_before_addition = self.session.query(Chat).count()
 
-        chat = utils.add_new_chat(self.session)
-        query = self.session.query(Chat).filter(Chat.uuid.is_(chat.uuid))
+        chat = utils.add_new_chat()
 
-        self.assertEqual([i for i in query][0], chat)
-        self.assertEqual(len([i for i in query]), 1)
+        self.assertEqual(self.session.query(Chat).first().uuid.__str__(), chat)
         self.assertEqual(self.session.query(Chat).count(), count_before_addition + 1)
