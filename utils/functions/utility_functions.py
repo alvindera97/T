@@ -7,6 +7,8 @@ import asyncio
 import random
 from typing import Optional
 
+from sqlalchemy.orm import Session
+
 from _json.message import MessageJSON
 from database import db
 from models import Chat
@@ -77,7 +79,7 @@ def add_new_chat() -> str:
 
     override_get_db = application.dependency_overrides[db.get_db]
     db_generator = override_get_db()
-    session = next(db_generator)
+    session: Session = next(db_generator)
 
     new_chat = Chat()
     session.add(new_chat)
