@@ -5,6 +5,7 @@ Classes:
   BaseTestDatabaseTestCase
 """
 import inspect
+import os
 import unittest
 
 from sqlalchemy import create_engine
@@ -27,6 +28,7 @@ class BaseTestDatabaseTestCase(unittest.TestCase):
     def setUpClass(cls):
         cls.engine = create_engine(
             "sqlite:///:memory:",
+            echo=os.getenv('DEBUG', False) == "True",
             connect_args={"check_same_thread": False}
         )
         cls.__session = sessionmaker(autocommit=False, autoflush=False, bind=cls.engine)
@@ -59,6 +61,10 @@ class BaseTestDatabaseTestCase(unittest.TestCase):
                 self.session.query(table).count()
             except OperationalError:
                 Base.metadata.create_all(bind=self.engine)
+
+    def tearDown(self):
+        self.session.rollback()
+        self.session.close()
 
     @classmethod
     def tearDownClass(cls):
