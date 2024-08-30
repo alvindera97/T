@@ -5,6 +5,7 @@ Classes:
   SetUpChatEndpointTestCase
   WebSocketTestCase
 """
+import json
 import os
 
 from fastapi.websockets import WebSocketDisconnect
@@ -46,9 +47,6 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
     Test case class for end point setting up chat.
     """
 
-    def setUp(self):
-        super().setUp()
-
     def test_endpoint_only_takes_post_requests(self) -> None:
         """
         Test that the endpoint only takes post request.
@@ -59,8 +57,8 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
         delete_response = self.client.delete("/set_up_chat/")
         patch_response = self.client.patch("/set_up_chat/")
 
-        self.assertEqual(post_response.status_code.__str__()[0], "2",  # required for OK responses.
-                         f"Endpoint to set up chat is incorrect, the returned status code is: {post_response.status_code}")
+        self.assertTrue(post_response.status_code.__str__()[0] in {"2", "3"},  # required for OK/redirect responses.
+                        f"Endpoint to set up chat is incorrect, the returned status code is: {post_response.status_code}")
 
         self.assertEqual(gr := get_response.status_code, 405,
                          f"Endpoint isn't supposed to accept/process get requests, the returned status code is: {gr}")
@@ -80,3 +78,15 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(self.session.query(Chat).count(), previous_chat_count + 1)
+
+    def test_endpoint_returns_redirect_response_pointing_to_the_url_for_the_chat(self) -> None:
+        """
+        Test that response to endpoint is a  redirect request which points to the URL for the chat.
+        :return: None
+        """
+
+        post_response = self.client.post("/set_up_chat/")
+        chat_uuids = [i for i in self.session.query(Chat).all()]
+
+        self.assertEqual(post_response.status_code, 200)
+        self.assertEqual(chat_uuids[-1].uuid.__str__(), json.loads(post_response.content)['chat_url'])
