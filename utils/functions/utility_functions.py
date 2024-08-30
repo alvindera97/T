@@ -9,7 +9,7 @@ from typing import Optional
 
 from sqlalchemy.orm import Session
 
-from _json.message import MessageJSON
+from json_defs.message import MessageJSON
 from database import db
 from models import Chat
 from user import User

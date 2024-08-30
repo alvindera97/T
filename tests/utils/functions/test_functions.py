@@ -16,7 +16,7 @@ from unittest.mock import patch
 
 from pydantic import ValidationError
 
-from _json.message import MessageJSON
+from json_defs.message import MessageJSON
 from models import Chat
 from tests.database import base
 from user import User

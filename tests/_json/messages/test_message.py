@@ -11,7 +11,7 @@ import random
 
 from pydantic import ValidationError
 
-from _json.message import MessageJSON
+from json_defs.message import MessageJSON
 
 
 class TestMessagesJSON(unittest.TestCase):
