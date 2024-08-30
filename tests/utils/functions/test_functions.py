@@ -125,6 +125,20 @@ class TestAddChat(base.BaseTestDatabaseTestCase):
     Test case class for tests on function for adding Chat to database
     """
 
+    def test_function_takes_session_argument(self) -> None:
+        """
+        Test that function takes in session argument, this argument is used internally
+        by the function to pick a database to operate on.
+        :return: None
+        """
+
+        self.assertRaises(TypeError, lambda: utils.add_new_chat())
+
+        try:
+            utils.add_new_chat(self.session)
+        except Exception as e:
+            self.fail(f"Unexpected exception raised: {e}")
+
     def test_function_adds_new_chat_record_to_database(self) -> None:
         """
         Test that function adds new chat record to database.
@@ -134,7 +148,7 @@ class TestAddChat(base.BaseTestDatabaseTestCase):
 
         count_before_addition = self.session.query(Chat).count()
 
-        chat = utils.add_new_chat()
+        chat = utils.add_new_chat(self.session)
 
         self.assertEqual(self.session.query(Chat).first().uuid.__str__(), chat)
         self.assertEqual(self.session.query(Chat).count(), count_before_addition + 1)

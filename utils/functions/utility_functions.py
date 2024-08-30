@@ -10,7 +10,6 @@ from typing import Optional
 from sqlalchemy.orm import Session
 
 from json_defs.message import MessageJSON
-from database import db
 from models import Chat
 from user import User
 
@@ -70,16 +69,11 @@ def generate_message_from_user(
     )
 
 
-def add_new_chat() -> str:
+def add_new_chat(session: Session) -> str:
     """
     Add new chat to database.
     :return: Added Chat uuid string to the database
     """
-    from api.endpoints import app as application
-
-    override_get_db = application.dependency_overrides[db.get_db]
-    db_generator = override_get_db()
-    session: Session = next(db_generator)
 
     new_chat = Chat()
     session.add(new_chat)

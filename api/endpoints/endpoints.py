@@ -7,8 +7,11 @@ import os
 import uuid
 
 from fastapi import FastAPI, WebSocket
+from fastapi.params import Depends
+from sqlalchemy.orm import Session
 from starlette.responses import RedirectResponse
 
+from database import db
 from utils.functions import utility_functions
 
 app = FastAPI()
@@ -34,11 +37,11 @@ async def handle_chat(websocket: WebSocket, chat_uuid: uuid.UUID):
 
 
 @app.post("/set_up_chat", response_class=RedirectResponse, status_code=302)
-async def set_up_chat():
+async def set_up_chat(session: Session = Depends(db.get_db)):
     """
     Endpoint for setting up chat.
 
     Creates a unique chat uuid and saves in database returning a redirect response.
     :return:
     """
-    return "chat/" + utility_functions.add_new_chat()
+    return "chat/" + utility_functions.add_new_chat(session)
