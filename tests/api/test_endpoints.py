@@ -6,6 +6,7 @@ Classes:
   WebSocketTestCase
 """
 import os
+from unittest.mock import patch
 
 from fastapi.websockets import WebSocketDisconnect
 
@@ -95,3 +96,13 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
 
         self.assertEqual(f'chat/{[i for i in self.session.query(Chat)][-1].uuid.__str__()}',
                          '/'.join(response.url.__str__().split("/")[-2:]))
+
+    def test_endpoint_creates_new_application_controller_for_chat_session(self) -> None:
+        """
+        Test that endpoint creates application controller.
+        :return: None
+        """
+        with patch("api.endpoints.endpoints.Controller") as mock_application_controller:
+            with patch("controller.controller_def.websockets"):
+                response = self.client.post("/set_up_chat/", follow_redirects=True)
+                mock_application_controller.assert_called_once_with(1, "ws://localhost:8000/" + "/".join(response.url.__str__().split("/")[-2:]))
