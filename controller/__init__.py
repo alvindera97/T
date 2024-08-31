@@ -1,3 +1,3 @@
-from controller.controller import Controller
+from controller.controller_def import Controller
 
 controller = Controller
