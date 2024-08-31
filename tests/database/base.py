@@ -4,13 +4,16 @@ Base database test class module.
 Classes:
   BaseTestDatabaseTestCase
 """
+import inspect
 import os
 import unittest
 
 from sqlalchemy import create_engine
+from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import sessionmaker, Session
 from starlette.testclient import TestClient
 
+import models
 from api.endpoints import app
 from database import db
 from models.chat import Base
@@ -51,6 +54,14 @@ class BaseTestDatabaseTestCase(unittest.TestCase):
 
     def setUp(self):
         self.session: Session = self.Session
+
+        # Guarantee all Tables of models are available in the test database.
+
+        for _, table in inspect.getmembers(models, inspect.isclass):
+            try:
+                self.session.query(table).count()
+            except OperationalError:
+                Base.metadata.create_all(bind=self.engine)
 
     @classmethod
     def tearDownClass(cls):
