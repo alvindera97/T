@@ -170,5 +170,8 @@ class User:
         return message.text
 
     def __del__(self):
-        asyncio.run(self.consumer.stop())
-        asyncio.run(self.producer.stop())
+        if isinstance(self.__consumer, AIOKafkaConsumer):
+            asyncio.run(self.consumer.stop())
+
+        if isinstance(self.__producer, AIOKafkaProducer):
+            asyncio.run(self.producer.stop())
