@@ -45,8 +45,16 @@ class User:
         super().__init__()
         self.name = name
         self.display_picture_url = display_picture_url
-        self.__producer = asyncio.run(self.__generate_producer_object())
-        self.__consumer = asyncio.run(self.__generate_consumer_object())
+        self.__producer = None
+        self.__consumer = None
+
+    async def initialize(self):
+        """
+        Async method to initialise user kafka producer and consumer
+        :return:
+        """
+        self.__producer = await self.__generate_producer_object()
+        self.__consumer = await self.__generate_consumer_object()
 
     @classmethod
     async def __generate_producer_object(cls) -> AIOKafkaProducer:

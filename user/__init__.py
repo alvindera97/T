@@ -1,3 +1,3 @@
-from user.user import User
+from user.user_def import User
 
 user = User

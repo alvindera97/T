@@ -8,6 +8,7 @@ Classes:
   TestUserTestCase
   TestUserAsyncioMethodsTestCase
 """
+import asyncio
 import inspect
 import unittest
 from collections import Counter
@@ -15,12 +16,11 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from aiokafka import AIOKafkaProducer, AIOKafkaConsumer
+from faker import Faker
 
 from role import Role
 from user import User
 from utils.exceptions import OperationNotAllowedException
-
-from faker import Faker
 
 
 class TestUserTestCase(unittest.TestCase):
@@ -36,6 +36,7 @@ class TestUserTestCase(unittest.TestCase):
         """
         super().setUpClass()
         cls.user = User()
+        asyncio.run(cls.user.initialize())
 
     def setUp(self) -> None:
         """
@@ -238,6 +239,9 @@ class TestUserTestCase(unittest.TestCase):
         self.assertRaises(OperationNotAllowedException, delete_producer)
 
         user_2, user_3 = User(), User()
+        asyncio.run(user_2.initialize())
+        asyncio.run(user_3.initialize())
+
         self.assertNotEqual(user_2.producer, user_3.producer)
 
     def test_user_immutable_consumer_object(self) -> None:
@@ -269,6 +273,8 @@ class TestUserTestCase(unittest.TestCase):
         self.assertRaises(OperationNotAllowedException, delete_consumer)
 
         user_2, user_3 = User(), User()
+        asyncio.run(user_2.initialize())
+        asyncio.run(user_3.initialize())
         self.assertNotEqual(user_2.consumer, user_3.consumer)
 
 
@@ -278,6 +284,7 @@ class TestUserAsyncioMethodsTestCase(unittest.IsolatedAsyncioTestCase):
     """
 
     user = User()
+    asyncio.run(user.initialize())
 
     async def test_static_method_creating_producer_objects(self) -> None:
         """
@@ -315,3 +322,26 @@ class TestUserAsyncioMethodsTestCase(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(generated_message, "some generated message")
 
         self.assertNotEqual(len(generated_message.strip()), 0)
+
+    async def test_user_initialise_method_calls_methods_to_generate_get_producer_and_consumer_kafka_objects(
+            self) -> None:
+        """
+        Test that user initialise method calls methods to populate producer and consumer objects
+         which in turn sets the appropriate values.
+        :return: None
+        """
+        with patch("user.user_def.AIOKafkaProducer", new_callable=lambda: type("")):
+            with patch("user.user_def.AIOKafkaConsumer", new_callable=lambda: type("")):
+                with patch("user.User._User__generate_producer_object") as gpo:
+                    with patch("user.User._User__generate_consumer_object") as gco:
+                        gpo.return_value = "producer object"
+                        gco.return_value = "consumer object"
+
+                        user_1 = User()
+                        await user_1.initialize()
+
+                        gpo.assert_called_once()
+                        gco.assert_called_once()
+
+                        self.assertEqual(user_1.producer, "producer object")
+                        self.assertEqual(user_1.consumer, "consumer object")
