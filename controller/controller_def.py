@@ -34,11 +34,11 @@ class Controller:
         assert number_of_users > 0
 
         self.ws_url = ws_url
-        self.participating_users: List[User] = [User() for i in range(number_of_users)]
+        chat_uuid = self.ws_url.split("/")[-1]
+        self.participating_users: List[User] = [User() for _ in range(number_of_users)]
 
-        for _, user in enumerate(self.participating_users):
-            chat_hash = ws_url.split("/")[-1]
-            user.consumer.subscribe([chat_hash])
+        for user in self.participating_users:
+            user.consumer.subscribe([chat_uuid])
 
         self.first_publisher: User = random.choice(self.participating_users)
 
