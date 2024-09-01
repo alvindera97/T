@@ -19,6 +19,11 @@ class WebSocketTestCase(base.BaseTestDatabaseTestCase):
     Test case class for application web socket tests.
     """
 
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        patch("controller.Controller")
+
     def test_that_connection_to_invalid_chat_websocket_url_cannot_be_established(self) -> None:
         """
         Test that connection establishment with invalid chat web socket url cannot be established.
@@ -46,7 +51,13 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
     Test case class for end point setting up chat.
     """
 
-    def test_endpoint_only_takes_post_requests(self) -> None:
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+
+    @patch("controller.controller_def.User")
+    @patch("controller.Controller")
+    def test_endpoint_only_takes_post_requests(self, *_) -> None:
         """
         Test that the endpoint only takes post request.
         :return: None
@@ -66,7 +77,9 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
         self.assertEqual(pr := patch_response.status_code, 405,
                          f"Endpoint isn't supposed to accept/process patch requests, the returned status code is: {pr}")
 
-    def test_endpoint_creates_new_chat_uuid_in_database_chats_table(self) -> None:
+    @patch("controller.controller_def.User")
+    @patch("controller.Controller")
+    def test_endpoint_creates_new_chat_uuid_in_database_chats_table(self, *_) -> None:
         """
         Test that request to endpoint creates new unique UUID record in test database
         :return: None
@@ -76,7 +89,9 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
 
         self.assertEqual(self.session.query(Chat).count(), previous_chat_count + 1)
 
-    def test_endpoint_returns_redirect_response_pointing_to_the_url_for_the_chat(self) -> None:
+    @patch("controller.controller_def.User")
+    @patch("controller.Controller")
+    def test_endpoint_returns_redirect_response_pointing_to_the_url_for_the_chat(self, *_) -> None:
         """
         Test that response to endpoint is a  redirect request which points to the URL for the chat.
         :return: None
@@ -86,17 +101,20 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
 
         self.assertTrue(post_response.status_code.__str__().startswith('3'))
 
-    def test_endpoint_redirect_url_matches_that_of_the_expected_chat_url(self) -> None:
+    @patch("controller.controller_def.User")
+    def test_endpoint_redirect_url_matches_that_of_the_expected_chat_url(self, *_) -> None:
         """
         Test that URL redirected to from endpoint matches expected chat url
         :return: None
         """
-        response = self.client.post("/set_up_chat/", follow_redirects=True)
+        with patch("api.endpoints.endpoints.Controller"):
+            response = self.client.post("/set_up_chat/", follow_redirects=True)
 
-        self.assertEqual(f'chat/{[i for i in self.session.query(Chat)][-1].uuid.__str__()}',
-                         '/'.join(response.url.__str__().split("/")[-2:]))
+            self.assertEqual(f'chat/{[i for i in self.session.query(Chat)][-1].uuid.__str__()}',
+                             '/'.join(response.url.__str__().split("/")[-2:]))
 
-    def test_endpoint_creates_new_application_controller_for_chat_session(self) -> None:
+    @patch("controller.controller_def.User")
+    def test_endpoint_creates_new_application_controller_for_chat_session(self, *_) -> None:
         """
         Test that endpoint creates application controller.
         :return: None
@@ -104,4 +122,5 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
         with patch("api.endpoints.endpoints.Controller") as mock_application_controller:
             with patch("controller.controller_def.websockets"):
                 response = self.client.post("/set_up_chat/", follow_redirects=True)
-                mock_application_controller.assert_called_once_with(1, "ws://localhost:8000/" + "/".join(response.url.__str__().split("/")[-2:]))
+                mock_application_controller.assert_called_once_with(1, "ws://localhost:8000/" + "/".join(
+                    response.url.__str__().split("/")[-2:]))
