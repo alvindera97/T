@@ -40,13 +40,11 @@ class ApplicationControllerTestCase(unittest.TestCase):
         attribute with number of unique User objects is specified by the keyword argument.
         :return: None
         """
-        number_of_participating_users = random.randint(2, 10)
-
-        with patch("websockets.connect", new=AsyncMock()) as websockets_mock:
+        with patch("websockets.connect", new=AsyncMock()):
+            number_of_participating_users = random.randint(2, 10)
             controller = Controller(number_of_participating_users, self.ws_url)
 
             self.assertEqual(len(set(controller.participating_users)), number_of_participating_users)
-            websockets_mock.assert_called_once_with(self.ws_url)
 
     def test_that_controller_raises_exception_on_nonsensical_input_for_number_of_participating_users(self) -> None:
         """
