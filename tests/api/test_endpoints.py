@@ -24,7 +24,6 @@ class WebSocketTestCase(base.BaseTestDatabaseTestCase):
         Test that connection establishment with invalid chat web socket url cannot be established.
         The web socket connection route must pass validation checks.
 
-        In this instance, the validation check will be a hash set lookup.
         :return: None
         """
         url_to_connect_to = "/ws/" + os.getenv('TEST_CHAT_UUID')
