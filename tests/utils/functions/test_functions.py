@@ -51,6 +51,8 @@ class TestGenerateMessage(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.user = User("some name", "some url")
+        cls.user_generate_message_mock = patch("utils.functions.utility_functions.User.generate_message",
+                                               return_value="hello world").start()
 
     def test_function_takes_User_object_argument_where_the_passed_object_must_already_be_instantiated(self) -> None:
         """
@@ -77,9 +79,7 @@ class TestGenerateMessage(unittest.TestCase):
         except Exception:
             self.fail("Exception raised while generating message from User via utils.")
 
-    @patch("user.User.generate_message", return_value="hello world")
-    def test_function_calls_User_generate_message_method_once_during_function_call(self,
-                                                                                   user_generate_message_mock) -> None:
+    def test_function_calls_User_generate_message_method_once_during_function_call(self) -> None:
         """
         Test that User's generate_message method was called during execution of function as it is the function that
         generates the message content for the user.
@@ -87,19 +87,17 @@ class TestGenerateMessage(unittest.TestCase):
         """
         utils.generate_message_from_user(self.user, 0, 0, 0, 0)
 
-        user_generate_message_mock.assert_called_once_with("")
+        self.user_generate_message_mock.assert_called_once_with("")
 
-    @patch("user.User.generate_message", return_value="hello world")
-    def test_function_return_type_is_of_expected_json_type(self, *_) -> None:
+    def test_function_return_type_is_of_expected_json_type(self) -> None:
         """
         Test that the function returns a result of expected type.
         :return: None
         """
         self.assertTrue(isinstance(utils.generate_message_from_user(self.user, 0, 0, 0, 0), MessageJSON))
 
-    @patch("user.User.generate_message", return_value="hello world")
     def test_function_returns_message_json_with_different_context_id_from_passed_context_id_if_parent_id_is_None(
-            self, *_) -> None:
+            self) -> None:
         """
         Test that function returns message json with context_id different to that of passed context_id if parent_id is None.
         :return: None
@@ -108,9 +106,8 @@ class TestGenerateMessage(unittest.TestCase):
         message_json = utils.generate_message_from_user(self.user, 0, 0, 0)
         self.assertNotEqual(message_json.context_id, context_id)
 
-    @patch("user.User.generate_message", return_value="hello world")
     def test_function_returns_message_json_with_same_context_id_from_passed_context_id_if_parent_id_is_not_None(
-            self, *_) -> None:
+            self) -> None:
         """
         Test that function returns message json with same context_id as passed context_id if parent_id is not None
         :return: None
