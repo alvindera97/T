@@ -271,6 +271,27 @@ class TestUserTestCase(unittest.TestCase):
         user_2, user_3 = User(), User()
         self.assertNotEqual(user_2.consumer, user_3.consumer)
 
+    def test_user_initialise_method_calls_methods_to_generate_get_producer_and_consumer_kafka_objects(
+            self) -> None:
+        """
+        Test that user initialise method calls methods to populate producer and consumer properties.
+        :return: None
+        """
+        with patch("user.user_def.AIOKafkaProducer", new_callable=lambda: type("")):
+            with patch("user.user_def.AIOKafkaConsumer", new_callable=lambda: type("")):
+                with patch.object(User, "_User__generate_producer_object") as gpo:
+                    with patch.object(User, "_User__generate_consumer_object") as gco:
+                        gpo.return_value = "producer object"
+                        gco.return_value = "consumer object"
+
+                        user_1 = User()
+
+                        gpo.assert_called_once()
+                        gco.assert_called_once()
+
+                        self.assertEqual(user_1.producer, "producer object")
+                        self.assertEqual(user_1.consumer, "consumer object")
+
 
 class TestUserAsyncioMethodsTestCase(unittest.IsolatedAsyncioTestCase):
     """
@@ -315,26 +336,3 @@ class TestUserAsyncioMethodsTestCase(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(generated_message, "some generated message")
 
         self.assertNotEqual(len(generated_message.strip()), 0)
-
-    async def test_user_initialise_method_calls_methods_to_generate_get_producer_and_consumer_kafka_objects(
-            self) -> None:
-        """
-        Test that user initialise method calls methods to populate producer and consumer objects
-         which in turn sets the appropriate values.
-        :return: None
-        """
-        with patch("user.user_def.AIOKafkaProducer", new_callable=lambda: type("")):
-            with patch("user.user_def.AIOKafkaConsumer", new_callable=lambda: type("")):
-                with patch("user.User._User__generate_producer_object") as gpo:
-                    with patch("user.User._User__generate_consumer_object") as gco:
-                        gpo.return_value = "producer object"
-                        gco.return_value = "consumer object"
-
-                        user_1 = User()
-                        await user_1.initialize()
-
-                        gpo.assert_called_once()
-                        gco.assert_called_once()
-
-                        self.assertEqual(user_1.producer, "producer object")
-                        self.assertEqual(user_1.consumer, "consumer object")
