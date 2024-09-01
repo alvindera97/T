@@ -160,3 +160,16 @@ class AsyncControllerTest(unittest.IsolatedAsyncioTestCase):
             pass
         except Exception as e:
             self.fail(f"Exception not expected from this test, raised exception is: {e}")
+
+    def test_that_on_init_of_controller_all_users_are_subscribed_to_group_chat_kafka_topic(self) -> None:
+        """
+        Test that on initialisation of application controller, all users are subscribed to the group chat
+        kafka topic.
+        :return: None
+        """
+        with patch("controller.controller_def.Controller.connect_ws", new_callable=lambda: AsyncMock()):
+            controller = Controller(random.randint(1, 10), self.ws_url)
+
+            for user in controller.participating_users:
+                self.assertEqual(len(user.consumer.subscription()), 1)
+                self.assertEqual(set(user.consumer.subscription()).pop(), os.getenv('TEST_CHAT_UUID').split("/")[-1])
