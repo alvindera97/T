@@ -8,7 +8,6 @@ Classes:
   TestUserTestCase
   TestUserAsyncioMethodsTestCase
 """
-import asyncio
 import inspect
 import unittest
 from collections import Counter
@@ -36,7 +35,6 @@ class TestUserTestCase(unittest.TestCase):
         """
         super().setUpClass()
         cls.user = User()
-        asyncio.run(cls.user.initialize())
 
     def setUp(self) -> None:
         """
@@ -239,8 +237,6 @@ class TestUserTestCase(unittest.TestCase):
         self.assertRaises(OperationNotAllowedException, delete_producer)
 
         user_2, user_3 = User(), User()
-        asyncio.run(user_2.initialize())
-        asyncio.run(user_3.initialize())
 
         self.assertNotEqual(user_2.producer, user_3.producer)
 
@@ -273,8 +269,6 @@ class TestUserTestCase(unittest.TestCase):
         self.assertRaises(OperationNotAllowedException, delete_consumer)
 
         user_2, user_3 = User(), User()
-        asyncio.run(user_2.initialize())
-        asyncio.run(user_3.initialize())
         self.assertNotEqual(user_2.consumer, user_3.consumer)
 
 
@@ -284,7 +278,6 @@ class TestUserAsyncioMethodsTestCase(unittest.IsolatedAsyncioTestCase):
     """
 
     user = User()
-    asyncio.run(user.initialize())
 
     async def test_static_method_creating_producer_objects(self) -> None:
         """

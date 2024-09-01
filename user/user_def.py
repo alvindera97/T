@@ -47,6 +47,11 @@ class User:
         self.display_picture_url = display_picture_url
         self.__producer = None
         self.__consumer = None
+        try:
+            loop = asyncio.get_running_loop()
+            loop.create_task(self.initialize())
+        except RuntimeError:
+            asyncio.run(self.initialize())
 
     async def initialize(self):
         """
@@ -170,8 +175,11 @@ class User:
         return message.text
 
     def __del__(self):
-        if isinstance(self.__consumer, AIOKafkaConsumer):
-            asyncio.run(self.consumer.stop())
-
-        if isinstance(self.__producer, AIOKafkaProducer):
-            asyncio.run(self.producer.stop())
+        if isinstance(self.__consumer, AIOKafkaConsumer) and isinstance(self.__producer, AIOKafkaProducer):
+            try:
+                loop = asyncio.get_running_loop()
+                loop.create_task(self.consumer.stop())
+                loop.create_task(self.producer.stop())
+            except RuntimeError:
+                asyncio.run(self.consumer.stop())
+                asyncio.run(self.producer.stop())
