@@ -50,6 +50,7 @@ class Controller:
 
     @property
     def websocket(self):
+        """Controller websocket getter."""
         return self.__websocket
 
     @websocket.setter
