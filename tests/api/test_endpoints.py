@@ -85,7 +85,7 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
         :return: None
         """
         previous_chat_count = self.session.query(Chat).count()
-        self.client.post("/set_up_chat/")
+        self.client.post("/set_up_chat/", json={"chat_context": "Hello world"})
 
         self.assertEqual(self.session.query(Chat).count(), previous_chat_count + 1)
 
@@ -108,7 +108,8 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
         :return: None
         """
         with patch("api.endpoints.endpoints.Controller"):
-            response = self.client.post("/set_up_chat/", follow_redirects=True)
+            response = self.client.post("/set_up_chat/", json={"chat_context": "Hello world"},
+                                        follow_redirects=True)
 
             self.assertEqual(f'chat/{[i for i in self.session.query(Chat)][-1].uuid.__str__()}',
                              '/'.join(response.url.__str__().split("/")[-2:]))
@@ -121,6 +122,18 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
         """
         with patch("api.endpoints.endpoints.Controller") as mock_application_controller:
             with patch("controller.controller_def.websockets"):
-                response = self.client.post("/set_up_chat/", follow_redirects=True)
+                response = self.client.post("/set_up_chat/",
+                                            json={'chat_context': "Hello world"},
+                                            follow_redirects=True)
                 mock_application_controller.assert_called_once_with(1, "ws://localhost:8000/" + "/".join(
-                    response.url.__str__().split("/")[-2:]))
+                    response.url.__str__().split("/")[-2:]), "Hello world")
+
+    def test_endpoint_takes_request_json_body_of_expected_type(self) -> None:
+        """
+        Test that endpoint takes json request body of expected type (currently SetUpChatRequestBody)
+        :return: None
+        """
+        with patch("api.endpoints.endpoints.Controller"):
+            with patch("controller.controller_def.websockets"):
+                response = self.client.post("/set_up_chat/", follow_redirects=True)
+                self.assertEqual(response.status_code, 422)

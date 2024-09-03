@@ -14,6 +14,7 @@ from starlette.responses import RedirectResponse
 
 from controller import Controller
 from database import db
+from json_defs.requests import json_request_body_defs as json
 from utils.functions import utility_functions
 
 app = FastAPI()
@@ -40,7 +41,7 @@ async def handle_chat(websocket: WebSocket, chat_uuid: uuid.UUID):
 
 
 @app.post("/set_up_chat", response_class=RedirectResponse, status_code=302)
-async def set_up_chat(session: Session = Depends(db.get_db)):
+async def set_up_chat(request_json_body: json.SetUpChatRequestBody, session: Session = Depends(db.get_db)):
     """
     Endpoint for setting up chat.
 
