@@ -51,6 +51,6 @@ async def set_up_chat(request_json_body: json.SetUpChatRequestBody, session: Ses
     chat_url = "chat/" + utility_functions.add_new_chat(session)
 
     # run blocking Controller function in separate thread.
-    executor.submit(Controller, 1, 'ws://localhost:8000/' + chat_url)
+    executor.submit(Controller, 1, 'ws://localhost:8000/' + chat_url, request_json_body.chat_context)
 
     return chat_url

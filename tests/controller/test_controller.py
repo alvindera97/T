@@ -32,6 +32,7 @@ class ApplicationControllerTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        cls.chat_context = "Some context"
         cls.ws_url = "ws://localhost:8000/chat/" + os.getenv('TEST_CHAT_UUID')
 
     def test_controller_constructor_has_array_of_unique_users_based_on_constructor_argument(self) -> None:
@@ -42,7 +43,7 @@ class ApplicationControllerTestCase(unittest.TestCase):
         """
         with patch("websockets.connect", new=AsyncMock()):
             number_of_participating_users = random.randint(2, 10)
-            controller = Controller(number_of_participating_users, self.ws_url)
+            controller = Controller(number_of_participating_users, self.ws_url, self.chat_context)
 
             self.assertEqual(len(set(controller.participating_users)), number_of_participating_users)
 
@@ -54,9 +55,10 @@ class ApplicationControllerTestCase(unittest.TestCase):
         :return: None
         """
         with patch("websockets.connect", new=AsyncMock()) as websockets_mock:
-            self.assertRaises(AssertionError, lambda: Controller(0, self.ws_url))
-            self.assertRaises(AssertionError, lambda: Controller(-1, self.ws_url))
-            self.assertRaises(AssertionError, lambda: Controller("0", self.ws_url))
+            self.assertRaises(AssertionError, lambda: Controller(0, self.ws_url, self.chat_context))
+            self.assertRaises(AssertionError, lambda: Controller(-1, self.ws_url, self.chat_context))
+            self.assertRaises(AssertionError, lambda: Controller("0", self.ws_url, self.chat_context))
+            self.assertRaises(AssertionError, lambda: Controller(2, self.ws_url, 0))
 
             websockets_mock.assert_not_called()
 
@@ -66,7 +68,7 @@ class ApplicationControllerTestCase(unittest.TestCase):
         :return: None
         """
         with patch("websockets.connect", new=AsyncMock()) as websockets_mock:
-            controller = Controller(2, self.ws_url)
+            controller = Controller(2, self.ws_url, self.chat_context)
 
             self.assertTrue(hasattr(controller, 'first_publisher'))
             self.assertEqual(controller.first_publisher.role, Role.PUBLISHER)
@@ -80,12 +82,25 @@ class ApplicationControllerTestCase(unittest.TestCase):
         :return:
         """
         with patch("websockets.connect", new=AsyncMock()) as websockets_mock:
-            controller = Controller(3, self.ws_url)
+            controller = Controller(3, self.ws_url, self.chat_context)
 
             self.assertTrue(hasattr(Controller, "ws_url"))
             self.assertEqual(Controller.ws_url, None)
             self.assertEqual(controller.ws_url, self.ws_url)
             websockets_mock.assert_called_once_with(self.ws_url)
+
+    def test_controller_has_string_chat_context_attribute_gotten_from_constructor(self) -> None:
+        """
+        Test that the controller has string chat context supplied by the constructor at initialisation.
+        :return: None
+        """
+
+        self.assertFalse(hasattr(Controller, "chat_context"))
+        self.assertRaises(TypeError, lambda: Controller(2, self.ws_url))
+
+        with patch("websockets.connect", new=AsyncMock()):
+            controller = Controller(3, self.ws_url, "Some chat context")
+            self.assertEqual(controller.chat_context, "Some chat context")
 
     def test_controller_connects_to_chat_websocket_on_init(self) -> None:
         """
@@ -93,7 +108,7 @@ class ApplicationControllerTestCase(unittest.TestCase):
         :return: None
         """
         with patch("websockets.connect", new=AsyncMock()) as websockets_mock:
-            Controller(3, self.ws_url)
+            Controller(3, self.ws_url, self.chat_context)
 
             websockets_mock.assert_called_once_with(self.ws_url)
 
@@ -102,12 +117,13 @@ class ApplicationControllerTestCase(unittest.TestCase):
         Test that controller fails to connect to the chat web socket on init when supplied with invalid url
         :return: None
         """
-        self.assertRaises(websockets.InvalidURI, Controller, 2, "some-invalid-uuid")
+        self.assertRaises(websockets.InvalidURI, Controller, 2, "some-invalid-uuid", self.chat_context)
 
 
 class AsyncControllerTest(unittest.IsolatedAsyncioTestCase):
     @classmethod
     def setUpClass(cls):
+        cls.chat_context = "Some context"
         cls.ws_url = ApplicationControllerTestCase.ws_url
 
     def test_controller_has_null_websocket_attribute_which_becomes_populated_on_connection(self) -> None:
@@ -120,7 +136,7 @@ class AsyncControllerTest(unittest.IsolatedAsyncioTestCase):
 
         with patch("websockets.connect", new=AsyncMock()) as websockets_mock:
             websockets_mock.return_value = websockets.WebSocketClientProtocol()
-            controller = Controller(2, self.ws_url)
+            controller = Controller(2, self.ws_url, self.chat_context)
 
             self.assertIsNotNone(controller.websocket)
             self.assertIsNotNone(controller._Controller__websocket)
@@ -139,7 +155,7 @@ class AsyncControllerTest(unittest.IsolatedAsyncioTestCase):
 
                 :return: This should ideally never return
                 """
-                Controller(2, self.ws_url).websocket = "invalid object"
+                Controller(2, self.ws_url, self.chat_context).websocket = "invalid object"
 
             self.assertRaises(AssertionError, f)
 
@@ -150,7 +166,7 @@ class AsyncControllerTest(unittest.IsolatedAsyncioTestCase):
         """
         try:
             with test_client.websocket_connect("/ws/" + os.getenv('TEST_CHAT_UUID')) as test_websocket_client:
-                controller = Controller(2, self.ws_url)
+                controller = Controller(2, self.ws_url, self.chat_context)
                 controller.connect_ws("hello world")
                 data = test_websocket_client.receive_text()
                 self.assertEqual(data, "hello world")
@@ -168,7 +184,7 @@ class AsyncControllerTest(unittest.IsolatedAsyncioTestCase):
         :return: None
         """
         with patch("controller.controller_def.Controller.connect_ws", new_callable=lambda: AsyncMock()):
-            controller = Controller(random.randint(1, 10), self.ws_url)
+            controller = Controller(random.randint(1, 10), self.ws_url, self.chat_context)
 
             for user in controller.participating_users:
                 self.assertEqual(len(user.consumer.subscription()), 1)

@@ -20,7 +20,7 @@ class Controller:
     ws_url = None
     __websocket: Optional[websockets.WebSocketClientProtocol] = None
 
-    def __init__(self, number_of_users: int, ws_url: str) -> None:
+    def __init__(self, number_of_users: int, ws_url: str, chat_context: str) -> None:
         """
         Constructor for Controller object.
 
@@ -28,12 +28,15 @@ class Controller:
         https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller
         :param number_of_users:  Number of users to participate in application lifecycle
         :param ws_url: Web socket url for Controller to interact with.
+        :param chat_context: Group chat context
         """
 
-        assert isinstance(number_of_users, int)
+        assert type(number_of_users) is int
+        assert type(chat_context) is str
         assert number_of_users > 0
 
         self.ws_url = ws_url
+        self.chat_context = chat_context
         chat_uuid = self.ws_url.split("/")[-1]
         self.participating_users: List[User] = [User() for _ in range(number_of_users)]
 
