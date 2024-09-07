@@ -6,12 +6,81 @@ Classes:
   WebSocketTestCase
 """
 import os
-from unittest.mock import patch
+import unittest
+from unittest.mock import patch, AsyncMock, Mock
 
 from fastapi.websockets import WebSocketDisconnect
+from starlette.testclient import TestClient
 
+from api.endpoints import app
 from models import Chat
 from tests.database import base
+
+
+class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase):
+    """
+    Test case class for application backend lifecycle.
+    """
+
+    # Notice of known issues with memory stream closure bugs discussed here: https://github.com/encode/starlette/discussions/2603
+
+    @patch("api.endpoints.endpoints.startup_apache_kafka")
+    async def test_kafka_starts_at_startup(self, startup_apache_kafka: Mock) -> None:
+        """
+        Test that apache kafka stated at backend startup
+
+        :param startup_apache_kafka: Mocked function to startup apache kafka.
+        :return: None
+        """
+        with TestClient(app):
+            startup_apache_kafka.assert_called_once()
+
+    @patch("api.endpoints.endpoints.start_apache_kafka_consumer", new_callable=AsyncMock)
+    async def test_kafka_consumer_starts_at_startup(self, start_apache_kafka_consumer: Mock) -> None:
+        """
+        Test that apache kafka consumer is started at backend startup.
+
+        :param start_apache_kafka_consumer: Mocked function to start apache kafka consumer
+        :return: None
+        """
+        with TestClient(app):
+            start_apache_kafka_consumer.assert_called_once()
+
+    @patch("api.endpoints.endpoints.start_apache_kafka_producer", new_callable=AsyncMock)
+    async def test_kafka_producer_for_chat_end_point_starts_at_startup(self, start_apache_kafka_producer: Mock) -> None:
+        """
+        Test that apache kafka producer is started at backend startup.
+
+        :param start_apache_kafka_producer: Mocked function to start apache kafka producer
+        :return: None
+        """
+        with TestClient(app):
+            start_apache_kafka_producer.assert_called_once()
+
+    @patch("api.endpoints.endpoints.shutdown_apache_kafka")
+    @patch("api.endpoints.endpoints.close_apache_kafka_consumer", new_callable=AsyncMock)
+    @patch("api.endpoints.endpoints.close_apache_kafka_producer", new_callable=AsyncMock)
+    async def test_kafka_producer_and_consumer_are_closed_at_shutdown(
+            self,
+            close_apache_producer: Mock,
+            close_apache_consumer: Mock,
+            shutdown_apache: Mock) -> None:
+        """
+        Test that apache kafka producer and consumer is closed at close of backend.
+
+        :param close_apache_producer: Mocked function closing the kafka producer
+        :param close_apache_consumer: Mocked function closing the kafka consumer
+        :param shutdown_apache: Mocked function for shutting down kafka
+        :return: None
+        """
+
+        with TestClient(app):
+            pass
+
+        close_apache_consumer.assert_called_once()
+        close_apache_producer.assert_called_once()
+
+        shutdown_apache.assert_called_once()
 
 
 class WebSocketTestCase(base.BaseTestDatabaseTestCase):

@@ -3,9 +3,11 @@ Websocket API module.
 
 This module contains method(s) defining application any web socket endpoint(s)
 """
+import asyncio
 import os
 import uuid
 from concurrent.futures.thread import ThreadPoolExecutor
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, WebSocket
 from fastapi.params import Depends
@@ -17,7 +19,72 @@ from database import db
 from json_defs.requests import json_request_body_defs as json
 from utils.functions import utility_functions
 
-app = FastAPI()
+
+async def start_apache_kafka_consumer():
+    """
+    Starts the Apache Kafka consumer
+    """
+    pass
+
+
+async def start_apache_kafka_producer():
+    """
+    Starts the Apache Kafka producer
+    """
+    pass
+
+
+async def close_apache_kafka_producer():
+    """
+    Closes the Apache Kafka producer
+    """
+    pass
+
+
+async def close_apache_kafka_consumer():
+    """
+    Closes the Apache Kafka consumer
+    """
+    pass
+
+
+def startup_apache_kafka():
+    """
+    Starts Apache Kafka
+    """
+    pass
+
+
+def shutdown_apache_kafka():
+    """
+    Shutdown Apache Kafka
+    """
+    pass
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Run start up and shut down operations for the server.
+
+    Code before the yield statement gets called before running server, while code after
+    the yield statement gets called during the closure of the server.
+    :param app: FastAPI app instance.
+    """
+
+    startup_apache_kafka()
+
+    app.state.consumer_task = await start_apache_kafka_consumer()
+    app.state.producer_task = await start_apache_kafka_producer()
+
+    yield
+
+    await asyncio.gather(close_apache_kafka_producer(), close_apache_kafka_consumer())
+
+    shutdown_apache_kafka()
+
+
+app = FastAPI(lifespan=lifespan)
 executor = ThreadPoolExecutor()
 
 
