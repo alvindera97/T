@@ -66,19 +66,38 @@ def startup_apache_kafka(fastapi_application: FastAPI):
         os.getenv("ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH")
     ]
 
-    process = subprocess.Popen(
+    zookeeper_process = subprocess.Popen(
         apache_kafka_zookeeper_startup_command,
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE
     )
 
-    if process.returncode is not None:  # We're not expecting zookeeper to stop and return a returncode.
+    if zookeeper_process.returncode is not None:  # We're not expecting zookeeper to stop and return a returncode.
         raise subprocess.CalledProcessError(
-            returncode=process.returncode,
+            returncode=zookeeper_process.returncode,
             cmd=apache_kafka_zookeeper_startup_command,
         )
 
-    fastapi_application.state.zookeeper_subprocess = process
+    # Start Apache Kafka server
+    apache_kafka_server_startup_command = [
+        os.getenv("APACHE_KAFKA_SERVER_START_EXECUTABLE_FULL_PATH"),
+        os.getenv("ZOOKEEPER_KAFKA_SERVER_PROPERTIES_FULL_PATH")
+    ]
+
+    apache_kafka_process = subprocess.Popen(
+        apache_kafka_server_startup_command,
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE
+    )
+
+    if apache_kafka_process.returncode is not None:
+        raise subprocess.CalledProcessError(
+            returncode=apache_kafka_process.returncode,
+            cmd=apache_kafka_zookeeper_startup_command
+        )
+
+    fastapi_application.state.zookeeper_subprocess = zookeeper_process
+    fastapi_application.state.kafka_server_subprocess = apache_kafka_process
 
 
 def shutdown_apache_kafka():

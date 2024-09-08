@@ -9,8 +9,9 @@ import os
 import subprocess
 import unittest
 from types import SimpleNamespace
-from unittest.mock import patch, AsyncMock, Mock
+from unittest.mock import patch, AsyncMock, Mock, call
 
+from fastapi import FastAPI
 from fastapi.websockets import WebSocketDisconnect
 from starlette.testclient import TestClient
 
@@ -115,8 +116,8 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
                 os.getenv("ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH")
             ]
 
-            self.mocked_subprocess_popen.assert_called_with(expected_command, stdin=self.mocked_subprocess_pipe,
-                                                            stdout=self.mocked_subprocess_pipe)
+            self.mocked_subprocess_popen.assert_has_calls([call(expected_command, stdin=self.mocked_subprocess_pipe,
+                                                                stdout=self.mocked_subprocess_pipe)])
 
     def test_startup_apache_kafka_function_raises_exception_on_failed_or_erroneous_startup(self) -> None:
         """
@@ -127,8 +128,103 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
 
         self.mocked_subprocess_popen.return_value = SimpleNamespace(communicate=lambda: (None, 0,), returncode=1)
 
+        self.assertRaises(subprocess.SubprocessError, startup_apache_kafka, app)
+
+    def test_startup_apache_kafka_function_starts_apache_kafka_server_after_successful_start_of_zookeeper(self) -> None:
+        """
+        Test that apache kafka startup function starts up apache kafka server after successfully starting zookeeper.
+        :return: None
+        """
+
+        apache_kafka_zookeeper_startup_command = [
+            os.getenv("APACHE_KAFKA_ZOOKEEPER_SERVER_START_EXECUTABLE_FULL_PATH"),
+            os.getenv("ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH")
+        ]
+
+        apache_kafka_server_startup_command = [
+            os.getenv("APACHE_KAFKA_SERVER_START_EXECUTABLE_FULL_PATH"),
+            os.getenv("ZOOKEEPER_KAFKA_SERVER_PROPERTIES_FULL_PATH")
+        ]
+
+        # Execution without errors/interrupts
+
+        startup_apache_kafka(app)
+
+        self.mocked_subprocess_popen.assert_has_calls([call(apache_kafka_zookeeper_startup_command,
+                                                            stdin=self.mocked_subprocess_pipe,
+                                                            stdout=self.mocked_subprocess_pipe),
+                                                       call(apache_kafka_server_startup_command,
+                                                            stdin=self.mocked_subprocess_pipe,
+                                                            stdout=self.mocked_subprocess_pipe)])
+
+        # Execution with errors/interrupts
+        self.mocked_subprocess_popen.return_value = SimpleNamespace(communicate=lambda: (None, 0,), returncode=1)
 
         self.assertRaises(subprocess.SubprocessError, startup_apache_kafka, app)
+
+        self.mocked_subprocess_popen.assert_called_with(apache_kafka_zookeeper_startup_command,
+                                                        stdin=self.mocked_subprocess_pipe,
+                                                        stdout=self.mocked_subprocess_pipe)  # we don't expect the call to startup kafka's server to happen here.
+
+    def test_startup_apache_kafka_function_raises_exception_on_erroneous_startup_to_kafka_server(self) -> None:
+        """
+        Test that an erroneous call to start Apache Kafka server will raise an exception and thus no further start up of
+        the backend server.
+
+        :return: None
+        """
+        apache_kafka_zookeeper_startup_command = [
+            os.getenv("APACHE_KAFKA_ZOOKEEPER_SERVER_START_EXECUTABLE_FULL_PATH"),
+            os.getenv("ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH")
+        ]
+
+        apache_kafka_server_startup_command = [
+            os.getenv("APACHE_KAFKA_SERVER_START_EXECUTABLE_FULL_PATH"),
+            os.getenv("ZOOKEEPER_KAFKA_SERVER_PROPERTIES_FULL_PATH")
+        ]
+
+        self.mocked_subprocess_popen.side_effect = [
+            SimpleNamespace(communicate=lambda: (None, 0,), returncode=None),
+            SimpleNamespace(communicate=lambda: (None, 0,), returncode=1)
+        ]
+
+        self.assertRaises(subprocess.SubprocessError, startup_apache_kafka, app)
+        self.mocked_subprocess_popen.assert_has_calls([call(apache_kafka_zookeeper_startup_command,
+                                                            stdin=self.mocked_subprocess_pipe,
+                                                            stdout=self.mocked_subprocess_pipe),
+                                                       call(apache_kafka_server_startup_command,
+                                                            stdin=self.mocked_subprocess_pipe,
+                                                            stdout=self.mocked_subprocess_pipe)])
+
+    # noinspection PyUnboundLocalVariable
+    def test_at_successful_end_of_apache_startup_there_are_state_attributes_set_for_kafka_zookeeper_and_server_processes(
+            self) -> None:
+        """
+        Test that after successful startup of apache kafka, there are state attributes set for kafka zookeeper and server processes
+        :return: None
+        """
+        try:
+            startup_apache_kafka(app)
+        except Exception as e:
+            self.fail(f"Exception raised during execution of apache kafka startup: {e}")
+
+        self.assertTrue(hasattr(app.state, "zookeeper_subprocess"))
+        self.assertTrue(hasattr(app.state, "kafka_server_subprocess"))
+
+        self.mocked_subprocess_popen.side_effect = [
+            SimpleNamespace(communicate=lambda: (None, 0,), returncode=None),
+            SimpleNamespace(communicate=lambda: (None, 0,), returncode=-1)
+        ]
+
+        try:
+            another_app = FastAPI()
+            startup_apache_kafka(another_app)
+        except subprocess.CalledProcessError:  # we're excepting this exception
+            self.assertFalse(hasattr(another_app.state, "zookeeper_subprocess"))
+            self.assertFalse(hasattr(another_app.state, "kafka_server_subprocess"))
+
+        except Exception as e:
+            self.fail(f"Unexpected exception: {e}")
 
 
 class WebSocketTestCase(base.BaseTestDatabaseTestCase):
