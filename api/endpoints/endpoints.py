@@ -137,7 +137,9 @@ def shutdown_apache_kafka(fastapi_application: FastAPI):
         stdout=subprocess.PIPE
     )
 
-    if apache_kafka_shutdown_process.returncode < 0:
+    if (
+            type(
+                apache_kafka_shutdown_process.returncode) is int and apache_kafka_shutdown_process.returncode < 0) or apache_kafka_shutdown_process.returncode is not None:  # if returncode is None, process didn't return immediately
         fastapi_application.state.kafka_server_subprocess.terminate()
         fastapi_application.state.zookeeper_subprocess.terminate()
         warnings.warn(
