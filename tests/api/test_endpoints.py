@@ -198,7 +198,6 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
                                                             stdin=self.mocked_subprocess_pipe,
                                                             stdout=self.mocked_subprocess_pipe)])
 
-    # noinspection PyUnboundLocalVariable
     def test_at_successful_end_of_apache_startup_there_are_state_attributes_set_for_kafka_zookeeper_and_server_processes(
             self) -> None:
         """
@@ -218,8 +217,9 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
             SimpleNamespace(returncode=-1)
         ]
 
+        another_app = FastAPI()
+
         try:
-            another_app = FastAPI()
             startup_apache_kafka(another_app)
         except subprocess.CalledProcessError:  # we're excepting this exception
             self.assertFalse(hasattr(another_app.state, "zookeeper_subprocess"))
