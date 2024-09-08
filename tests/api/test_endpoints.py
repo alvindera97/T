@@ -6,13 +6,16 @@ Classes:
   WebSocketTestCase
 """
 import os
+import subprocess
 import unittest
+from types import SimpleNamespace
 from unittest.mock import patch, AsyncMock, Mock
 
 from fastapi.websockets import WebSocketDisconnect
 from starlette.testclient import TestClient
 
 from api.endpoints import app
+from api.endpoints.endpoints import startup_apache_kafka
 from models import Chat
 from tests.database import base
 
@@ -24,16 +27,19 @@ class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase)
 
     # Notice of known issues with memory stream closure bugs discussed here: https://github.com/encode/starlette/discussions/2603
 
+    patch("subprocess.Popen",
+          return_value=SimpleNamespace(communicate=lambda: (None, 0,), returncode=0)).start()
+
     @patch("api.endpoints.endpoints.startup_apache_kafka")
-    async def test_kafka_starts_at_startup(self, startup_apache_kafka: Mock) -> None:
+    async def test_kafka_starts_at_startup(self, mocked_startup_apache_kafka: Mock) -> None:
         """
         Test that apache kafka stated at backend startup
 
-        :param startup_apache_kafka: Mocked function to startup apache kafka.
+        :param mocked_startup_apache_kafka: Mocked function to startup apache kafka.
         :return: None
         """
         with TestClient(app):
-            startup_apache_kafka.assert_called_once()
+            mocked_startup_apache_kafka.assert_called_once()
 
     @patch("api.endpoints.endpoints.start_apache_kafka_consumer", new_callable=AsyncMock)
     async def test_kafka_consumer_starts_at_startup(self, start_apache_kafka_consumer: Mock) -> None:
@@ -81,6 +87,48 @@ class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase)
         close_apache_producer.assert_called_once()
 
         shutdown_apache.assert_called_once()
+
+
+class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncioTestCase):
+    """
+    Test case class for testing functions called during start up and shut down of backend.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.mocked_subprocess_pipe: Mock = patch("subprocess.PIPE").start()
+
+    def setUp(self):
+        self.mocked_subprocess_popen: Mock = patch("subprocess.Popen",
+                                                   return_value=SimpleNamespace(communicate=lambda: (None, 0,),
+                                                                                returncode=None)).start()
+
+    def test_startup_apache_kafka_function_starts_apache_kafka_zookeeper(self) -> None:
+        """
+        Test that the function to start apache kafka starts Apache Kafka Zookeeper
+
+        :return: None
+        """
+        with TestClient(app):
+            expected_command = [
+                os.getenv("APACHE_KAFKA_ZOOKEEPER_SERVER_START_EXECUTABLE_FULL_PATH"),
+                os.getenv("ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH")
+            ]
+
+            self.mocked_subprocess_popen.assert_called_with(expected_command, stdin=self.mocked_subprocess_pipe,
+                                                            stdout=self.mocked_subprocess_pipe)
+
+    def test_startup_apache_kafka_function_raises_exception_on_failed_or_erroneous_startup(self) -> None:
+        """
+        Test that function to start apache kafka starts Apache Kafka Zookeeper raises exception if there's an erroneous start.
+
+        :return: None
+        """
+
+        self.mocked_subprocess_popen.return_value = SimpleNamespace(communicate=lambda: (None, 0,), returncode=1)
+
+
+        self.assertRaises(subprocess.SubprocessError, startup_apache_kafka, app)
 
 
 class WebSocketTestCase(base.BaseTestDatabaseTestCase):

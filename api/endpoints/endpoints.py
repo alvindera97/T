@@ -5,6 +5,7 @@ This module contains method(s) defining application any web socket endpoint(s)
 """
 import asyncio
 import os
+import subprocess
 import uuid
 from concurrent.futures.thread import ThreadPoolExecutor
 from contextlib import asynccontextmanager
@@ -48,11 +49,36 @@ async def close_apache_kafka_consumer():
     pass
 
 
-def startup_apache_kafka():
+def startup_apache_kafka(fastapi_application: FastAPI):
     """
     Starts Apache Kafka
+
+    It essentially does 2 things:
+    1. Starts zookeeper
+    2. Starts the apache kafka server.
+
+    :param fastapi_application: Instance of FastAPI application to set properties on.
     """
-    pass
+
+    # Start Apache Kafka Zookeeper
+    apache_kafka_zookeeper_startup_command = [
+        os.getenv("APACHE_KAFKA_ZOOKEEPER_SERVER_START_EXECUTABLE_FULL_PATH"),
+        os.getenv("ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH")
+    ]
+
+    process = subprocess.Popen(
+        apache_kafka_zookeeper_startup_command,
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE
+    )
+
+    if process.returncode is not None:  # We're not expecting zookeeper to stop and return a returncode.
+        raise subprocess.CalledProcessError(
+            returncode=process.returncode,
+            cmd=apache_kafka_zookeeper_startup_command,
+        )
+
+    fastapi_application.state.zookeeper_subprocess = process
 
 
 def shutdown_apache_kafka():
@@ -63,19 +89,19 @@ def shutdown_apache_kafka():
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(fastapi_application: FastAPI):
     """
     Run start up and shut down operations for the server.
 
     Code before the yield statement gets called before running server, while code after
     the yield statement gets called during the closure of the server.
-    :param app: FastAPI app instance.
+    :param fastapi_application: FastAPI app instance.
     """
 
-    startup_apache_kafka()
+    startup_apache_kafka(fastapi_application)
 
-    app.state.consumer_task = await start_apache_kafka_consumer()
-    app.state.producer_task = await start_apache_kafka_producer()
+    fastapi_application.state.consumer_task = await start_apache_kafka_consumer()
+    fastapi_application.state.producer_task = await start_apache_kafka_producer()
 
     yield
 
