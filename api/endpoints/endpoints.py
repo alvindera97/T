@@ -7,6 +7,7 @@ import asyncio
 import os
 import subprocess
 import uuid
+import warnings
 from concurrent.futures.thread import ThreadPoolExecutor
 from contextlib import asynccontextmanager
 
@@ -18,7 +19,15 @@ from starlette.responses import RedirectResponse
 from controller import Controller
 from database import db
 from json_defs.requests import json_request_body_defs as json
+from utils import exceptions
 from utils.functions import utility_functions
+
+
+class InelegantKafkaShutdownWarning(Warning):
+    """
+    Warning to indicate issues with shutdown of kafka
+    """
+    pass
 
 
 async def start_apache_kafka_consumer():
@@ -100,11 +109,50 @@ def startup_apache_kafka(fastapi_application: FastAPI):
     fastapi_application.state.kafka_server_subprocess = apache_kafka_process
 
 
-def shutdown_apache_kafka():
+def shutdown_apache_kafka(fastapi_application: FastAPI):
     """
-    Shutdown Apache Kafka
+    Shutdown Apache Kafka.
+
+    This is done with a trial and error method. If there is an error while attempting to close
+    with the official *-stop.sh executables, a terminate() call to the subprocesses that holds the already
+    started kafka zookeeper and server process will be called; a warning will also be issued
+
+    If kafka's server or zookeeper isn't running, OperationNotAllowedException will be raised.
     """
-    pass
+
+    if not hasattr(fastapi_application.state, "zookeeper_subprocess") or not hasattr(fastapi_application.state,
+                                                                                     "kafka_server_subprocess"):
+        raise exceptions.OperationNotAllowedException(
+            "You cannot shutdown apache kafka as there's none running for this instance of the server!")
+
+    apache_kafka_zookeeper_shutdown_command, apache_kafka_server_shutdown_command = [
+        os.getenv("APACHE_KAFKA_ZOOKEEPER_SERVER_STOP_EXECUTABLE_FULL_PATH"),
+    ], [
+        os.getenv("APACHE_KAFKA_SERVER_STOP_EXECUTABLE_FULL_PATH"),
+    ]
+
+    apache_kafka_shutdown_process = subprocess.Popen(
+        apache_kafka_server_shutdown_command,
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE
+    )
+
+    if apache_kafka_shutdown_process.returncode < 0:
+        fastapi_application.state.kafka_server_subprocess.terminate()
+        fastapi_application.state.zookeeper_subprocess.terminate()
+        warnings.warn(
+            "Kafka's Zookeeper and Server couldn't be closed via the official Kafka closure executables! A terminate() to their subprocesses was used instead.",
+            InelegantKafkaShutdownWarning)
+
+    # Here, we're fairly guaranteed that we can safely close the zookeeper server successfully.
+    else:
+        subprocess.Popen(
+            apache_kafka_zookeeper_shutdown_command,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE
+        )
+
+    return
 
 
 @asynccontextmanager
@@ -126,11 +174,10 @@ async def lifespan(fastapi_application: FastAPI):
 
     await asyncio.gather(close_apache_kafka_producer(), close_apache_kafka_consumer())
 
-    shutdown_apache_kafka()
+    shutdown_apache_kafka(fastapi_application)
 
 
-app = FastAPI(lifespan=lifespan)
-executor = ThreadPoolExecutor()
+app, executor = FastAPI(lifespan=lifespan), ThreadPoolExecutor()
 
 
 @app.websocket("/chat/{chat_uuid}")

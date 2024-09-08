@@ -16,9 +16,10 @@ from fastapi.websockets import WebSocketDisconnect
 from starlette.testclient import TestClient
 
 from api.endpoints import app
-from api.endpoints.endpoints import startup_apache_kafka
+from api.endpoints.endpoints import startup_apache_kafka, shutdown_apache_kafka, InelegantKafkaShutdownWarning
 from models import Chat
 from tests.database import base
+from utils import exceptions
 
 
 class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase):
@@ -226,6 +227,103 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
 
         except Exception as e:
             self.fail(f"Unexpected exception: {e}")
+
+    def test_shutdown_apache_kafka_raises_exception_if_existing_kafka_zookeeper_and_server_for_app_instance_is_non_existent(
+            self) -> None:
+        """
+        Test that the function to shut down Apache Kafka raises an exception if kafka zookeeper and or server don't exist for
+        the app instance upon which the shutdown was called with.
+
+        :return: None
+        """
+        another_app = FastAPI()
+        with self.assertRaises(exceptions.OperationNotAllowedException) as context:
+            shutdown_apache_kafka(another_app)
+
+        self.assertEqual(context.exception.__str__(),
+                         "You cannot shutdown apache kafka as there's none running for this instance of the server!")
+
+    @patch("subprocess.Popen")
+    def test_shutdown_apache_kafka_uses_subprocess_stop_if_there_is_an_error_with_using_the_official_kafka_stop_executables(
+            self, mocked_subprocess_popen: Mock) -> None:
+        """
+        Test that the function to shut down Apache Kafka uses subprocess termination
+        if there was an error with the official Kafka stop executables.
+        """
+        another_app = FastAPI()
+
+        apache_kafka_server_shutdown_command = [
+            os.getenv("APACHE_KAFKA_SERVER_STOP_EXECUTABLE_FULL_PATH"),
+        ]
+
+        first_popen_instance = Mock()
+        first_popen_instance.returncode = None
+        first_popen_instance.terminate = Mock()
+
+        second_popen_instance = Mock()
+        second_popen_instance.returncode = None
+        second_popen_instance.terminate = Mock()
+
+        failing_popen_instance = Mock()
+        failing_popen_instance.returncode = -1  # Third call should indicate an error
+
+        mocked_subprocess_popen.side_effect = [
+            first_popen_instance,
+            second_popen_instance,
+            failing_popen_instance
+        ]
+
+        # Start and then shut down Kafka
+        startup_apache_kafka(another_app)
+        shutdown_apache_kafka(another_app)
+
+        mocked_subprocess_popen.assert_has_calls([
+            call(apache_kafka_server_shutdown_command, stdin=self.mocked_subprocess_pipe,
+                 stdout=self.mocked_subprocess_pipe),
+        ])
+
+        first_popen_instance.terminate.assert_called_once()
+        second_popen_instance.terminate.assert_called_once()
+
+    @patch("subprocess.Popen")
+    def test_shutdown_apache_kafka_raises_warning_on_erroneous_official_kafka_shutdown_executable_call(self,
+                                                                                                       mocked_subprocess_popen) -> None:
+        """
+        Test that function to shut down Apache Kafka raises warning if there was an error while executing subprocess to
+        run official kafka shutdown executables.
+        :return: None
+        """
+        another_app = FastAPI()
+
+        apache_kafka_server_shutdown_command = [
+            os.getenv("APACHE_KAFKA_SERVER_STOP_EXECUTABLE_FULL_PATH"),
+        ]
+
+        first_popen_instance = Mock()
+        first_popen_instance.returncode = None
+        first_popen_instance.terminate = Mock()
+
+        second_popen_instance = Mock()
+        second_popen_instance.returncode = None
+        second_popen_instance.terminate = Mock()
+
+        failing_popen_instance = Mock()
+        failing_popen_instance.returncode = -1  # Third call should indicate an error
+
+        mocked_subprocess_popen.side_effect = [
+            first_popen_instance,
+            second_popen_instance,
+            failing_popen_instance
+        ]
+
+        # Start and then shut down Kafka
+        startup_apache_kafka(another_app)
+
+        with self.assertWarns(InelegantKafkaShutdownWarning) as context:
+            shutdown_apache_kafka(another_app)
+
+        self.assertEqual(context.warning.__str__(),
+                         "Kafka's Zookeeper and Server couldn't be closed via the official Kafka closure executables! A terminate() to their subprocesses was used instead.")
 
 
 class WebSocketTestCase(base.BaseTestDatabaseTestCase):
