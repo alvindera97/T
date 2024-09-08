@@ -296,10 +296,6 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         """
         another_app = FastAPI()
 
-        apache_kafka_server_shutdown_command = [
-            os.getenv("APACHE_KAFKA_SERVER_STOP_EXECUTABLE_FULL_PATH"),
-        ]
-
         first_popen_instance = Mock()
         first_popen_instance.returncode = None
         first_popen_instance.terminate = Mock()
