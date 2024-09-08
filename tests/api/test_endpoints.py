@@ -31,6 +31,8 @@ class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase)
     patch("subprocess.Popen",
           return_value=SimpleNamespace(returncode=0)).start()
 
+    patch("api.endpoints.endpoints.shutdown_apache_kafka").start()
+
     @patch("api.endpoints.endpoints.startup_apache_kafka")
     async def test_kafka_starts_at_startup(self, mocked_startup_apache_kafka: Mock) -> None:
         """
