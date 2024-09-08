@@ -324,7 +324,7 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
             shutdown_apache_kafka(another_app)
 
         self.assertEqual(context.warning.__str__(),
-                         "Kafka's Zookeeper and Server couldn't be closed via the official Kafka closure executables! A terminate() to their subprocesses was used instead.")
+                         "Kafka's Zookeeper and Server couldn't be closed via the official Kafka closure executables! A subprocess.Popen.terminate() to their subprocesses was used instead.")
 
 
 class WebSocketTestCase(base.BaseTestDatabaseTestCase):

@@ -143,7 +143,7 @@ def shutdown_apache_kafka(fastapi_application: FastAPI):
         fastapi_application.state.kafka_server_subprocess.terminate()
         fastapi_application.state.zookeeper_subprocess.terminate()
         warnings.warn(
-            "Kafka's Zookeeper and Server couldn't be closed via the official Kafka closure executables! A terminate() to their subprocesses was used instead.",
+            "Kafka's Zookeeper and Server couldn't be closed via the official Kafka closure executables! A subprocess.Popen.terminate() to their subprocesses was used instead.",
             InelegantKafkaShutdownWarning)
 
     # Here, we're fairly guaranteed that we can safely close the zookeeper server successfully.
