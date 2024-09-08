@@ -243,9 +243,10 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         self.assertEqual(context.exception.__str__(),
                          "You cannot shutdown apache kafka as there's none running for this instance of the server!")
 
+    @patch("warnings.warn")
     @patch("subprocess.Popen")
     def test_shutdown_apache_kafka_uses_subprocess_stop_if_there_is_an_error_with_using_the_official_kafka_stop_executables(
-            self, mocked_subprocess_popen: Mock) -> None:
+            self, mocked_subprocess_popen: Mock, *_) -> None:
         """
         Test that the function to shut down Apache Kafka uses subprocess termination
         if there was an error with the official Kafka stop executables.
