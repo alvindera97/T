@@ -29,7 +29,7 @@ class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase)
     # Notice of known issues with memory stream closure bugs discussed here: https://github.com/encode/starlette/discussions/2603
 
     patch("subprocess.Popen",
-          return_value=SimpleNamespace(communicate=lambda: (None, 0,), returncode=0)).start()
+          return_value=SimpleNamespace(returncode=0)).start()
 
     @patch("api.endpoints.endpoints.startup_apache_kafka")
     async def test_kafka_starts_at_startup(self, mocked_startup_apache_kafka: Mock) -> None:
@@ -101,8 +101,7 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
 
     def setUp(self):
         self.mocked_subprocess_popen: Mock = patch("subprocess.Popen",
-                                                   return_value=SimpleNamespace(communicate=lambda: (None, 0,),
-                                                                                returncode=None)).start()
+                                                   return_value=SimpleNamespace(returncode=None)).start()
 
     def test_startup_apache_kafka_function_starts_apache_kafka_zookeeper(self) -> None:
         """
@@ -126,7 +125,7 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         :return: None
         """
 
-        self.mocked_subprocess_popen.return_value = SimpleNamespace(communicate=lambda: (None, 0,), returncode=1)
+        self.mocked_subprocess_popen.return_value = SimpleNamespace(returncode=1)
 
         self.assertRaises(subprocess.SubprocessError, startup_apache_kafka, app)
 
@@ -158,7 +157,7 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
                                                             stdout=self.mocked_subprocess_pipe)])
 
         # Execution with errors/interrupts
-        self.mocked_subprocess_popen.return_value = SimpleNamespace(communicate=lambda: (None, 0,), returncode=1)
+        self.mocked_subprocess_popen.return_value = SimpleNamespace(returncode=1)
 
         self.assertRaises(subprocess.SubprocessError, startup_apache_kafka, app)
 
@@ -184,8 +183,8 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         ]
 
         self.mocked_subprocess_popen.side_effect = [
-            SimpleNamespace(communicate=lambda: (None, 0,), returncode=None),
-            SimpleNamespace(communicate=lambda: (None, 0,), returncode=1)
+            SimpleNamespace(returncode=None),
+            SimpleNamespace(returncode=1)
         ]
 
         self.assertRaises(subprocess.SubprocessError, startup_apache_kafka, app)
@@ -212,8 +211,8 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         self.assertTrue(hasattr(app.state, "kafka_server_subprocess"))
 
         self.mocked_subprocess_popen.side_effect = [
-            SimpleNamespace(communicate=lambda: (None, 0,), returncode=None),
-            SimpleNamespace(communicate=lambda: (None, 0,), returncode=-1)
+            SimpleNamespace(returncode=None),
+            SimpleNamespace(returncode=-1)
         ]
 
         try:
