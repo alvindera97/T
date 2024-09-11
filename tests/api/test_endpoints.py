@@ -8,6 +8,7 @@ Classes:
 import os
 import subprocess
 import unittest
+import warnings
 from types import SimpleNamespace
 from unittest.mock import patch, AsyncMock, Mock, call
 
@@ -16,7 +17,10 @@ from fastapi.websockets import WebSocketDisconnect
 from starlette.testclient import TestClient
 
 from api.endpoints import app
-from api.endpoints.endpoints import startup_apache_kafka, shutdown_apache_kafka, InelegantKafkaShutdownWarning
+from api.endpoints.endpoints import (
+    startup_apache_kafka, shutdown_apache_kafka,
+    InelegantKafkaShutdownWarning, start_apache_kafka_producer, MultipleKafkaProducerStartWarning
+)
 from models import Chat
 from tests.database import base
 from utils import exceptions
@@ -46,15 +50,16 @@ class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase)
             mocked_startup_apache_kafka.assert_called_once()
 
     @patch("api.endpoints.endpoints.start_apache_kafka_producer", new_callable=AsyncMock)
-    async def test_kafka_producer_for_chat_end_point_starts_at_startup(self, start_apache_kafka_producer: Mock) -> None:
+    async def test_kafka_producer_for_chat_end_point_starts_at_startup(self,
+                                                                       mocked_start_apache_kafka_producer: Mock) -> None:
         """
         Test that apache kafka producer is started at backend startup.
 
-        :param start_apache_kafka_producer: Mocked function to start apache kafka producer
+        :param mocked_start_apache_kafka_producer: Mocked function to start apache kafka producer
         :return: None
         """
         with TestClient(app):
-            start_apache_kafka_producer.assert_called_once()
+            mocked_start_apache_kafka_producer.assert_called_once()
 
     @patch("api.endpoints.endpoints.shutdown_apache_kafka")
     @patch("api.endpoints.endpoints.close_apache_kafka_producer", new_callable=AsyncMock)
@@ -78,6 +83,7 @@ class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase)
         shutdown_apache.assert_called_once()
 
 
+# noinspection PyPep8Naming
 class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncioTestCase):
     """
     Test case class for testing functions called during start up and shut down of backend.
@@ -87,9 +93,22 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
     def setUpClass(cls):
         cls.mocked_subprocess_pipe: Mock = patch("subprocess.PIPE").start()
 
+        warnings.simplefilter("ignore", category=InelegantKafkaShutdownWarning)
+        warnings.simplefilter("ignore", category=MultipleKafkaProducerStartWarning)
+
     def setUp(self):
+        self.ModifiedAsyncMock = AsyncMock()
+        self.ModifiedAsyncMock.start = AsyncMock()
+
         self.mocked_subprocess_popen: Mock = patch("subprocess.Popen",
                                                    return_value=SimpleNamespace(returncode=None)).start()
+
+        self.mocked_AIOKafkaProducer = patch("api.endpoints.endpoints.AIOKafkaProducer",
+                                             return_value=self.ModifiedAsyncMock).start()
+        # self.mocked_AIOKafkaProducer.start = f
+
+    def tearDown(self):
+        app.state._state.clear()
 
     def test_startup_apache_kafka_function_starts_apache_kafka_zookeeper(self) -> None:
         """
@@ -306,6 +325,67 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
 
         self.assertEqual(context.warning.__str__(),
                          "Kafka's Zookeeper and Server couldn't be closed via the official Kafka closure executables! A subprocess.Popen.terminate() to their subprocesses was used instead.")
+
+    @patch("api.endpoints.endpoints.start_apache_kafka_producer")
+    def test_start_apache_kafka_producer_takes_a_fastapi_object_argument(self,
+                                                                         mocked_start_apache_kafka_producer: Mock) -> None:
+        """
+        Test that function to start apache kafka producer takes FastAPI app instance argument.
+
+        :param mocked_start_apache_kafka_producer: Mocked start_apache_kafka_producer() object.
+        :return: None
+        """
+
+        with TestClient(app):
+            mocked_start_apache_kafka_producer.assert_called_once_with(app)
+
+    def test_start_apache_kafka_producer_sets_fastapi_app_kafka_producer_attribute(self) -> None:
+        """
+        Test that function to start apache kafka producer sets the fastapi state kafka_producer attribute.
+
+        :return: None
+        """
+        with TestClient(app):
+            self.assertIsNotNone(app.state.kafka_producer)
+
+    async def test_start_apache_kafka_producer_does_not_recreate_another_producer_on_the_same_instance_of_fastapi(
+            self) -> None:
+        """
+        Test that function to start apache kafka producer does not create more than one for a single fastapi app instance.
+
+        :return: None
+        """
+
+        with TestClient(app):
+            with self.assertWarns(MultipleKafkaProducerStartWarning) as context:
+                await start_apache_kafka_producer(app)
+
+            expected_warning_text = f"There's an existing kafka producer for this app instance: {hex(id(app))}"
+
+            if context.warning.__str__() != expected_warning_text:
+                self.fail(
+                    f"Improper handling of repeated start of kafka producer for app instance\nexpected: {expected_warning_text}\nactual: {context.warning.__str__()}")
+
+            self.mocked_AIOKafkaProducer.assert_called_once()
+
+    async def test_start_apache_kafka_producer_starts_AIOKafkaProducer_with_expected_argument_for_boostrap_servers(
+            self) -> None:
+        """
+        Test that function to start apache kafka producer starts AIOKafkaProducer with expected values.
+        :return: None
+        """
+
+        with TestClient(app):
+            self.mocked_AIOKafkaProducer.assert_called_once_with(
+                bootstrap_servers=f'{os.getenv("APACHE_KAFKA_BOOTSTRAP_SERVER_HOST")}:{os.getenv("APACHE_KAFKA_BOOTSTRAP_SERVER_PORT")}')
+
+    def test_start_apache_kafka_producer_starts_the_kafka_producer(self) -> None:
+        """
+        Test that function to start apache kafka producer calls .start() on the AIOKafkaProducer object.
+        :return: None
+        """
+        with TestClient(app):
+            self.mocked_AIOKafkaProducer().start.assert_called_once()
 
 
 class WebSocketTestCase(base.BaseTestDatabaseTestCase):

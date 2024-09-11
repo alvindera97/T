@@ -3,7 +3,6 @@ Websocket API module.
 
 This module contains method(s) defining application any web socket endpoint(s)
 """
-import asyncio
 import os
 import subprocess
 import uuid
@@ -11,6 +10,7 @@ import warnings
 from concurrent.futures.thread import ThreadPoolExecutor
 from contextlib import asynccontextmanager
 
+from aiokafka import AIOKafkaProducer
 from fastapi import FastAPI, WebSocket
 from fastapi.params import Depends
 from sqlalchemy.orm import Session
@@ -30,11 +30,28 @@ class InelegantKafkaShutdownWarning(Warning):
     pass
 
 
-async def start_apache_kafka_producer():
+class MultipleKafkaProducerStartWarning(Warning):
     """
-    Starts the Apache Kafka producer
+    Warning to indicate attempt to start kafka producer on app with existing kafka producer.
     """
     pass
+
+
+async def start_apache_kafka_producer(fastapi_application: FastAPI):
+    """
+    Starts the Apache Kafka producer
+
+    :param fastapi_application: Instance of FastAPI application to set properties on.
+    """
+    if hasattr(fastapi_application.state, 'kafka_producer'):
+        warnings.warn(f"There's an existing kafka producer for this app instance: {hex(id(fastapi_application))}",
+                      MultipleKafkaProducerStartWarning)
+        return
+
+    fastapi_application.state.kafka_producer = AIOKafkaProducer(
+        bootstrap_servers=f'{os.getenv("APACHE_KAFKA_BOOTSTRAP_SERVER_HOST")}:{os.getenv("APACHE_KAFKA_BOOTSTRAP_SERVER_PORT")}')
+
+    await fastapi_application.state.kafka_producer.start()
 
 
 async def close_apache_kafka_producer():
@@ -155,7 +172,7 @@ async def lifespan(fastapi_application: FastAPI):
 
     startup_apache_kafka(fastapi_application)
 
-    fastapi_application.state.producer_task = await start_apache_kafka_producer()
+    await start_apache_kafka_producer(fastapi_application)
 
     yield
 
