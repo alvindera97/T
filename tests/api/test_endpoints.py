@@ -45,17 +45,6 @@ class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase)
         with TestClient(app):
             mocked_startup_apache_kafka.assert_called_once()
 
-    @patch("api.endpoints.endpoints.start_apache_kafka_consumer", new_callable=AsyncMock)
-    async def test_kafka_consumer_starts_at_startup(self, start_apache_kafka_consumer: Mock) -> None:
-        """
-        Test that apache kafka consumer is started at backend startup.
-
-        :param start_apache_kafka_consumer: Mocked function to start apache kafka consumer
-        :return: None
-        """
-        with TestClient(app):
-            start_apache_kafka_consumer.assert_called_once()
-
     @patch("api.endpoints.endpoints.start_apache_kafka_producer", new_callable=AsyncMock)
     async def test_kafka_producer_for_chat_end_point_starts_at_startup(self, start_apache_kafka_producer: Mock) -> None:
         """
@@ -68,18 +57,15 @@ class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase)
             start_apache_kafka_producer.assert_called_once()
 
     @patch("api.endpoints.endpoints.shutdown_apache_kafka")
-    @patch("api.endpoints.endpoints.close_apache_kafka_consumer", new_callable=AsyncMock)
     @patch("api.endpoints.endpoints.close_apache_kafka_producer", new_callable=AsyncMock)
     async def test_kafka_producer_and_consumer_are_closed_at_shutdown(
             self,
             close_apache_producer: Mock,
-            close_apache_consumer: Mock,
             shutdown_apache: Mock) -> None:
         """
         Test that apache kafka producer and consumer is closed at close of backend.
 
         :param close_apache_producer: Mocked function closing the kafka producer
-        :param close_apache_consumer: Mocked function closing the kafka consumer
         :param shutdown_apache: Mocked function for shutting down kafka
         :return: None
         """
@@ -87,7 +73,6 @@ class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase)
         with TestClient(app):
             pass
 
-        close_apache_consumer.assert_called_once()
         close_apache_producer.assert_called_once()
 
         shutdown_apache.assert_called_once()

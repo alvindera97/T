@@ -30,13 +30,6 @@ class InelegantKafkaShutdownWarning(Warning):
     pass
 
 
-async def start_apache_kafka_consumer():
-    """
-    Starts the Apache Kafka consumer
-    """
-    pass
-
-
 async def start_apache_kafka_producer():
     """
     Starts the Apache Kafka producer
@@ -47,13 +40,6 @@ async def start_apache_kafka_producer():
 async def close_apache_kafka_producer():
     """
     Closes the Apache Kafka producer
-    """
-    pass
-
-
-async def close_apache_kafka_consumer():
-    """
-    Closes the Apache Kafka consumer
     """
     pass
 
@@ -169,12 +155,11 @@ async def lifespan(fastapi_application: FastAPI):
 
     startup_apache_kafka(fastapi_application)
 
-    fastapi_application.state.consumer_task = await start_apache_kafka_consumer()
     fastapi_application.state.producer_task = await start_apache_kafka_producer()
 
     yield
 
-    await asyncio.gather(close_apache_kafka_producer(), close_apache_kafka_consumer())
+    await close_apache_kafka_producer()
 
     shutdown_apache_kafka(fastapi_application)
 
