@@ -115,7 +115,7 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         with TestClient(app):
             expected_command = [
                 os.getenv("APACHE_KAFKA_ZOOKEEPER_SERVER_START_EXECUTABLE_FULL_PATH"),
-                os.getenv("ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH")
+                os.getenv("APACHE_KAFKA_ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH")
             ]
 
             self.mocked_subprocess_popen.assert_has_calls([call(expected_command, stdin=self.mocked_subprocess_pipe,
@@ -140,7 +140,7 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
 
         apache_kafka_zookeeper_startup_command = [
             os.getenv("APACHE_KAFKA_ZOOKEEPER_SERVER_START_EXECUTABLE_FULL_PATH"),
-            os.getenv("ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH")
+            os.getenv("APACHE_KAFKA_ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH")
         ]
 
         apache_kafka_server_startup_command = [
@@ -177,7 +177,7 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         """
         apache_kafka_zookeeper_startup_command = [
             os.getenv("APACHE_KAFKA_ZOOKEEPER_SERVER_START_EXECUTABLE_FULL_PATH"),
-            os.getenv("ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH")
+            os.getenv("APACHE_KAFKA_ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH")
         ]
 
         apache_kafka_server_startup_command = [
