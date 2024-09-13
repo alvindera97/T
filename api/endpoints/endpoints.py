@@ -4,6 +4,7 @@ Websocket API module.
 This module contains method(s) defining application any web socket endpoint(s)
 """
 import os
+import time
 import subprocess
 import uuid
 import warnings
@@ -43,10 +44,13 @@ async def start_apache_kafka_producer(fastapi_application: FastAPI):
 
     :param fastapi_application: Instance of FastAPI application to set properties on.
     """
+
     if hasattr(fastapi_application.state, 'kafka_producer'):
         warnings.warn(f"There's an existing kafka producer for this app instance: {hex(id(fastapi_application))}",
                       MultipleKafkaProducerStartWarning)
         return
+
+    time.sleep(10)
 
     fastapi_application.state.kafka_producer = AIOKafkaProducer(
         bootstrap_servers=f'{os.getenv("APACHE_KAFKA_BOOTSTRAP_SERVER_HOST")}:{os.getenv("APACHE_KAFKA_BOOTSTRAP_SERVER_PORT")}')
