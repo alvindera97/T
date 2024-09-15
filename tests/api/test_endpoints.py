@@ -163,9 +163,18 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
                                              return_value=self.ModifiedAsyncMock).start()
 
         self.mocked_select_select = patch("select.select", return_value=(
-            [SimpleNamespace(readline=lambda: "first"),
-             SimpleNamespace(readline=lambda: "binding to port 0.0.0.0/0.0.0.0:2181"), ], ["second"],
-            ["third"],)).start()
+            [
+                SimpleNamespace(readline=lambda: "first"),
+                SimpleNamespace(readline=lambda: "binding to port 0.0.0.0/0.0.0.0:2181"),
+                SimpleNamespace(readline=lambda: "started (kafka.server.KafkaServer)"),
+            ],
+            [
+                "second"
+            ],
+            [
+                "third"
+            ],
+        )).start()
 
     def tearDown(self):
         app.state._state.clear()
