@@ -129,21 +129,21 @@ def startup_apache_kafka(fastapi_application: FastAPI):
         os.getenv("APACHE_KAFKA_SERVER_PROPERTIES_FULL_PATH")
     ]
 
-    apache_kafka_process = subprocess.Popen(
+    apache_kafka_server_startup_process = subprocess.Popen(
         apache_kafka_server_startup_command,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True
     )
 
-    if apache_kafka_process.returncode is not None:
+    if apache_kafka_server_startup_process.returncode is not None:
         raise subprocess.CalledProcessError(
-            returncode=apache_kafka_process.returncode,
+            returncode=apache_kafka_server_startup_process.returncode,
             cmd=apache_kafka_zookeeper_startup_command
         )
 
     fastapi_application.state.zookeeper_subprocess = zookeeper_process
-    fastapi_application.state.kafka_server_subprocess = apache_kafka_process
+    fastapi_application.state.kafka_server_subprocess = apache_kafka_server_startup_process
 
 
 def shutdown_apache_kafka(fastapi_application: FastAPI):
