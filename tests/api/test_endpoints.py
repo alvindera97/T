@@ -29,14 +29,25 @@ patcher = None
 
 
 def setUpModule():
-    global patcher
+    """
+    Function containing executions before tests in module are run.
+    :return:
+    """
+    global timedotsleep_patcher, eventlet_timeout_patcher
+
+    timedotsleep_patcher = patch("time.sleep")
+    eventlet_timeout_patcher = patch("api.endpoints.endpoints.eventlet.Timeout")
 
     patcher = patch("time.sleep")
     patcher.start()
 
 
 def tearDownModule():
-    global patcher
+    """
+    Function containing executions after tests in module are ran.
+    :return:
+    """
+    global timedotsleep_patcher, eventlet_timeout_patcher
 
     patcher.stop()
 
