@@ -125,6 +125,10 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
     def tearDown(self):
         app.state._state.clear()
 
+        self.mocked_subprocess_popen.stop()
+        self.mocked_subprocess_pipe.stop()
+        self.mocked_select_select.stop()
+
     def test_startup_apache_kafka_function_starts_apache_kafka_zookeeper(self) -> None:
         """
         Test that the function to start apache kafka starts Apache Kafka Zookeeper
