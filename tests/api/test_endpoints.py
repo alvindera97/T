@@ -67,10 +67,27 @@ class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase)
 
     # Notice of known issues with memory stream closure bugs discussed here: https://github.com/encode/starlette/discussions/2603
 
-    patch("subprocess.Popen",
-          return_value=SimpleNamespace(returncode=0)).start()
+    def setUp(self):
+        patch("subprocess.Popen",
+              return_value=SimpleNamespace(returncode=None, stdout=0, stderr=0, kill=lambda: None)).start()
 
-    patch("api.endpoints.endpoints.shutdown_apache_kafka").start()
+        patch("api.endpoints.endpoints.shutdown_apache_kafka").start()
+        patch("api.endpoints.endpoints.eventlet.Timeout",
+              side_effect=[True, False, True, False]).start()
+
+        patch("select.select", return_value=(
+            [
+                SimpleNamespace(readline=lambda: "first"),
+                SimpleNamespace(readline=lambda: "binding to port 0.0.0.0/0.0.0.0:2181"),
+                SimpleNamespace(readline=lambda: "started (kafka.server.KafkaServer)"),
+            ],
+            [
+                "second"
+            ],
+            [
+                "third"
+            ],
+        )).start()
 
     @patch("api.endpoints.endpoints.startup_apache_kafka")
     async def test_kafka_starts_at_startup(self, mocked_startup_apache_kafka: Mock) -> None:
