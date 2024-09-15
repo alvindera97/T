@@ -203,9 +203,9 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         :return: None
         """
 
-        apache_kafka_server_startup_command = [
-            os.getenv("APACHE_KAFKA_SERVER_START_EXECUTABLE_FULL_PATH"),
-            os.getenv("ZOOKEEPER_KAFKA_SERVER_PROPERTIES_FULL_PATH")
+        apache_kafka_zookeeper_startup_command = [
+            os.getenv("APACHE_KAFKA_ZOOKEEPER_SERVER_START_EXECUTABLE_FULL_PATH"),
+            os.getenv("APACHE_KAFKA_ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH")
         ]
 
         another_app = FastAPI()
@@ -236,7 +236,7 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         """
         apache_kafka_server_startup_command = [
             os.getenv("APACHE_KAFKA_SERVER_START_EXECUTABLE_FULL_PATH"),
-            os.getenv("ZOOKEEPER_KAFKA_SERVER_PROPERTIES_FULL_PATH")
+            os.getenv("APACHE_KAFKA_SERVER_PROPERTIES_FULL_PATH")
         ]
 
         another_app = FastAPI()
@@ -282,7 +282,7 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
 
         apache_kafka_server_startup_command = [
             os.getenv("APACHE_KAFKA_SERVER_START_EXECUTABLE_FULL_PATH"),
-            os.getenv("ZOOKEEPER_KAFKA_SERVER_PROPERTIES_FULL_PATH")
+            os.getenv("APACHE_KAFKA_SERVER_PROPERTIES_FULL_PATH")
         ]
 
         # Execution without errors/interrupts
@@ -323,7 +323,7 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
 
         apache_kafka_server_startup_command = [
             os.getenv("APACHE_KAFKA_SERVER_START_EXECUTABLE_FULL_PATH"),
-            os.getenv("ZOOKEEPER_KAFKA_SERVER_PROPERTIES_FULL_PATH")
+            os.getenv("APACHE_KAFKA_SERVER_PROPERTIES_FULL_PATH")
         ]
 
         self.mocked_subprocess_popen.side_effect = [

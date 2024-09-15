@@ -126,7 +126,7 @@ def startup_apache_kafka(fastapi_application: FastAPI):
     # Start Apache Kafka server
     apache_kafka_server_startup_command = [
         os.getenv("APACHE_KAFKA_SERVER_START_EXECUTABLE_FULL_PATH"),
-        os.getenv("ZOOKEEPER_KAFKA_SERVER_PROPERTIES_FULL_PATH")
+        os.getenv("APACHE_KAFKA_SERVER_PROPERTIES_FULL_PATH")
     ]
 
     apache_kafka_process = subprocess.Popen(
