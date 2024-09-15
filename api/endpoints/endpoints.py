@@ -136,6 +136,32 @@ def startup_apache_kafka(fastapi_application: FastAPI):
         text=True
     )
 
+    while eventlet.Timeout(int(os.getenv("APACHE_KAFKA_MAX_STARTUP_WAIT_TIME_SECS"))):
+        breakout = False
+        reads = [apache_kafka_server_startup_process.stdout, apache_kafka_server_startup_process.stderr]
+        ready_to_read, _, _ = select.select(reads, [], [], 0.1)
+
+        for pipe in ready_to_read:
+            output = pipe.readline()
+
+            if output:
+                print(output.strip())
+
+                if "started (kafka.server.KafkaServer)" in output.strip():
+                    print("\nSUCCESSFULLY STARTED APACHE KAFKA SERVER\n")
+                    breakout = True
+                    break
+
+                if "Failed to acquire lock on file .lock" in output.strip() or "shutting down (kafka.server.KafkaServer)" in output.strip():
+                    breakout = True
+                    apache_kafka_server_startup_process.kill()
+                    apache_kafka_server_startup_process.returncode = -1
+                    print("\nFAILED TO STARTUP APACHE KAFKA SERVER\n")
+                    break
+
+        if breakout:
+            break
+
     if apache_kafka_server_startup_process.returncode is not None:
         raise subprocess.CalledProcessError(
             returncode=apache_kafka_server_startup_process.returncode,
