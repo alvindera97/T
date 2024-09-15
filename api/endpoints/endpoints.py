@@ -4,13 +4,15 @@ Websocket API module.
 This module contains method(s) defining application any web socket endpoint(s)
 """
 import os
-import time
+import select
 import subprocess
+import time
 import uuid
 import warnings
 from concurrent.futures.thread import ThreadPoolExecutor
 from contextlib import asynccontextmanager
 
+import eventlet
 from aiokafka import AIOKafkaProducer
 from fastapi import FastAPI, WebSocket
 from fastapi.params import Depends
@@ -84,9 +86,36 @@ def startup_apache_kafka(fastapi_application: FastAPI):
 
     zookeeper_process = subprocess.Popen(
         apache_kafka_zookeeper_startup_command,
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True
     )
+
+    while eventlet.Timeout(int(os.getenv("APACHE_KAFKA_MAX_STARTUP_WAIT_TIME_SECS"))):
+        breakout = False
+        reads = [zookeeper_process.stdout, zookeeper_process.stderr]
+        ready_to_read, _, _ = select.select(reads, [], [], 0.1)
+
+        for pipe in ready_to_read:
+            output = pipe.readline()
+
+            if output:
+                print(output.strip())
+
+                if "binding to port 0.0.0.0/0.0.0.0:2181" in output.strip():
+                    print(f'\nSUCCESSFULLY STARTED APACHE KAFKA ZOOKEEPER\n')
+                    breakout = True
+                    break
+
+                if "Failed to acquire lock on file .lock" in output.strip() or "Exiting Kafka" in output.strip():
+                    print(f"FAILED TO START APACHE KAFKA ZOOKEEPER")
+                    zookeeper_process.kill()
+                    zookeeper_process.return_code = -1
+                    breakout = True
+                    break
+
+        if breakout:
+            break
 
     if zookeeper_process.returncode is not None:  # We're not expecting zookeeper to stop and return a returncode.
         raise subprocess.CalledProcessError(
@@ -102,8 +131,9 @@ def startup_apache_kafka(fastapi_application: FastAPI):
 
     apache_kafka_process = subprocess.Popen(
         apache_kafka_server_startup_command,
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True
     )
 
     if apache_kafka_process.returncode is not None:
@@ -140,8 +170,9 @@ def shutdown_apache_kafka(fastapi_application: FastAPI):
 
     apache_kafka_shutdown_process = subprocess.Popen(
         apache_kafka_server_shutdown_command,
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE
+        stderr=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        text=True
     )
 
     if (
@@ -157,8 +188,9 @@ def shutdown_apache_kafka(fastapi_application: FastAPI):
     else:
         subprocess.Popen(
             apache_kafka_zookeeper_shutdown_command,
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE
+            stderr=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            text=True
         )
 
     return
