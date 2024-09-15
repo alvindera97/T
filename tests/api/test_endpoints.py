@@ -176,6 +176,9 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
             ],
         )).start()
 
+        self.mocked_eventlet_timeout = patch("api.endpoints.endpoints.eventlet.Timeout",
+                                             side_effect=[True, True]).start()
+
     def tearDown(self):
         app.state._state.clear()
 
@@ -210,11 +213,11 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         with patch("builtins.print") as mocked_print_function:
             startup_apache_kafka(another_app)
 
-            self.mocked_select_select.assert_called_once_with(
-                [
+            self.mocked_select_select.assert_has_calls(
+                [call([
                     0,
                     0
-                ], [], [], 0.1
+                ], [], [], 0.1)]
             )
 
             ready_to_read = self.mocked_select_select.return_value[0]
@@ -246,7 +249,7 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
                     call("\nSUCCESSFULLY STARTED APACHE KAFKA ZOOKEEPER\n")]
             )
 
-            self.mocked_subprocess_popen.assert_has_calls([call(apache_kafka_server_startup_command,
+            self.mocked_subprocess_popen.assert_has_calls([call(apache_kafka_zookeeper_startup_command,
                                                                 stderr=self.mocked_subprocess_pipe,
                                                                 stdout=self.mocked_subprocess_pipe,
                                                                 text=True)])
@@ -295,7 +298,9 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
 
         self.assertRaises(subprocess.SubprocessError, startup_apache_kafka, app)
 
-    def test_startup_apache_kafka_function_starts_apache_kafka_server_after_successful_start_of_zookeeper(self) -> None:
+    @patch("api.endpoints.endpoints.eventlet.Timeout", side_effect=[True, False, True, False])
+    def test_startup_apache_kafka_function_starts_apache_kafka_server_after_successful_start_of_zookeeper(self,
+                                                                                                          *_) -> None:
         """
         Test that apache kafka startup function starts up apache kafka server after successfully starting zookeeper.
         :return: None
@@ -449,7 +454,8 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
             self.assertFalse(hasattr(another_app.state, "kafka_server_subprocess"))
 
     @patch("api.endpoints.endpoints.eventlet.Timeout", side_effect=[True, True])
-    def test_startup_apache_kafka_raises_exception_on_failed_apache_kafka_server_startup(self, mocked_eventlet_timeout: Mock) -> None:
+    def test_startup_apache_kafka_raises_exception_on_failed_apache_kafka_server_startup(self,
+                                                                                         mocked_eventlet_timeout: Mock) -> None:
         """
         Test that function to start apache kafka raises exception if during the startup of apache kafka server there
         was a startup failure.
@@ -490,8 +496,9 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
             self.assertFalse(hasattr(another_app.state, "zookeeper_subprocess"))
             self.assertFalse(hasattr(another_app.state, "kafka_server_subprocess"))
 
+    @patch("api.endpoints.endpoints.eventlet.Timeout", side_effect=[True, False, True, False])
     def test_at_successful_end_of_apache_startup_there_are_state_attributes_set_for_kafka_zookeeper_and_server_processes(
-            self) -> None:
+            self, *_) -> None:
         """
         Test that after successful startup of apache kafka, there are state attributes set for kafka zookeeper and server processes
         :return: None
