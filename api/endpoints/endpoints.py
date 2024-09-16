@@ -57,11 +57,18 @@ async def start_apache_kafka_producer(fastapi_application: FastAPI):
     await fastapi_application.state.kafka_producer.start()
 
 
-async def close_apache_kafka_producer():
+async def close_apache_kafka_producer(fastapi_application: FastAPI):
     """
     Closes the Apache Kafka producer
+
+    :param fastapi_application: Instance of FastAPI application to consume properties from.
     """
-    pass
+    if not hasattr(fastapi_application.state, "kafka_producer"):
+        warnings.warn(
+            "You cannot shutdown apache kafka producer as there's none [recorded] running for this instance of the server!",
+            InelegantKafkaShutdownWarning)
+        return
+    await fastapi_application.state.kafka_producer.stop()
 
 
 def startup_apache_kafka(fastapi_application: FastAPI):
@@ -235,7 +242,7 @@ async def lifespan(fastapi_application: FastAPI):
 
     yield
 
-    await close_apache_kafka_producer()
+    await close_apache_kafka_producer(fastapi_application)
 
     shutdown_apache_kafka(fastapi_application)
 

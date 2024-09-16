@@ -21,7 +21,8 @@ from starlette.testclient import TestClient
 from api.endpoints import app
 from api.endpoints.endpoints import (
     startup_apache_kafka, shutdown_apache_kafka,
-    InelegantKafkaShutdownWarning, start_apache_kafka_producer, MultipleKafkaProducerStartWarning
+    InelegantKafkaShutdownWarning, start_apache_kafka_producer, MultipleKafkaProducerStartWarning,
+    close_apache_kafka_producer
 )
 from models import Chat
 from tests.database import base
@@ -150,6 +151,7 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
     def setUp(self):
         self.ModifiedAsyncMock = AsyncMock()
         self.ModifiedAsyncMock.start = AsyncMock()
+        self.ModifiedAsyncMock.stop = AsyncMock()
 
         self.mocked_subprocess_popen: Mock = patch("subprocess.Popen",
                                                    return_value=SimpleNamespace(
@@ -636,6 +638,7 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
 
         with TestClient(app):
             mocked_start_apache_kafka_producer.assert_called_once_with(app)
+            app.state.kafka_producer = self.mocked_AIOKafkaProducer()
 
     def test_start_apache_kafka_producer_sets_fastapi_app_kafka_producer_attribute(self) -> None:
         """
@@ -684,6 +687,43 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         """
         with TestClient(app):
             self.mocked_AIOKafkaProducer().start.assert_called_once()
+
+    async def test_close_apache_kafka_producer_calls_close_on_the_server_AIOKafkaProducer_object(self) -> None:
+        """
+        Test that function to close server Apache Kafka Producer (in this case AIOKafkaProducer) closes the server producer
+        AIOKafkaProducer object.
+
+        :return: None
+        """
+
+        another_app = FastAPI()
+
+        # first start kafka
+        startup_apache_kafka(another_app)
+
+        # then start kafka producer
+        await start_apache_kafka_producer(another_app)
+
+        # then stop kafka producer
+        await close_apache_kafka_producer(another_app)
+
+        self.mocked_AIOKafkaProducer().stop.assert_called_once()
+
+    async def test_close_apache_kafka_producer_triggers_warning_when_supplied_fastapi_application_instance_has_no_kafka_producer_state_attribute(
+            self):
+        """
+        Test that functon to close server Apache Kafka Producer triggers a warning in the case that there is no kafka producer
+        state attribute on the passed fastapi application argument.
+        :return: None
+        """
+        another_app = FastAPI()
+        with self.assertWarns(InelegantKafkaShutdownWarning) as context:
+            await close_apache_kafka_producer(another_app)
+
+        self.assertEqual(context.warning.__str__(),
+                         "You cannot shutdown apache kafka producer as there's none [recorded] running for this instance of the server!")
+
+        self.mocked_AIOKafkaProducer().stop.assert_not_called()
 
 
 class WebSocketTestCase(base.BaseTestDatabaseTestCase):
