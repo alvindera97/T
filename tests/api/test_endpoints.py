@@ -371,6 +371,9 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
                 ], ["second"],
                 ["third"],)).start()
 
+            self.mocked_eventlet_timeout = patch("api.endpoints.endpoints.eventlet.Timeout",
+                                                 side_effect=[True, True, True]).start()
+
         self.assertRaises(subprocess.SubprocessError, startup_apache_kafka, app)
         self.mocked_subprocess_popen.assert_has_calls([call(apache_kafka_zookeeper_startup_command,
                                                             stderr=self.mocked_subprocess_pipe,
