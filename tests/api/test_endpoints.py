@@ -682,39 +682,6 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         with TestClient(app):
             self.mocked_AIOKafkaProducer().start.assert_called_once()
 
-    @patch("time.sleep")
-    async def test_start_apache_kafka_producer_waits_for_10_seconds_before_attempting_to_start_server(self,
-                                                                                                      mocked_timedotsleep_function: Mock) -> None:
-        """
-        Test that function to start apache kafka producer calls time.sleep() before attempting to connect.
-
-        This is to give apache kafka zookeeper and the apache kafka server some time to start up in their separate process.
-        :param mocked_timedotsleep_function: Mocked time.sleep()
-        :return: None
-        """
-        another_app = FastAPI()
-
-        await start_apache_kafka_producer(another_app)
-
-        mocked_timedotsleep_function.assert_called_once_with(10)
-
-    @patch("api.endpoints.endpoints.time.sleep")
-    async def test_start_apache_kafka_producer_does_not_wait_in_instances_where_app_argument_already_has_producer_object(
-            self,
-            mocked_timedotsleep_function: Mock) -> None:
-        """
-        Test that function to start apache kafka producer does not call time.sleep() in the instance where the supplied
-        FastAPI application already has a kafka producer.
-        :param mocked_timedotsleep_function: Mocked time.sleep()
-        :return: None
-        """
-        another_app = FastAPI()
-
-        await start_apache_kafka_producer(another_app)
-        await start_apache_kafka_producer(another_app)
-
-        mocked_timedotsleep_function.assert_called_once_with(10)
-
 
 class WebSocketTestCase(base.BaseTestDatabaseTestCase):
     """

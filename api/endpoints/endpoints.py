@@ -6,7 +6,6 @@ This module contains method(s) defining application any web socket endpoint(s)
 import os
 import select
 import subprocess
-import time
 import uuid
 import warnings
 from concurrent.futures.thread import ThreadPoolExecutor
@@ -51,8 +50,6 @@ async def start_apache_kafka_producer(fastapi_application: FastAPI):
         warnings.warn(f"There's an existing kafka producer for this app instance: {hex(id(fastapi_application))}",
                       MultipleKafkaProducerStartWarning)
         return
-
-    time.sleep(10)
 
     fastapi_application.state.kafka_producer = AIOKafkaProducer(
         bootstrap_servers=f'{os.getenv("APACHE_KAFKA_BOOTSTRAP_SERVER_HOST")}:{os.getenv("APACHE_KAFKA_BOOTSTRAP_SERVER_PORT")}')
