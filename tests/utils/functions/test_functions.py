@@ -10,10 +10,12 @@ Classes:
   TestGenerateMessage
   TestAddChat
 """
-
+import os
+import random
 import unittest
 from unittest.mock import patch
 
+from fastapi import FastAPI
 from pydantic import ValidationError
 
 from json_defs.message import MessageJSON
@@ -149,3 +151,124 @@ class TestAddChat(base.BaseTestDatabaseTestCase):
 
         self.assertEqual(self.session.query(Chat).first().uuid.__str__(), chat)
         self.assertEqual(self.session.query(Chat).count(), count_before_addition + 1)
+
+
+class TestCreateApacheKafkaTopic(unittest.TestCase):
+    """
+    Test case class for tests on function for calling Apache Kafka topic.
+    """
+
+    def setUp(self):
+        self.patch_subprocess_pipe = patch("subprocess.PIPE")
+        self.patch_subprocess_popen = patch("subprocess.Popen")
+
+        self.mocked_subprocess_pipe = self.patch_subprocess_pipe.start()
+        self.mocked_subprocess_popen = self.patch_subprocess_popen.start()
+
+    def tearDown(self):
+        self.patch_subprocess_pipe.stop()
+        self.patch_subprocess_popen.stop()
+
+    def test_function_takes_topic_argument(self) -> None:
+        """
+        Test that function takes 2 arguments:
+        1. topic name/title.
+        2. fastapi application instance
+        :return: None
+        """
+
+        with self.assertRaises(TypeError) as context_1:
+            utils.create_apache_kafka_topic()
+
+        with self.assertRaises(TypeError) as context_2:
+            utils.create_apache_kafka_topic("topic 1")
+
+        self.assertEqual(
+            "create_apache_kafka_topic() missing 2 required positional arguments: 'topic_title' and 'fastapi_application'",
+            context_1.exception.__str__(),
+        )
+
+        self.assertEqual(
+            "create_apache_kafka_topic() missing 1 required positional argument: 'fastapi_application'",
+            context_2.exception.__str__(),
+        )
+
+    def test_function_raises_value_error_on_invalid_inputs(self) -> None:
+        """
+        Test that function raises ValueError on invalid input for topic title and fastapi_application
+        :return: None
+        """
+
+        with self.assertRaises(ValueError) as context_1:
+            utils.create_apache_kafka_topic(1, object)
+
+        with self.assertRaises(ValueError) as context_2:
+            utils.create_apache_kafka_topic("", object)
+
+        with self.assertRaises(ValueError) as context_3:
+            utils.create_apache_kafka_topic(random.choice([True, False]), object)
+
+        with self.assertRaises(ValueError) as context_4:
+            utils.create_apache_kafka_topic("some topic", object)
+
+        try:
+            utils.create_apache_kafka_topic("some topic", FastAPI())
+        except RuntimeError as re:
+            assert re.__str__() == "fastapi_application instance has no running Apache Kafka Zookeeper server"
+        except Exception as e:
+            self.fail(f"Unexpected exception raised: \n{e}")
+
+        self.assertEqual(
+            "create_apache_kafka_topic() 'topic_title' argument must be non-empty string!",
+            context_1.exception.__str__()
+        )
+
+        self.assertTrue(context_1.exception.__str__() == context_2.exception.__str__() == context_3.exception.__str__())
+
+        self.assertEqual(context_4.exception.__str__(),
+                         "create_apache_kafka_topic() 'fastapi_application' must be a FastAPI instance!")
+
+    def test_function_raises_exception_if_fastapi_application_kafka_zookeeper_is_not_available(self) -> None:
+        """
+        Test that function raises RuntimeError if FastAPI application instance does not have Apache Kafka Zookeeper
+        started successfully.
+        :return: None
+        """
+
+        with self.assertRaises(RuntimeError) as context_1:
+            utils.create_apache_kafka_topic("some topic", FastAPI())
+
+        self.assertEqual("fastapi_application instance has no running Apache Kafka Zookeeper server",
+                         context_1.exception.__str__())
+
+        try:
+            another_app = FastAPI()
+            another_app.state.zookeeper_subprocess = object
+            utils.create_apache_kafka_topic("some topic", another_app)
+
+        except Exception as e:
+            self.fail(f"Unexpected exception raised: \n{e}")
+
+    def test_function_calls_subprocess_popen_to_create_topic(self) -> None:
+        """
+        Test function calls subprocess.Popen to run command to create new kafka topic.
+        :return: None
+        """
+        topic_to_create, another_app = "some_topic", FastAPI()
+
+        EXPECTED_COMMAND, another_app.state.zookeeper_subprocess = [
+            os.getenv("APACHE_KAFKA_TOPICS_EXECUTABLE_FULL_PATH"),
+            "--create",
+            "--bootstrap-server",
+            f"{os.getenv('APACHE_KAFKA_BOOTSTRAP_SERVER_HOST')}:{os.getenv('APACHE_KAFKA_BOOTSTRAP_SERVER_PORT')}",
+            "--topic",
+            topic_to_create
+        ], object
+
+        utils.create_apache_kafka_topic(topic_to_create, another_app)
+
+        self.mocked_subprocess_popen.assert_called_once_with(
+            EXPECTED_COMMAND,
+            stdout=self.mocked_subprocess_pipe,
+            stderr=self.mocked_subprocess_pipe
+        )

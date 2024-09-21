@@ -4,9 +4,13 @@ Utility functions' module.
 This module contains utility functions used in other modules.
 """
 import asyncio
+import os
 import random
+import subprocess
 from typing import Optional
 
+from docutils.nodes import topic
+from fastapi import FastAPI
 from sqlalchemy.orm import Session
 
 from json_defs.message import MessageJSON
@@ -83,3 +87,35 @@ def add_new_chat(session: Session) -> str:
 
     session.commit()
     return new_chat_uuid
+
+
+def create_apache_kafka_topic(topic_title: str, fastapi_application: FastAPI) -> None:
+    """
+    Function for creating Apache Kafka Topic
+    :param topic_title: Title of the Apache Kafka topic intended to be created
+    :param fastapi_application FastAPI application instance
+    :return: None
+    """
+    try:
+        assert type(topic_title) is str and len(topic_title.strip()) > 0
+    except AssertionError:
+        raise ValueError("create_apache_kafka_topic() 'topic_title' argument must be non-empty string!")
+
+    try:
+        assert isinstance(fastapi_application, FastAPI)
+    except AssertionError:
+        raise ValueError("create_apache_kafka_topic() 'fastapi_application' must be a FastAPI instance!")
+
+    if not hasattr(fastapi_application.state, "zookeeper_subprocess"):
+        raise RuntimeError("fastapi_application instance has no running Apache Kafka Zookeeper server")
+
+    CREATE_KAFKA_TOPIC_COMMAND = [
+        os.getenv("APACHE_KAFKA_TOPICS_EXECUTABLE_FULL_PATH"),
+        "--create",
+        "--bootstrap-server",
+        f"{os.getenv('APACHE_KAFKA_BOOTSTRAP_SERVER_HOST')}:{os.getenv('APACHE_KAFKA_BOOTSTRAP_SERVER_PORT')}",
+        "--topic",
+        topic_title
+    ]
+
+    subprocess.Popen(CREATE_KAFKA_TOPIC_COMMAND, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
