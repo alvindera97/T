@@ -8,6 +8,7 @@ Classes:
   TestUserTestCase
   TestUserAsyncioMethodsTestCase
 """
+
 import inspect
 import unittest
 from collections import Counter
@@ -64,21 +65,21 @@ class TestUserTestCase(unittest.TestCase):
 
         :return: None
         """
-        self.assertTrue(hasattr(User, 'role'))
+        self.assertTrue(hasattr(User, "role"))
 
     def test_user_has_name_attribute(self) -> None:
         """
         Test that initialized user object has name attribute
         :return: None
         """
-        self.assertTrue(hasattr(User(), 'name'))
+        self.assertTrue(hasattr(User(), "name"))
 
     def test_user_has_display_picture_attribute(self) -> None:
         """
         Test that user object has display picture attribute
         :return: None
         """
-        self.assertTrue(hasattr(User(), 'display_picture_url'))
+        self.assertTrue(hasattr(User(), "display_picture_url"))
 
     def test_that_user_object_by_default_has_empty_username_and_image_url(self):
         """
@@ -89,7 +90,9 @@ class TestUserTestCase(unittest.TestCase):
         self.assertEqual(self.user.name, "")
         self.assertEqual(self.user.display_picture_url, "")
 
-    def test_that_passed_name_and_display_picture_url_are_applied_to_user_instance(self):
+    def test_that_passed_name_and_display_picture_url_are_applied_to_user_instance(
+        self,
+    ):
         """
         Test that name and or display_picture_url keyword arguments passed to User constructor are set as
         attributes on user.
@@ -151,8 +154,13 @@ class TestUserTestCase(unittest.TestCase):
 
         self.assertRaises(AssertionError, lambda: self.user.role)
 
-    @unittest.skipIf(len(Role.__members__) < 2, "Not Enough Roles (i.e. Role Enum Members) To Perform This Test!")
-    def test_user_set_random_role_method_randomly_selects_role_on_user_instance(self) -> None:
+    @unittest.skipIf(
+        len(Role.__members__) < 2,
+        "Not Enough Roles (i.e. Role Enum Members) To Perform This Test!",
+    )
+    def test_user_set_random_role_method_randomly_selects_role_on_user_instance(
+        self,
+    ) -> None:
         """
         Test if the set_random_role method on the initialised user object changes the role of
         the user object.
@@ -174,7 +182,10 @@ class TestUserTestCase(unittest.TestCase):
             role_state_count[self.user.role] += 1
 
         selected_roles = [role for role, count in role_state_count.items() if count > 0]
-        self.assertTrue(len(selected_roles) > 1, "Expected more than one role to be randomly selected.")
+        self.assertTrue(
+            len(selected_roles) > 1,
+            "Expected more than one role to be randomly selected.",
+        )
 
     def test_user_can_be_initialised_with_particular_role(self) -> None:
         """
@@ -190,7 +201,10 @@ class TestUserTestCase(unittest.TestCase):
         self.assertEqual(publisher_user.role, PUBLISHER)
         self.assertEqual(subscriber_user.role, SUBSCRIBER)
 
-    @unittest.skipIf(len(Role.__members__) < 2, "Not Enough Roles (i.e. Role Enum Members) To Perform This Test!")
+    @unittest.skipIf(
+        len(Role.__members__) < 2,
+        "Not Enough Roles (i.e. Role Enum Members) To Perform This Test!",
+    )
     def test_user_can_be_initialised_with_random_role(self) -> None:
         """
         Test that User object can be initialised with random role.
@@ -206,7 +220,10 @@ class TestUserTestCase(unittest.TestCase):
             role_state_count[User.from_role_options(ROLE_OPTIONS).role] += 1
 
         selected_roles = [role for role, count in role_state_count.items() if count > 0]
-        self.assertTrue(len(selected_roles) >= 2, "Expected more than one role to be randomly selected.")
+        self.assertTrue(
+            len(selected_roles) >= 2,
+            "Expected more than one role to be randomly selected.",
+        )
 
     def test_user_has_immutable_producer_object(self) -> None:
         """
@@ -272,7 +289,8 @@ class TestUserTestCase(unittest.TestCase):
         self.assertNotEqual(user_2.consumer, user_3.consumer)
 
     def test_user_initialise_method_calls_methods_to_generate_get_producer_and_consumer_kafka_objects(
-            self) -> None:
+        self,
+    ) -> None:
         """
         Test that user initialise method calls methods to populate producer and consumer properties.
         :return: None
@@ -318,17 +336,22 @@ class TestUserAsyncioMethodsTestCase(unittest.IsolatedAsyncioTestCase):
         self.assertIsInstance(static_method_call, AIOKafkaConsumer)
         await static_method_call.stop()
 
-    async def test_user_generate_message_method_calls_google_gemini_api_method_to_generate_message(self) -> None:
+    async def test_user_generate_message_method_calls_google_gemini_api_method_to_generate_message(
+        self,
+    ) -> None:
         """
         Test that the User object generate method returns some non-empty string result which is also the
         result of the Google Gemini API call.
         :return: None
         """
         message_context = "Some message context"
-        user_model_mock = patch("google.generativeai.GenerativeModel.generate_content_async").start()
+        user_model_mock = patch(
+            "google.generativeai.GenerativeModel.generate_content_async"
+        ).start()
 
         user_model_mock.return_value = SimpleNamespace(
-            text="some generated message")  # we need the text attribute implemented at AsyncGenerateContentResponse
+            text="some generated message"
+        )  # we need the text attribute implemented at AsyncGenerateContentResponse
         generated_message = await self.user.generate_message(message_context)
 
         user_model_mock.assert_called_once_with(message_context)

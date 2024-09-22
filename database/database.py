@@ -34,7 +34,7 @@ def init_db():
 
     if missing_tables:
         Base.metadata.create_all(bind=engine)
-        
+
     return session()
 
 

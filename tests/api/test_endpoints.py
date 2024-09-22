@@ -5,6 +5,7 @@ Classes:
   SetUpChatEndpointTestCase
   WebSocketTestCase
 """
+
 import os
 import random
 import subprocess
@@ -20,9 +21,12 @@ from starlette.testclient import TestClient
 
 from api.endpoints import app
 from api.endpoints.endpoints import (
-    startup_apache_kafka, shutdown_apache_kafka,
-    InelegantKafkaShutdownWarning, start_apache_kafka_producer, MultipleKafkaProducerStartWarning,
-    close_apache_kafka_producer
+    startup_apache_kafka,
+    shutdown_apache_kafka,
+    InelegantKafkaShutdownWarning,
+    start_apache_kafka_producer,
+    MultipleKafkaProducerStartWarning,
+    close_apache_kafka_producer,
 )
 from models import Chat
 from tests.database import base
@@ -69,29 +73,40 @@ class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase)
     # Notice of known issues with memory stream closure bugs discussed here: https://github.com/encode/starlette/discussions/2603
 
     def setUp(self):
-        patch("subprocess.Popen",
-              return_value=SimpleNamespace(returncode=None, stdout=0, stderr=0, kill=lambda: None)).start()
+        patch(
+            "subprocess.Popen",
+            return_value=SimpleNamespace(
+                returncode=None, stdout=0, stderr=0, kill=lambda: None
+            ),
+        ).start()
 
         patch("api.endpoints.endpoints.shutdown_apache_kafka").start()
-        patch("api.endpoints.endpoints.eventlet.Timeout",
-              side_effect=[True, False, True, False]).start()
+        patch(
+            "api.endpoints.endpoints.eventlet.Timeout",
+            side_effect=[True, False, True, False],
+        ).start()
 
-        patch("select.select", return_value=(
-            [
-                SimpleNamespace(readline=lambda: "first"),
-                SimpleNamespace(readline=lambda: "binding to port 0.0.0.0/0.0.0.0:2181"),
-                SimpleNamespace(readline=lambda: "started (kafka.server.KafkaServer)"),
-            ],
-            [
-                "second"
-            ],
-            [
-                "third"
-            ],
-        )).start()
+        patch(
+            "select.select",
+            return_value=(
+                [
+                    SimpleNamespace(readline=lambda: "first"),
+                    SimpleNamespace(
+                        readline=lambda: "binding to port 0.0.0.0/0.0.0.0:2181"
+                    ),
+                    SimpleNamespace(
+                        readline=lambda: "started (kafka.server.KafkaServer)"
+                    ),
+                ],
+                ["second"],
+                ["third"],
+            ),
+        ).start()
 
     @patch("api.endpoints.endpoints.startup_apache_kafka")
-    async def test_kafka_starts_at_startup(self, mocked_startup_apache_kafka: Mock) -> None:
+    async def test_kafka_starts_at_startup(
+        self, mocked_startup_apache_kafka: Mock
+    ) -> None:
         """
         Test that apache kafka stated at backend startup
 
@@ -101,9 +116,12 @@ class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase)
         with TestClient(app):
             mocked_startup_apache_kafka.assert_called_once()
 
-    @patch("api.endpoints.endpoints.start_apache_kafka_producer", new_callable=AsyncMock)
-    async def test_kafka_producer_for_chat_end_point_starts_at_startup(self,
-                                                                       mocked_start_apache_kafka_producer: Mock) -> None:
+    @patch(
+        "api.endpoints.endpoints.start_apache_kafka_producer", new_callable=AsyncMock
+    )
+    async def test_kafka_producer_for_chat_end_point_starts_at_startup(
+        self, mocked_start_apache_kafka_producer: Mock
+    ) -> None:
         """
         Test that apache kafka producer is started at backend startup.
 
@@ -114,11 +132,12 @@ class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase)
             mocked_start_apache_kafka_producer.assert_called_once()
 
     @patch("api.endpoints.endpoints.shutdown_apache_kafka")
-    @patch("api.endpoints.endpoints.close_apache_kafka_producer", new_callable=AsyncMock)
+    @patch(
+        "api.endpoints.endpoints.close_apache_kafka_producer", new_callable=AsyncMock
+    )
     async def test_kafka_producer_and_consumer_are_closed_at_shutdown(
-            self,
-            close_apache_producer: Mock,
-            shutdown_apache: Mock) -> None:
+        self, close_apache_producer: Mock, shutdown_apache: Mock
+    ) -> None:
         """
         Test that apache kafka producer and consumer is closed at close of backend.
 
@@ -136,7 +155,9 @@ class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase)
 
 
 # noinspection PyPep8Naming
-class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncioTestCase):
+class ApplicationBackendStartupAndShutdownFunctionsTest(
+    unittest.IsolatedAsyncioTestCase
+):
     """
     Test case class for testing functions called during start up and shut down of backend.
     """
@@ -153,33 +174,38 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         self.ModifiedAsyncMock.start = AsyncMock()
         self.ModifiedAsyncMock.stop = AsyncMock()
 
-        self.mocked_subprocess_popen: Mock = patch("subprocess.Popen",
-                                                   return_value=SimpleNamespace(
-                                                       returncode=None,
-                                                       stderr=0,
-                                                       stdout=0,
-                                                       kill=lambda: None
-                                                   )).start()
+        self.mocked_subprocess_popen: Mock = patch(
+            "subprocess.Popen",
+            return_value=SimpleNamespace(
+                returncode=None, stderr=0, stdout=0, kill=lambda: None
+            ),
+        ).start()
 
-        self.mocked_AIOKafkaProducer = patch("api.endpoints.endpoints.AIOKafkaProducer",
-                                             return_value=self.ModifiedAsyncMock).start()
+        self.mocked_AIOKafkaProducer = patch(
+            "api.endpoints.endpoints.AIOKafkaProducer",
+            return_value=self.ModifiedAsyncMock,
+        ).start()
 
-        self.mocked_select_select = patch("select.select", return_value=(
-            [
-                SimpleNamespace(readline=lambda: "first"),
-                SimpleNamespace(readline=lambda: "binding to port 0.0.0.0/0.0.0.0:2181"),
-                SimpleNamespace(readline=lambda: "started (kafka.server.KafkaServer)"),
-            ],
-            [
-                "second"
-            ],
-            [
-                "third"
-            ],
-        )).start()
+        self.mocked_select_select = patch(
+            "select.select",
+            return_value=(
+                [
+                    SimpleNamespace(readline=lambda: "first"),
+                    SimpleNamespace(
+                        readline=lambda: "binding to port 0.0.0.0/0.0.0.0:2181"
+                    ),
+                    SimpleNamespace(
+                        readline=lambda: "started (kafka.server.KafkaServer)"
+                    ),
+                ],
+                ["second"],
+                ["third"],
+            ),
+        ).start()
 
-        self.mocked_eventlet_timeout = patch("api.endpoints.endpoints.eventlet.Timeout",
-                                             side_effect=[True, True]).start()
+        self.mocked_eventlet_timeout = patch(
+            "api.endpoints.endpoints.eventlet.Timeout", side_effect=[True, True]
+        ).start()
 
     def tearDown(self):
         app.state._state.clear()
@@ -197,13 +223,25 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         with TestClient(app):
             expected_command = [
                 os.getenv("APACHE_KAFKA_ZOOKEEPER_SERVER_START_EXECUTABLE_FULL_PATH"),
-                os.getenv("APACHE_KAFKA_ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH")
+                os.getenv(
+                    "APACHE_KAFKA_ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH"
+                ),
             ]
 
-            self.mocked_subprocess_popen.assert_has_calls([call(expected_command, stderr=self.mocked_subprocess_pipe,
-                                                                stdout=self.mocked_subprocess_pipe, text=True)])
+            self.mocked_subprocess_popen.assert_has_calls(
+                [
+                    call(
+                        expected_command,
+                        stderr=self.mocked_subprocess_pipe,
+                        stdout=self.mocked_subprocess_pipe,
+                        text=True,
+                    )
+                ]
+            )
 
-    def test_startup_apache_kafka_function_prints_contents_of_startup_output_to_terminal_during_execution(self) -> None:
+    def test_startup_apache_kafka_function_prints_contents_of_startup_output_to_terminal_during_execution(
+        self,
+    ) -> None:
         """
         Test that the function to start apache kafka prints the contents of the subprocess call to the terminal running
         the initiating [parent] program.
@@ -215,18 +253,16 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         with patch("builtins.print") as mocked_print_function:
             startup_apache_kafka(another_app)
 
-            self.mocked_select_select.assert_has_calls(
-                [call([
-                    0,
-                    0
-                ], [], [], 0.1)]
-            )
+            self.mocked_select_select.assert_has_calls([call([0, 0], [], [], 0.1)])
 
             ready_to_read = self.mocked_select_select.return_value[0]
-            mocked_print_function.assert_has_calls([call(ready_to_read[0].readline().strip())])
+            mocked_print_function.assert_has_calls(
+                [call(ready_to_read[0].readline().strip())]
+            )
 
     def test_startup_apache_kafka_function_only_continues_to_start_kafka_server_after_zookeeper_subprocess_prints_expected_start_text(
-            self) -> None:
+        self,
+    ) -> None:
         """
         Test that the function to start apache kafka goes on to start the apache kafka server only after the zookeeper subprocess
         output has printed out the expected text for a successful zookeeper server start.
@@ -236,11 +272,13 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
 
         apache_kafka_zookeeper_startup_command = [
             os.getenv("APACHE_KAFKA_ZOOKEEPER_SERVER_START_EXECUTABLE_FULL_PATH"),
-            os.getenv("APACHE_KAFKA_ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH")
+            os.getenv("APACHE_KAFKA_ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH"),
         ]
 
         another_app = FastAPI()
-        text_from_apache_kafka_zookeeper_indicating_successful_start = "binding to port 0.0.0.0/0.0.0.0:2181"
+        text_from_apache_kafka_zookeeper_indicating_successful_start = (
+            "binding to port 0.0.0.0/0.0.0.0:2181"
+        )
 
         with patch("builtins.print") as mocked_print_function:
             startup_apache_kafka(another_app)
@@ -248,17 +286,28 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
             mocked_print_function.assert_has_calls(
                 [
                     call(text_from_apache_kafka_zookeeper_indicating_successful_start),
-                    call("\nSUCCESSFULLY STARTED APACHE KAFKA ZOOKEEPER\n")]
+                    call("\nSUCCESSFULLY STARTED APACHE KAFKA ZOOKEEPER\n"),
+                ]
             )
 
-            self.mocked_subprocess_popen.assert_has_calls([call(apache_kafka_zookeeper_startup_command,
-                                                                stderr=self.mocked_subprocess_pipe,
-                                                                stdout=self.mocked_subprocess_pipe,
-                                                                text=True)])
+            self.mocked_subprocess_popen.assert_has_calls(
+                [
+                    call(
+                        apache_kafka_zookeeper_startup_command,
+                        stderr=self.mocked_subprocess_pipe,
+                        stdout=self.mocked_subprocess_pipe,
+                        text=True,
+                    )
+                ]
+            )
 
-    @patch("api.endpoints.endpoints.eventlet.Timeout", side_effect=[True, True, True, True, eventlet.timeout.Timeout])
+    @patch(
+        "api.endpoints.endpoints.eventlet.Timeout",
+        side_effect=[True, True, True, True, eventlet.timeout.Timeout],
+    )
     def test_start_apache_kafka_function_raises_exception_when_zookeeper_does_not_start_within_set_timeout(
-            self, mocked_eventlet_timeout: Mock) -> None:
+        self, mocked_eventlet_timeout: Mock
+    ) -> None:
         """
         Test that the function to start apache kafka raises exception when apache kafka zookeeper server doesn't start
         after the set timeout period (and thus there is no attempt to start up the apache kafka server.
@@ -267,42 +316,69 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         """
         apache_kafka_server_startup_command = [
             os.getenv("APACHE_KAFKA_SERVER_START_EXECUTABLE_FULL_PATH"),
-            os.getenv("APACHE_KAFKA_SERVER_PROPERTIES_FULL_PATH")
+            os.getenv("APACHE_KAFKA_SERVER_PROPERTIES_FULL_PATH"),
         ]
 
         another_app = FastAPI()
-        text_from_apache_kafka_zookeeper_indicating_successful_start = "binding to port 0.0.0.0/0.0.0.0:2181"
+        text_from_apache_kafka_zookeeper_indicating_successful_start = (
+            "binding to port 0.0.0.0/0.0.0.0:2181"
+        )
 
         with patch("builtins.print") as mocked_print_function:
-            self.mocked_select_select = patch("select.select", return_value=(
-                [
-                    SimpleNamespace(readline=lambda: "first"),
-                ], ["second"],
-                ["third"],)).start()
+            self.mocked_select_select = patch(
+                "select.select",
+                return_value=(
+                    [
+                        SimpleNamespace(readline=lambda: "first"),
+                    ],
+                    ["second"],
+                    ["third"],
+                ),
+            ).start()
 
-            self.assertRaises(eventlet.timeout.Timeout, startup_apache_kafka, another_app)
+            self.assertRaises(
+                eventlet.timeout.Timeout, startup_apache_kafka, another_app
+            )
 
-            mocked_eventlet_timeout.assert_called_with(int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS")))
+            mocked_eventlet_timeout.assert_called_with(
+                int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS"))
+            )
 
-            self.assertNotIn(call(text_from_apache_kafka_zookeeper_indicating_successful_start),
-                             mocked_print_function.mock_calls)
-            self.assertNotIn(call(apache_kafka_server_startup_command, stderr=self.mocked_subprocess_pipe,
-                                  stdout=self.mocked_subprocess_pipe), self.mocked_subprocess_popen.mocked_calls)
+            self.assertNotIn(
+                call(text_from_apache_kafka_zookeeper_indicating_successful_start),
+                mocked_print_function.mock_calls,
+            )
+            self.assertNotIn(
+                call(
+                    apache_kafka_server_startup_command,
+                    stderr=self.mocked_subprocess_pipe,
+                    stdout=self.mocked_subprocess_pipe,
+                ),
+                self.mocked_subprocess_popen.mocked_calls,
+            )
 
-    def test_startup_apache_kafka_function_raises_exception_on_failed_or_erroneous_startup(self) -> None:
+    def test_startup_apache_kafka_function_raises_exception_on_failed_or_erroneous_startup(
+        self,
+    ) -> None:
         """
         Test that function to start apache kafka starts Apache Kafka Zookeeper raises exception if there's an erroneous start.
 
         :return: None
         """
 
-        self.mocked_subprocess_popen.return_value = SimpleNamespace(returncode=1, stderr=0, stdout=0)
+        self.mocked_subprocess_popen.return_value = SimpleNamespace(
+            returncode=1, stderr=0, stdout=0
+        )
 
         self.assertRaises(subprocess.SubprocessError, startup_apache_kafka, app)
 
-    @patch("api.endpoints.endpoints.eventlet.Timeout", side_effect=[True, False, True, False])
-    def test_startup_apache_kafka_function_starts_apache_kafka_server_after_successful_start_of_zookeeper(self,
-                                                                                                          *_) -> None:
+    @patch(
+        "api.endpoints.endpoints.eventlet.Timeout",
+        side_effect=[True, False, True, False],
+    )
+    def test_startup_apache_kafka_function_starts_apache_kafka_server_after_successful_start_of_zookeeper(
+        self, *_
+    ) -> None:
         """
         Test that apache kafka startup function starts up apache kafka server after successfully starting zookeeper.
         :return: None
@@ -310,39 +386,52 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
 
         apache_kafka_zookeeper_startup_command = [
             os.getenv("APACHE_KAFKA_ZOOKEEPER_SERVER_START_EXECUTABLE_FULL_PATH"),
-            os.getenv("APACHE_KAFKA_ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH")
+            os.getenv("APACHE_KAFKA_ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH"),
         ]
 
         apache_kafka_server_startup_command = [
             os.getenv("APACHE_KAFKA_SERVER_START_EXECUTABLE_FULL_PATH"),
-            os.getenv("APACHE_KAFKA_SERVER_PROPERTIES_FULL_PATH")
+            os.getenv("APACHE_KAFKA_SERVER_PROPERTIES_FULL_PATH"),
         ]
 
         # Execution without errors/interrupts
 
         startup_apache_kafka(app)
 
-        self.mocked_subprocess_popen.assert_has_calls([call(apache_kafka_zookeeper_startup_command,
-                                                            stderr=self.mocked_subprocess_pipe,
-                                                            stdout=self.mocked_subprocess_pipe,
-                                                            text=True),
-                                                       call(apache_kafka_server_startup_command,
-                                                            stderr=self.mocked_subprocess_pipe,
-                                                            stdout=self.mocked_subprocess_pipe,
-                                                            text=True),
-                                                       ])
+        self.mocked_subprocess_popen.assert_has_calls(
+            [
+                call(
+                    apache_kafka_zookeeper_startup_command,
+                    stderr=self.mocked_subprocess_pipe,
+                    stdout=self.mocked_subprocess_pipe,
+                    text=True,
+                ),
+                call(
+                    apache_kafka_server_startup_command,
+                    stderr=self.mocked_subprocess_pipe,
+                    stdout=self.mocked_subprocess_pipe,
+                    text=True,
+                ),
+            ]
+        )
 
         # Execution with errors/interrupts
-        self.mocked_subprocess_popen.return_value = SimpleNamespace(returncode=1, stdout=0, stderr=0)
+        self.mocked_subprocess_popen.return_value = SimpleNamespace(
+            returncode=1, stdout=0, stderr=0
+        )
 
         self.assertRaises(subprocess.SubprocessError, startup_apache_kafka, app)
 
-        self.mocked_subprocess_popen.assert_called_with(apache_kafka_zookeeper_startup_command,
-                                                        stderr=self.mocked_subprocess_pipe,
-                                                        stdout=self.mocked_subprocess_pipe,
-                                                        text=True)  # we don't expect the call to startup kafka's server to happen here.
+        self.mocked_subprocess_popen.assert_called_with(
+            apache_kafka_zookeeper_startup_command,
+            stderr=self.mocked_subprocess_pipe,
+            stdout=self.mocked_subprocess_pipe,
+            text=True,
+        )  # we don't expect the call to startup kafka's server to happen here.
 
-    def test_startup_apache_kafka_function_raises_exception_on_erroneous_startup_to_kafka_server(self) -> None:
+    def test_startup_apache_kafka_function_raises_exception_on_erroneous_startup_to_kafka_server(
+        self,
+    ) -> None:
         """
         Test that an erroneous call to start Apache Kafka server will raise an exception and thus no further start up of
         the backend server.
@@ -351,46 +440,71 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         """
         apache_kafka_zookeeper_startup_command = [
             os.getenv("APACHE_KAFKA_ZOOKEEPER_SERVER_START_EXECUTABLE_FULL_PATH"),
-            os.getenv("APACHE_KAFKA_ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH")
+            os.getenv("APACHE_KAFKA_ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH"),
         ]
 
         apache_kafka_server_startup_command = [
             os.getenv("APACHE_KAFKA_SERVER_START_EXECUTABLE_FULL_PATH"),
-            os.getenv("APACHE_KAFKA_SERVER_PROPERTIES_FULL_PATH")
+            os.getenv("APACHE_KAFKA_SERVER_PROPERTIES_FULL_PATH"),
         ]
 
         self.mocked_subprocess_popen.side_effect = [
             SimpleNamespace(returncode=None, stdout=0, stderr=0, kill=lambda: None),
-            SimpleNamespace(returncode=1, stdout=0, stderr=0, kill=lambda: None)
+            SimpleNamespace(returncode=1, stdout=0, stderr=0, kill=lambda: None),
         ]
 
         if random.choice([True, False]):
-            self.mocked_select_select = patch("select.select", return_value=(
-                [
-                    SimpleNamespace(readline=lambda: "first"),
-                    SimpleNamespace(
-                        readline=lambda: random.choice(["Exiting Kafka", "Failed to acquire lock on file .lock"])),
-                ], ["second"],
-                ["third"],)).start()
+            self.mocked_select_select = patch(
+                "select.select",
+                return_value=(
+                    [
+                        SimpleNamespace(readline=lambda: "first"),
+                        SimpleNamespace(
+                            readline=lambda: random.choice(
+                                [
+                                    "Exiting Kafka",
+                                    "Failed to acquire lock on file .lock",
+                                ]
+                            )
+                        ),
+                    ],
+                    ["second"],
+                    ["third"],
+                ),
+            ).start()
 
-            self.mocked_eventlet_timeout = patch("api.endpoints.endpoints.eventlet.Timeout",
-                                                 side_effect=int(
-                                                     os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS")) * 2 * [
-                                                                 True]).start()
+            self.mocked_eventlet_timeout = patch(
+                "api.endpoints.endpoints.eventlet.Timeout",
+                side_effect=int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS"))
+                * 2
+                * [True],
+            ).start()
 
         self.assertRaises(subprocess.SubprocessError, startup_apache_kafka, app)
-        self.mocked_subprocess_popen.assert_has_calls([call(apache_kafka_zookeeper_startup_command,
-                                                            stderr=self.mocked_subprocess_pipe,
-                                                            stdout=self.mocked_subprocess_pipe,
-                                                            text=True),
-                                                       call(apache_kafka_server_startup_command,
-                                                            stderr=self.mocked_subprocess_pipe,
-                                                            stdout=self.mocked_subprocess_pipe,
-                                                            text=True)])
+        self.mocked_subprocess_popen.assert_has_calls(
+            [
+                call(
+                    apache_kafka_zookeeper_startup_command,
+                    stderr=self.mocked_subprocess_pipe,
+                    stdout=self.mocked_subprocess_pipe,
+                    text=True,
+                ),
+                call(
+                    apache_kafka_server_startup_command,
+                    stderr=self.mocked_subprocess_pipe,
+                    stdout=self.mocked_subprocess_pipe,
+                    text=True,
+                ),
+            ]
+        )
 
-    @patch("api.endpoints.endpoints.eventlet.Timeout", side_effect=[True, True, True, True, False])
+    @patch(
+        "api.endpoints.endpoints.eventlet.Timeout",
+        side_effect=[True, True, True, True, False],
+    )
     def test_startup_apache_kafka_function_prints_contents_of_apache_kafka_server_start_after_starting_kafka_zookeeper(
-            self, mocked_eventlet_timeout: Mock) -> None:
+        self, mocked_eventlet_timeout: Mock
+    ) -> None:
         """
         Test that function to start apache kafka prints contents of the apache kafka server process to terminal after
         successful start of apache kafka zookeeper.
@@ -398,71 +512,106 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         """
         apache_kafka_server_startup_command = [
             os.getenv("APACHE_KAFKA_SERVER_START_EXECUTABLE_FULL_PATH"),
-            os.getenv("APACHE_KAFKA_SERVER_PROPERTIES_FULL_PATH")
+            os.getenv("APACHE_KAFKA_SERVER_PROPERTIES_FULL_PATH"),
         ]
 
         another_app = FastAPI()
-        text_from_apache_kafka_server_start_indicating_successful_start = "started (kafka.server.KafkaServer)"
+        text_from_apache_kafka_server_start_indicating_successful_start = (
+            "started (kafka.server.KafkaServer)"
+        )
 
         with patch("builtins.print") as mocked_print_function:
             startup_apache_kafka(another_app)
 
-            self.mocked_subprocess_popen.assert_has_calls([call(apache_kafka_server_startup_command,
-                                                                stderr=self.mocked_subprocess_pipe,
-                                                                stdout=self.mocked_subprocess_pipe,
-                                                                text=True)])
+            self.mocked_subprocess_popen.assert_has_calls(
+                [
+                    call(
+                        apache_kafka_server_startup_command,
+                        stderr=self.mocked_subprocess_pipe,
+                        stdout=self.mocked_subprocess_pipe,
+                        text=True,
+                    )
+                ]
+            )
 
-            mocked_eventlet_timeout.assert_called_with(int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS")))
+            mocked_eventlet_timeout.assert_called_with(
+                int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS"))
+            )
 
             self.mocked_select_select.assert_has_calls([call([0, 0], [], [], 0.1)])
 
             mocked_print_function.assert_has_calls(
                 [
-                    call(text_from_apache_kafka_server_start_indicating_successful_start),
-                    call("\nSUCCESSFULLY STARTED APACHE KAFKA SERVER\n")
+                    call(
+                        text_from_apache_kafka_server_start_indicating_successful_start
+                    ),
+                    call("\nSUCCESSFULLY STARTED APACHE KAFKA SERVER\n"),
                 ]
             )
 
-    @patch("api.endpoints.endpoints.eventlet.Timeout", side_effect=[True, True, True, eventlet.timeout.Timeout])
-    def test_startup_apache_kafka_function_raises_exception_on_apache_kafka_server_start_timeout(self,
-                                                                                                 mocked_eventlet_timeout: Mock) -> None:
+    @patch(
+        "api.endpoints.endpoints.eventlet.Timeout",
+        side_effect=[True, True, True, eventlet.timeout.Timeout],
+    )
+    def test_startup_apache_kafka_function_raises_exception_on_apache_kafka_server_start_timeout(
+        self, mocked_eventlet_timeout: Mock
+    ) -> None:
         """
         Test that function to start apache kafka raises exception if there is a timeout for the kafka server to start.
         :return: None
         """
         apache_kafka_server_startup_command = [
             os.getenv("APACHE_KAFKA_SERVER_START_EXECUTABLE_FULL_PATH"),
-            os.getenv("APACHE_KAFKA_SERVER_PROPERTIES_FULL_PATH")
+            os.getenv("APACHE_KAFKA_SERVER_PROPERTIES_FULL_PATH"),
         ]
 
         another_app = FastAPI()
-        text_from_apache_kafka_server_start_indicating_successful_start = "started (kafka.server.KafkaServer)"
+        text_from_apache_kafka_server_start_indicating_successful_start = (
+            "started (kafka.server.KafkaServer)"
+        )
 
         with patch("builtins.print") as mocked_print_function:
-            self.mocked_select_select = patch("select.select", return_value=(
-                [
-                    SimpleNamespace(readline=lambda: "first"),
-                    SimpleNamespace(readline=lambda: "binding to port 0.0.0.0/0.0.0.0:2181"),
-                ], ["second"],
-                ["third"],)).start()
+            self.mocked_select_select = patch(
+                "select.select",
+                return_value=(
+                    [
+                        SimpleNamespace(readline=lambda: "first"),
+                        SimpleNamespace(
+                            readline=lambda: "binding to port 0.0.0.0/0.0.0.0:2181"
+                        ),
+                    ],
+                    ["second"],
+                    ["third"],
+                ),
+            ).start()
 
-            self.assertRaises(eventlet.timeout.Timeout, startup_apache_kafka, another_app)
+            self.assertRaises(
+                eventlet.timeout.Timeout, startup_apache_kafka, another_app
+            )
 
-            mocked_eventlet_timeout.assert_called_with(int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS")))
+            mocked_eventlet_timeout.assert_called_with(
+                int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS"))
+            )
 
-            self.mocked_subprocess_popen.assert_called_with(apache_kafka_server_startup_command,
-                                                            stdout=self.mocked_subprocess_pipe,
-                                                            stderr=self.mocked_subprocess_pipe, text=True)
+            self.mocked_subprocess_popen.assert_called_with(
+                apache_kafka_server_startup_command,
+                stdout=self.mocked_subprocess_pipe,
+                stderr=self.mocked_subprocess_pipe,
+                text=True,
+            )
 
-            self.assertNotIn(call(text_from_apache_kafka_server_start_indicating_successful_start),
-                             mocked_print_function.mock_calls)
+            self.assertNotIn(
+                call(text_from_apache_kafka_server_start_indicating_successful_start),
+                mocked_print_function.mock_calls,
+            )
 
             self.assertFalse(hasattr(another_app.state, "zookeeper_subprocess"))
             self.assertFalse(hasattr(another_app.state, "kafka_server_subprocess"))
 
     @patch("api.endpoints.endpoints.eventlet.Timeout", side_effect=[True, True])
-    def test_startup_apache_kafka_raises_exception_on_failed_apache_kafka_server_startup(self,
-                                                                                         mocked_eventlet_timeout: Mock) -> None:
+    def test_startup_apache_kafka_raises_exception_on_failed_apache_kafka_server_startup(
+        self, mocked_eventlet_timeout: Mock
+    ) -> None:
         """
         Test that function to start apache kafka raises exception if during the startup of apache kafka server there
         was a startup failure.
@@ -471,41 +620,71 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
 
         apache_kafka_server_startup_command = [
             os.getenv("APACHE_KAFKA_SERVER_START_EXECUTABLE_FULL_PATH"),
-            os.getenv("APACHE_KAFKA_SERVER_PROPERTIES_FULL_PATH")
+            os.getenv("APACHE_KAFKA_SERVER_PROPERTIES_FULL_PATH"),
         ]
 
         another_app = FastAPI()
-        text_from_apache_kafka_server_start_indicating_successful_start = "started (kafka.server.KafkaServer)"
+        text_from_apache_kafka_server_start_indicating_successful_start = (
+            "started (kafka.server.KafkaServer)"
+        )
 
         with patch("builtins.print") as mocked_print_function:
-            self.mocked_select_select = patch("select.select", return_value=(
-                [
-                    SimpleNamespace(readline=lambda: "first"),
-                    SimpleNamespace(readline=lambda: "binding to port 0.0.0.0/0.0.0.0:2181"),
-                    SimpleNamespace(readline=lambda: random.choice(["Failed to acquire lock on file .lock",
-                                                                    "shutting down (kafka.server.KafkaServer)"])),
-                ], ["second"],
-                ["third"],)).start()
+            self.mocked_select_select = patch(
+                "select.select",
+                return_value=(
+                    [
+                        SimpleNamespace(readline=lambda: "first"),
+                        SimpleNamespace(
+                            readline=lambda: "binding to port 0.0.0.0/0.0.0.0:2181"
+                        ),
+                        SimpleNamespace(
+                            readline=lambda: random.choice(
+                                [
+                                    "Failed to acquire lock on file .lock",
+                                    "shutting down (kafka.server.KafkaServer)",
+                                ]
+                            )
+                        ),
+                    ],
+                    ["second"],
+                    ["third"],
+                ),
+            ).start()
 
-            self.assertRaises(subprocess.CalledProcessError, startup_apache_kafka, another_app)
+            self.assertRaises(
+                subprocess.CalledProcessError, startup_apache_kafka, another_app
+            )
 
-            mocked_eventlet_timeout.assert_called_with(int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS")))
+            mocked_eventlet_timeout.assert_called_with(
+                int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS"))
+            )
 
-            self.mocked_subprocess_popen.assert_called_with(apache_kafka_server_startup_command,
-                                                            stdout=self.mocked_subprocess_pipe,
-                                                            stderr=self.mocked_subprocess_pipe, text=True)
+            self.mocked_subprocess_popen.assert_called_with(
+                apache_kafka_server_startup_command,
+                stdout=self.mocked_subprocess_pipe,
+                stderr=self.mocked_subprocess_pipe,
+                text=True,
+            )
 
-            mocked_print_function.assert_has_calls([call("\nFAILED TO STARTUP APACHE KAFKA SERVER\n")])
+            mocked_print_function.assert_has_calls(
+                [call("\nFAILED TO STARTUP APACHE KAFKA SERVER\n")]
+            )
 
-            self.assertNotIn(call(text_from_apache_kafka_server_start_indicating_successful_start),
-                             mocked_print_function.mock_calls)
+            self.assertNotIn(
+                call(text_from_apache_kafka_server_start_indicating_successful_start),
+                mocked_print_function.mock_calls,
+            )
 
             self.assertFalse(hasattr(another_app.state, "zookeeper_subprocess"))
             self.assertFalse(hasattr(another_app.state, "kafka_server_subprocess"))
 
-    @patch("api.endpoints.endpoints.eventlet.Timeout", side_effect=[True, False, True, False])
+    @patch(
+        "api.endpoints.endpoints.eventlet.Timeout",
+        side_effect=[True, False, True, False],
+    )
     def test_at_successful_end_of_apache_startup_there_are_state_attributes_set_for_kafka_zookeeper_and_server_processes(
-            self, *_) -> None:
+        self, *_
+    ) -> None:
         """
         Test that after successful startup of apache kafka, there are state attributes set for kafka zookeeper and server processes
         :return: None
@@ -520,7 +699,7 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
 
         self.mocked_subprocess_popen.side_effect = [
             SimpleNamespace(returncode=None, stdout=0, stderr=0),
-            SimpleNamespace(returncode=-1, stdout=0, stderr=0)
+            SimpleNamespace(returncode=-1, stdout=0, stderr=0),
         ]
 
         another_app = FastAPI()
@@ -535,7 +714,8 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
             self.fail(f"Unexpected exception: {e}")
 
     def test_shutdown_apache_kafka_raises_exception_if_existing_kafka_zookeeper_and_server_for_app_instance_is_non_existent(
-            self) -> None:
+        self,
+    ) -> None:
         """
         Test that the function to shut down Apache Kafka raises an exception if kafka zookeeper and or server don't exist for
         the app instance upon which the shutdown was called with.
@@ -546,13 +726,16 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         with self.assertRaises(exceptions.OperationNotAllowedException) as context:
             shutdown_apache_kafka(another_app)
 
-        self.assertEqual(context.exception.__str__(),
-                         "You cannot shutdown apache kafka as there's none running for this instance of the server!")
+        self.assertEqual(
+            context.exception.__str__(),
+            "You cannot shutdown apache kafka as there's none running for this instance of the server!",
+        )
 
     @patch("warnings.warn")
     @patch("subprocess.Popen")
     def test_shutdown_apache_kafka_uses_subprocess_stop_if_there_is_an_error_with_using_the_official_kafka_stop_executables(
-            self, mocked_subprocess_popen: Mock, *_) -> None:
+        self, mocked_subprocess_popen: Mock, *_
+    ) -> None:
         """
         Test that the function to shut down Apache Kafka uses subprocess termination
         if there was an error with the official Kafka stop executables.
@@ -577,24 +760,31 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         mocked_subprocess_popen.side_effect = [
             first_popen_instance,
             second_popen_instance,
-            failing_popen_instance
+            failing_popen_instance,
         ]
 
         # Start and then shut down Kafka
         startup_apache_kafka(another_app)
         shutdown_apache_kafka(another_app)
 
-        mocked_subprocess_popen.assert_has_calls([
-            call(apache_kafka_server_shutdown_command, stderr=self.mocked_subprocess_pipe,
-                 stdout=self.mocked_subprocess_pipe, text=True),
-        ])
+        mocked_subprocess_popen.assert_has_calls(
+            [
+                call(
+                    apache_kafka_server_shutdown_command,
+                    stderr=self.mocked_subprocess_pipe,
+                    stdout=self.mocked_subprocess_pipe,
+                    text=True,
+                ),
+            ]
+        )
 
         first_popen_instance.terminate.assert_called_once()
         second_popen_instance.terminate.assert_called_once()
 
     @patch("subprocess.Popen")
-    def test_shutdown_apache_kafka_raises_warning_on_erroneous_official_kafka_shutdown_executable_call(self,
-                                                                                                       mocked_subprocess_popen) -> None:
+    def test_shutdown_apache_kafka_raises_warning_on_erroneous_official_kafka_shutdown_executable_call(
+        self, mocked_subprocess_popen
+    ) -> None:
         """
         Test that function to shut down Apache Kafka raises warning if there was an error while executing subprocess to
         run official kafka shutdown executables.
@@ -616,7 +806,7 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         mocked_subprocess_popen.side_effect = [
             first_popen_instance,
             second_popen_instance,
-            failing_popen_instance
+            failing_popen_instance,
         ]
 
         # Start and then shut down Kafka
@@ -625,12 +815,15 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         with self.assertWarns(InelegantKafkaShutdownWarning) as context:
             shutdown_apache_kafka(another_app)
 
-        self.assertEqual(context.warning.__str__(),
-                         "Kafka's Zookeeper and Server couldn't be closed via the official Kafka closure executables! A subprocess.Popen.terminate() to their subprocesses was used instead.")
+        self.assertEqual(
+            context.warning.__str__(),
+            "Kafka's Zookeeper and Server couldn't be closed via the official Kafka closure executables! A subprocess.Popen.terminate() to their subprocesses was used instead.",
+        )
 
     @patch("api.endpoints.endpoints.start_apache_kafka_producer")
-    def test_start_apache_kafka_producer_takes_a_fastapi_object_argument(self,
-                                                                         mocked_start_apache_kafka_producer: Mock) -> None:
+    def test_start_apache_kafka_producer_takes_a_fastapi_object_argument(
+        self, mocked_start_apache_kafka_producer: Mock
+    ) -> None:
         """
         Test that function to start apache kafka producer takes FastAPI app instance argument.
 
@@ -642,7 +835,9 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
             mocked_start_apache_kafka_producer.assert_called_once_with(app)
             app.state.kafka_producer = self.mocked_AIOKafkaProducer()
 
-    def test_start_apache_kafka_producer_sets_fastapi_app_kafka_producer_attribute(self) -> None:
+    def test_start_apache_kafka_producer_sets_fastapi_app_kafka_producer_attribute(
+        self,
+    ) -> None:
         """
         Test that function to start apache kafka producer sets the fastapi state kafka_producer attribute.
 
@@ -652,7 +847,8 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
             self.assertIsNotNone(app.state.kafka_producer)
 
     async def test_start_apache_kafka_producer_does_not_recreate_another_producer_on_the_same_instance_of_fastapi(
-            self) -> None:
+        self,
+    ) -> None:
         """
         Test that function to start apache kafka producer does not create more than one for a single fastapi app instance.
 
@@ -667,12 +863,14 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
 
             if context.warning.__str__() != expected_warning_text:
                 self.fail(
-                    f"Improper handling of repeated start of kafka producer for app instance\nexpected: {expected_warning_text}\nactual: {context.warning.__str__()}")
+                    f"Improper handling of repeated start of kafka producer for app instance\nexpected: {expected_warning_text}\nactual: {context.warning.__str__()}"
+                )
 
             self.mocked_AIOKafkaProducer.assert_called_once()
 
     async def test_start_apache_kafka_producer_starts_AIOKafkaProducer_with_expected_argument_for_boostrap_servers(
-            self) -> None:
+        self,
+    ) -> None:
         """
         Test that function to start apache kafka producer starts AIOKafkaProducer with expected values.
         :return: None
@@ -680,7 +878,8 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
 
         with TestClient(app):
             self.mocked_AIOKafkaProducer.assert_called_once_with(
-                bootstrap_servers=f'{os.getenv("APACHE_KAFKA_BOOTSTRAP_SERVER_HOST")}:{os.getenv("APACHE_KAFKA_BOOTSTRAP_SERVER_PORT")}')
+                bootstrap_servers=f'{os.getenv("APACHE_KAFKA_BOOTSTRAP_SERVER_HOST")}:{os.getenv("APACHE_KAFKA_BOOTSTRAP_SERVER_PORT")}'
+            )
 
     def test_start_apache_kafka_producer_starts_the_kafka_producer(self) -> None:
         """
@@ -690,7 +889,9 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         with TestClient(app):
             self.mocked_AIOKafkaProducer().start.assert_called_once()
 
-    async def test_close_apache_kafka_producer_calls_close_on_the_server_AIOKafkaProducer_object(self) -> None:
+    async def test_close_apache_kafka_producer_calls_close_on_the_server_AIOKafkaProducer_object(
+        self,
+    ) -> None:
         """
         Test that function to close server Apache Kafka Producer (in this case AIOKafkaProducer) closes the server producer
         AIOKafkaProducer object.
@@ -712,7 +913,8 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         self.mocked_AIOKafkaProducer().stop.assert_called_once()
 
     async def test_close_apache_kafka_producer_triggers_warning_when_supplied_fastapi_application_instance_has_no_kafka_producer_state_attribute(
-            self):
+        self,
+    ):
         """
         Test that functon to close server Apache Kafka Producer triggers a warning in the case that there is no kafka producer
         state attribute on the passed fastapi application argument.
@@ -722,8 +924,10 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
         with self.assertWarns(InelegantKafkaShutdownWarning) as context:
             await close_apache_kafka_producer(another_app)
 
-        self.assertEqual(context.warning.__str__(),
-                         "You cannot shutdown apache kafka producer as there's none [recorded] running for this instance of the server!")
+        self.assertEqual(
+            context.warning.__str__(),
+            "You cannot shutdown apache kafka producer as there's none [recorded] running for this instance of the server!",
+        )
 
         self.mocked_AIOKafkaProducer().stop.assert_not_called()
 
@@ -738,14 +942,16 @@ class WebSocketTestCase(base.BaseTestDatabaseTestCase):
         super().setUpClass()
         patch("controller.Controller")
 
-    def test_that_connection_to_invalid_chat_websocket_url_cannot_be_established(self) -> None:
+    def test_that_connection_to_invalid_chat_websocket_url_cannot_be_established(
+        self,
+    ) -> None:
         """
         Test that connection establishment with invalid chat web socket url cannot be established.
         The web socket connection route must pass validation checks.
 
         :return: None
         """
-        url_to_connect_to = "/ws/" + os.getenv('TEST_CHAT_UUID')
+        url_to_connect_to = "/ws/" + os.getenv("TEST_CHAT_UUID")
 
         try:
             with self.client.websocket_connect(url_to_connect_to) as websocket:
@@ -757,7 +963,8 @@ class WebSocketTestCase(base.BaseTestDatabaseTestCase):
             pass
         except Exception as e:
             self.fail(
-                f"Web socket connection to {url_to_connect_to} isn't supposed to raise an exception, exception raised is: {e} ")
+                f"Web socket connection to {url_to_connect_to} isn't supposed to raise an exception, exception raised is: {e} "
+            )
 
 
 class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
@@ -781,15 +988,27 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
         delete_response = self.client.delete("/set_up_chat/")
         patch_response = self.client.patch("/set_up_chat/")
 
-        self.assertTrue(post_response.status_code.__str__()[0] in {"2", "3"},  # required for OK/redirect responses.
-                        f"Endpoint to set up chat is incorrect, the returned status code is: {post_response.status_code}")
+        self.assertTrue(
+            post_response.status_code.__str__()[0]
+            in {"2", "3"},  # required for OK/redirect responses.
+            f"Endpoint to set up chat is incorrect, the returned status code is: {post_response.status_code}",
+        )
 
-        self.assertEqual(gr := get_response.status_code, 405,
-                         f"Endpoint isn't supposed to accept/process get requests, the returned status code is: {gr}")
-        self.assertEqual(dr := delete_response.status_code, 405,
-                         f"Endpoint isn't supposed to accept/process delete requests, the returned status code is: {dr}")
-        self.assertEqual(pr := patch_response.status_code, 405,
-                         f"Endpoint isn't supposed to accept/process patch requests, the returned status code is: {pr}")
+        self.assertEqual(
+            gr := get_response.status_code,
+            405,
+            f"Endpoint isn't supposed to accept/process get requests, the returned status code is: {gr}",
+        )
+        self.assertEqual(
+            dr := delete_response.status_code,
+            405,
+            f"Endpoint isn't supposed to accept/process delete requests, the returned status code is: {dr}",
+        )
+        self.assertEqual(
+            pr := patch_response.status_code,
+            405,
+            f"Endpoint isn't supposed to accept/process patch requests, the returned status code is: {pr}",
+        )
 
     @patch("controller.controller_def.User")
     @patch("controller.Controller")
@@ -805,7 +1024,9 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
 
     @patch("controller.controller_def.User")
     @patch("controller.Controller")
-    def test_endpoint_returns_redirect_response_pointing_to_the_url_for_the_chat(self, *_) -> None:
+    def test_endpoint_returns_redirect_response_pointing_to_the_url_for_the_chat(
+        self, *_
+    ) -> None:
         """
         Test that response to endpoint is a  redirect request which points to the URL for the chat.
         :return: None
@@ -813,34 +1034,49 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
 
         post_response = self.client.post("/set_up_chat/", follow_redirects=False)
 
-        self.assertTrue(post_response.status_code.__str__().startswith('3'))
+        self.assertTrue(post_response.status_code.__str__().startswith("3"))
 
     @patch("controller.controller_def.User")
-    def test_endpoint_redirect_url_matches_that_of_the_expected_chat_url(self, *_) -> None:
+    def test_endpoint_redirect_url_matches_that_of_the_expected_chat_url(
+        self, *_
+    ) -> None:
         """
         Test that URL redirected to from endpoint matches expected chat url
         :return: None
         """
         with patch("api.endpoints.endpoints.Controller"):
-            response = self.client.post("/set_up_chat/", json={"chat_context": "Hello world"},
-                                        follow_redirects=True)
+            response = self.client.post(
+                "/set_up_chat/",
+                json={"chat_context": "Hello world"},
+                follow_redirects=True,
+            )
 
-            self.assertEqual(f'chat/{[i for i in self.session.query(Chat)][-1].uuid.__str__()}',
-                             '/'.join(response.url.__str__().split("/")[-2:]))
+            self.assertEqual(
+                f"chat/{[i for i in self.session.query(Chat)][-1].uuid.__str__()}",
+                "/".join(response.url.__str__().split("/")[-2:]),
+            )
 
     @patch("controller.controller_def.User")
-    def test_endpoint_creates_new_application_controller_for_chat_session(self, *_) -> None:
+    def test_endpoint_creates_new_application_controller_for_chat_session(
+        self, *_
+    ) -> None:
         """
         Test that endpoint creates application controller.
         :return: None
         """
         with patch("api.endpoints.endpoints.Controller") as mock_application_controller:
             with patch("controller.controller_def.websockets"):
-                response = self.client.post("/set_up_chat/",
-                                            json={'chat_context': "Hello world"},
-                                            follow_redirects=True)
-                mock_application_controller.assert_called_once_with(1, "ws://localhost:8000/" + "/".join(
-                    response.url.__str__().split("/")[-2:]), "Hello world")
+                response = self.client.post(
+                    "/set_up_chat/",
+                    json={"chat_context": "Hello world"},
+                    follow_redirects=True,
+                )
+                mock_application_controller.assert_called_once_with(
+                    1,
+                    "ws://localhost:8000/"
+                    + "/".join(response.url.__str__().split("/")[-2:]),
+                    "Hello world",
+                )
 
     def test_endpoint_takes_request_json_body_of_expected_type(self) -> None:
         """

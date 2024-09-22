@@ -6,6 +6,7 @@ This module contains test cases for testing user roles and their functionality.
 Classes:
   TestRolesTestCase
 """
+
 import inspect
 import unittest
 from enum import Enum

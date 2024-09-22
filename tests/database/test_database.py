@@ -29,7 +29,9 @@ class TestGetDB(base.BaseTestDatabaseTestCase):
         db_generator = override_get_db()
         session = next(db_generator)
 
-        self.assertTrue(isinstance(session, Session), f"The returned type is: {type(session)}")
+        self.assertTrue(
+            isinstance(session, Session), f"The returned type is: {type(session)}"
+        )
 
         # Session needs to be properly closed.
         session.close()
@@ -48,6 +50,11 @@ class TestGetDB(base.BaseTestDatabaseTestCase):
 
         all_db_tables = Base.metadata.tables.keys()
 
-        self.assertEqual(0,  # alembic_version table is not created in test database
-                         len(set(existing_tables_in_db_returned_by_get_db).difference({'alembic_version'}).difference(
-                             set(all_db_tables))))
+        self.assertEqual(
+            0,  # alembic_version table is not created in test database
+            len(
+                set(existing_tables_in_db_returned_by_get_db)
+                .difference({"alembic_version"})
+                .difference(set(all_db_tables))
+            ),
+        )

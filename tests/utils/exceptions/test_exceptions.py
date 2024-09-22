@@ -8,6 +8,7 @@ exception module.
 Classes:
   TestOperationNotAllowedException
 """
+
 import unittest
 
 from utils.exceptions import OperationNotAllowedException

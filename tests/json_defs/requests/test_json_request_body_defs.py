@@ -1,6 +1,7 @@
 """
 Module for tests for api endpoints request json types
 """
+
 import unittest
 
 import pydantic
@@ -21,7 +22,9 @@ class TestSetUpChatRequestJsonProperties(unittest.TestCase):
         self.assertTrue(issubclass(json.SetUpChatRequestBody, pydantic.BaseModel))
         self.assertEqual(json.SetUpChatRequestBody.model_fields.__len__(), 1)
         self.assertIsNotNone(json.SetUpChatRequestBody.model_fields.get("chat_context"))
-        self.assertTrue(json.SetUpChatRequestBody.model_fields.get("chat_context").is_required())
+        self.assertTrue(
+            json.SetUpChatRequestBody.model_fields.get("chat_context").is_required()
+        )
 
         try:
             json.SetUpChatRequestBody(**{"chat_context": "some chat context"})

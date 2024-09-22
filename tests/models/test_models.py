@@ -4,6 +4,7 @@ Module for tests for application models.
 Classes:
   ChatModelTestCase
 """
+
 import inspect
 import unittest
 
@@ -22,7 +23,10 @@ class ChatModelTestCase(unittest.TestCase):
         Test that the model is a class model
         :return: None
         """
-        self.assertTrue(inspect.isclass(models.Chat), "The message model is supposed to be a class model.")
+        self.assertTrue(
+            inspect.isclass(models.Chat),
+            "The message model is supposed to be a class model.",
+        )
 
     def test_model_inherits_from_sqlalchemy_base(self) -> None:
         """
@@ -32,7 +36,10 @@ class ChatModelTestCase(unittest.TestCase):
 
         # DeclarativeMeta in this instance will require some primary key and __tablename__
 
-        self.assertTrue(models.Chat.uuid.primary_key, "uuid is supposed to be the primary key but it isn't the primary key!")
+        self.assertTrue(
+            models.Chat.uuid.primary_key,
+            "uuid is supposed to be the primary key but it isn't the primary key!",
+        )
 
         self.assertIsNotNone(models.Chat.__tablename__)
         self.assertEqual(models.Chat.__tablename__, "Chats")

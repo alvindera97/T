@@ -3,6 +3,7 @@ Websocket API module.
 
 This module contains method(s) defining application any web socket endpoint(s)
 """
+
 import os
 import select
 import subprocess
@@ -29,6 +30,7 @@ class InelegantKafkaShutdownWarning(Warning):
     """
     Warning to indicate issues with shutdown of kafka
     """
+
     pass
 
 
@@ -36,6 +38,7 @@ class MultipleKafkaProducerStartWarning(Warning):
     """
     Warning to indicate attempt to start kafka producer on app with existing kafka producer.
     """
+
     pass
 
 
@@ -46,13 +49,16 @@ async def start_apache_kafka_producer(fastapi_application: FastAPI):
     :param fastapi_application: Instance of FastAPI application to set properties on.
     """
 
-    if hasattr(fastapi_application.state, 'kafka_producer'):
-        warnings.warn(f"There's an existing kafka producer for this app instance: {hex(id(fastapi_application))}",
-                      MultipleKafkaProducerStartWarning)
+    if hasattr(fastapi_application.state, "kafka_producer"):
+        warnings.warn(
+            f"There's an existing kafka producer for this app instance: {hex(id(fastapi_application))}",
+            MultipleKafkaProducerStartWarning,
+        )
         return
 
     fastapi_application.state.kafka_producer = AIOKafkaProducer(
-        bootstrap_servers=f'{os.getenv("APACHE_KAFKA_BOOTSTRAP_SERVER_HOST")}:{os.getenv("APACHE_KAFKA_BOOTSTRAP_SERVER_PORT")}')
+        bootstrap_servers=f'{os.getenv("APACHE_KAFKA_BOOTSTRAP_SERVER_HOST")}:{os.getenv("APACHE_KAFKA_BOOTSTRAP_SERVER_PORT")}'
+    )
 
     await fastapi_application.state.kafka_producer.start()
 
@@ -66,7 +72,8 @@ async def close_apache_kafka_producer(fastapi_application: FastAPI):
     if not hasattr(fastapi_application.state, "kafka_producer"):
         warnings.warn(
             "You cannot shutdown apache kafka producer as there's none [recorded] running for this instance of the server!",
-            InelegantKafkaShutdownWarning)
+            InelegantKafkaShutdownWarning,
+        )
         return
     await fastapi_application.state.kafka_producer.stop()
 
@@ -85,14 +92,14 @@ def startup_apache_kafka(fastapi_application: FastAPI):
     # Start Apache Kafka Zookeeper
     apache_kafka_zookeeper_startup_command = [
         os.getenv("APACHE_KAFKA_ZOOKEEPER_SERVER_START_EXECUTABLE_FULL_PATH"),
-        os.getenv("APACHE_KAFKA_ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH")
+        os.getenv("APACHE_KAFKA_ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH"),
     ]
 
     zookeeper_process = subprocess.Popen(
         apache_kafka_zookeeper_startup_command,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        text=True
+        text=True,
     )
 
     while eventlet.Timeout(int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS"))):
@@ -107,11 +114,14 @@ def startup_apache_kafka(fastapi_application: FastAPI):
                 print(output.strip())
 
                 if "binding to port 0.0.0.0/0.0.0.0:2181" in output.strip():
-                    print(f'\nSUCCESSFULLY STARTED APACHE KAFKA ZOOKEEPER\n')
+                    print(f"\nSUCCESSFULLY STARTED APACHE KAFKA ZOOKEEPER\n")
                     breakout = True
                     break
 
-                if "Failed to acquire lock on file .lock" in output.strip() or "Exiting Kafka" in output.strip():
+                if (
+                    "Failed to acquire lock on file .lock" in output.strip()
+                    or "Exiting Kafka" in output.strip()
+                ):
                     print(f"FAILED TO START APACHE KAFKA ZOOKEEPER")
                     zookeeper_process.kill()
                     zookeeper_process.return_code = -1
@@ -121,7 +131,9 @@ def startup_apache_kafka(fastapi_application: FastAPI):
         if breakout:
             break
 
-    if zookeeper_process.returncode is not None:  # We're not expecting zookeeper to stop and return a returncode.
+    if (
+        zookeeper_process.returncode is not None
+    ):  # We're not expecting zookeeper to stop and return a returncode.
         raise subprocess.CalledProcessError(
             returncode=zookeeper_process.returncode,
             cmd=apache_kafka_zookeeper_startup_command,
@@ -130,19 +142,22 @@ def startup_apache_kafka(fastapi_application: FastAPI):
     # Start Apache Kafka server
     apache_kafka_server_startup_command = [
         os.getenv("APACHE_KAFKA_SERVER_START_EXECUTABLE_FULL_PATH"),
-        os.getenv("APACHE_KAFKA_SERVER_PROPERTIES_FULL_PATH")
+        os.getenv("APACHE_KAFKA_SERVER_PROPERTIES_FULL_PATH"),
     ]
 
     apache_kafka_server_startup_process = subprocess.Popen(
         apache_kafka_server_startup_command,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        text=True
+        text=True,
     )
 
     while eventlet.Timeout(int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS"))):
         breakout = False
-        reads = [apache_kafka_server_startup_process.stdout, apache_kafka_server_startup_process.stderr]
+        reads = [
+            apache_kafka_server_startup_process.stdout,
+            apache_kafka_server_startup_process.stderr,
+        ]
         ready_to_read, _, _ = select.select(reads, [], [], 0.1)
 
         for pipe in ready_to_read:
@@ -156,7 +171,10 @@ def startup_apache_kafka(fastapi_application: FastAPI):
                     breakout = True
                     break
 
-                if "Failed to acquire lock on file .lock" in output.strip() or "shutting down (kafka.server.KafkaServer)" in output.strip():
+                if (
+                    "Failed to acquire lock on file .lock" in output.strip()
+                    or "shutting down (kafka.server.KafkaServer)" in output.strip()
+                ):
                     breakout = True
                     apache_kafka_server_startup_process.kill()
                     apache_kafka_server_startup_process.returncode = -1
@@ -169,11 +187,13 @@ def startup_apache_kafka(fastapi_application: FastAPI):
     if apache_kafka_server_startup_process.returncode is not None:
         raise subprocess.CalledProcessError(
             returncode=apache_kafka_server_startup_process.returncode,
-            cmd=apache_kafka_zookeeper_startup_command
+            cmd=apache_kafka_zookeeper_startup_command,
         )
 
     fastapi_application.state.zookeeper_subprocess = zookeeper_process
-    fastapi_application.state.kafka_server_subprocess = apache_kafka_server_startup_process
+    fastapi_application.state.kafka_server_subprocess = (
+        apache_kafka_server_startup_process
+    )
 
 
 def shutdown_apache_kafka(fastapi_application: FastAPI):
@@ -187,10 +207,12 @@ def shutdown_apache_kafka(fastapi_application: FastAPI):
     If kafka's server or zookeeper isn't running, OperationNotAllowedException will be raised.
     """
 
-    if not hasattr(fastapi_application.state, "zookeeper_subprocess") or not hasattr(fastapi_application.state,
-                                                                                     "kafka_server_subprocess"):
+    if not hasattr(fastapi_application.state, "zookeeper_subprocess") or not hasattr(
+        fastapi_application.state, "kafka_server_subprocess"
+    ):
         raise exceptions.OperationNotAllowedException(
-            "You cannot shutdown apache kafka as there's none running for this instance of the server!")
+            "You cannot shutdown apache kafka as there's none running for this instance of the server!"
+        )
 
     apache_kafka_zookeeper_shutdown_command, apache_kafka_server_shutdown_command = [
         os.getenv("APACHE_KAFKA_ZOOKEEPER_SERVER_STOP_EXECUTABLE_FULL_PATH"),
@@ -202,17 +224,19 @@ def shutdown_apache_kafka(fastapi_application: FastAPI):
         apache_kafka_server_shutdown_command,
         stderr=subprocess.PIPE,
         stdout=subprocess.PIPE,
-        text=True
+        text=True,
     )
 
     if (
-            type(
-                apache_kafka_shutdown_process.returncode) is int and apache_kafka_shutdown_process.returncode < 0) or apache_kafka_shutdown_process.returncode is not None:  # if returncode is None, process didn't return immediately
+        type(apache_kafka_shutdown_process.returncode) is int
+        and apache_kafka_shutdown_process.returncode < 0
+    ) or apache_kafka_shutdown_process.returncode is not None:  # if returncode is None, process didn't return immediately
         fastapi_application.state.kafka_server_subprocess.terminate()
         fastapi_application.state.zookeeper_subprocess.terminate()
         warnings.warn(
             "Kafka's Zookeeper and Server couldn't be closed via the official Kafka closure executables! A subprocess.Popen.terminate() to their subprocesses was used instead.",
-            InelegantKafkaShutdownWarning)
+            InelegantKafkaShutdownWarning,
+        )
 
     # Here, we're fairly guaranteed that we can safely close the zookeeper server successfully.
     else:
@@ -220,7 +244,7 @@ def shutdown_apache_kafka(fastapi_application: FastAPI):
             apache_kafka_zookeeper_shutdown_command,
             stderr=subprocess.PIPE,
             stdout=subprocess.PIPE,
-            text=True
+            text=True,
         )
 
     return
@@ -260,17 +284,19 @@ async def handle_chat(websocket: WebSocket, chat_uuid: uuid.UUID):
     """
     await websocket.accept()
 
-    if chat_uuid.__str__() != os.getenv('TEST_CHAT_UUID'):
+    if chat_uuid.__str__() != os.getenv("TEST_CHAT_UUID"):
         raise Exception("Invalid chat URL")
 
     while True:
         data = await websocket.receive_text()
-        print(f'message just sent now: {data.__str__()}')
+        print(f"message just sent now: {data.__str__()}")
         break
 
 
 @app.post("/set_up_chat", response_class=RedirectResponse, status_code=302)
-async def set_up_chat(request_json_body: json.SetUpChatRequestBody, session: Session = Depends(db.get_db)):
+async def set_up_chat(
+    request_json_body: json.SetUpChatRequestBody, session: Session = Depends(db.get_db)
+):
     """
     Endpoint for setting up chat.
 
@@ -280,6 +306,8 @@ async def set_up_chat(request_json_body: json.SetUpChatRequestBody, session: Ses
     chat_url = "chat/" + utility_functions.add_new_chat(session)
 
     # run blocking Controller function in separate thread.
-    executor.submit(Controller, 1, 'ws://localhost:8000/' + chat_url, request_json_body.chat_context)
+    executor.submit(
+        Controller, 1, "ws://localhost:8000/" + chat_url, request_json_body.chat_context
+    )
 
     return chat_url

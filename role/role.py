@@ -7,6 +7,7 @@ object.
 Classes:
   Roles
 """
+
 from enum import Enum
 
 
@@ -14,6 +15,7 @@ class Roles(Enum):
     """
     Enum class definition of [user/client] role.
     """
+
     NOT_SET = 0
     PUBLISHER = 1
     SUBSCRIBER = 2

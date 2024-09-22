@@ -4,6 +4,7 @@ Base database test class module.
 Classes:
   BaseTestDatabaseTestCase
 """
+
 import inspect
 import os
 import unittest
@@ -28,8 +29,8 @@ class BaseTestDatabaseTestCase(unittest.TestCase):
     def setUpClass(cls):
         cls.engine = create_engine(
             "sqlite:///:memory:",
-            echo=os.getenv('DEBUG', False) == "True",
-            connect_args={"check_same_thread": False}
+            echo=os.getenv("DEBUG", False) == "True",
+            connect_args={"check_same_thread": False},
         )
         cls.__session = sessionmaker(autocommit=False, autoflush=False, bind=cls.engine)
 

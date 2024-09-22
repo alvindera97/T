@@ -3,6 +3,7 @@ Utility functions' module.
 
 This module contains utility functions used in other modules.
 """
+
 import asyncio
 import os
 import random
@@ -19,8 +20,13 @@ from models import Chat
 from user import User
 
 
-def create_message_JSON(content: str, thread_id: int, context_id: int, partition_hint: int,
-                        parent_message_id: int) -> MessageJSON:
+def create_message_JSON(
+    content: str,
+    thread_id: int,
+    context_id: int,
+    partition_hint: int,
+    parent_message_id: int,
+) -> MessageJSON:
     """
     This function returns the MessageJSON object equivalent of the supplied arguments.
 
@@ -37,16 +43,17 @@ def create_message_JSON(content: str, thread_id: int, context_id: int, partition
             "thread_id": thread_id,
             "context_id": context_id,
             "partition_hint": partition_hint,
-            "parent_message_id": parent_message_id
-        })
+            "parent_message_id": parent_message_id,
+        }
+    )
 
 
 def generate_message_from_user(
-        user: User,
-        thread_id: int,
-        context_id: int,
-        partition_hint: int,
-        parent_message_id: Optional[int] = None,
+    user: User,
+    thread_id: int,
+    context_id: int,
+    partition_hint: int,
+    parent_message_id: Optional[int] = None,
 ) -> MessageJSON:
     """
     Given user object, generate and return message from user.
@@ -62,15 +69,24 @@ def generate_message_from_user(
 
     return create_message_JSON(
         thread_id=thread_id,
-        context_id=context_id if parent_message_id is not None else random.choice(
-            list(
-                {i for i in range(0, 1000)}.  # TODO: Refactor new context_id generation
-                difference({context_id})
+        context_id=(
+            context_id
+            if parent_message_id is not None
+            else random.choice(
+                list(
+                    {
+                        i for i in range(0, 1000)
+                    }.difference(  # TODO: Refactor new context_id generation
+                        {context_id}
+                    )
+                )
             )
         ),
         partition_hint=partition_hint,
         parent_message_id=parent_message_id,
-        content=asyncio.run(user.generate_message(""))  # TODO: Add prompt for querying of LLM
+        content=asyncio.run(
+            user.generate_message("")
+        ),  # TODO: Add prompt for querying of LLM
     )
 
 
@@ -100,15 +116,21 @@ def create_apache_kafka_topic(topic_title: str, fastapi_application: FastAPI) ->
     try:
         assert type(topic_title) is str and len(topic_title.strip()) > 0
     except AssertionError:
-        raise ValueError("create_apache_kafka_topic() 'topic_title' argument must be non-empty string!")
+        raise ValueError(
+            "create_apache_kafka_topic() 'topic_title' argument must be non-empty string!"
+        )
 
     try:
         assert isinstance(fastapi_application, FastAPI)
     except AssertionError:
-        raise ValueError("create_apache_kafka_topic() 'fastapi_application' must be a FastAPI instance!")
+        raise ValueError(
+            "create_apache_kafka_topic() 'fastapi_application' must be a FastAPI instance!"
+        )
 
     if not hasattr(fastapi_application.state, "zookeeper_subprocess"):
-        raise RuntimeError("fastapi_application instance has no running Apache Kafka Zookeeper server")
+        raise RuntimeError(
+            "fastapi_application instance has no running Apache Kafka Zookeeper server"
+        )
 
     CREATE_KAFKA_TOPIC_COMMAND = [
         os.getenv("APACHE_KAFKA_TOPICS_EXECUTABLE_FULL_PATH"),
@@ -116,15 +138,20 @@ def create_apache_kafka_topic(topic_title: str, fastapi_application: FastAPI) ->
         "--bootstrap-server",
         f"{os.getenv('APACHE_KAFKA_BOOTSTRAP_SERVER_HOST')}:{os.getenv('APACHE_KAFKA_BOOTSTRAP_SERVER_PORT')}",
         "--topic",
-        topic_title
+        topic_title,
     ]
 
-    wait_time = int(os.getenv('APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS'))
-    create_kafka_topic_subprocess = subprocess.Popen(CREATE_KAFKA_TOPIC_COMMAND, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    wait_time = int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS"))
+    create_kafka_topic_subprocess = subprocess.Popen(
+        CREATE_KAFKA_TOPIC_COMMAND, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+    )
 
     try:
         while eventlet.Timeout(wait_time):
-            reads = [create_kafka_topic_subprocess.stdout, create_kafka_topic_subprocess.stderr]
+            reads = [
+                create_kafka_topic_subprocess.stdout,
+                create_kafka_topic_subprocess.stderr,
+            ]
             ready_to_read, _, _ = select.select(reads, [], [], 0.1)
 
             for pipe in ready_to_read:
@@ -134,5 +161,6 @@ def create_apache_kafka_topic(topic_title: str, fastapi_application: FastAPI) ->
                     if f"Created topic {topic_title}." in output.strip():
                         return
     except eventlet.timeout.Timeout:
-        raise RuntimeError(f"Failed to create kafka topic within {wait_time} second{'' if wait_time == 1 else 's'}. To increase this wait time, increase APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS env.")
-
+        raise RuntimeError(
+            f"Failed to create kafka topic within {wait_time} second{'' if wait_time == 1 else 's'}. To increase this wait time, increase APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS env."
+        )

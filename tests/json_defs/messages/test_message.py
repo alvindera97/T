@@ -6,6 +6,7 @@ This module contains tests cases for messages and related functionality.
 Classes:
   TestMessagesJSON
 """
+
 import unittest
 import random
 

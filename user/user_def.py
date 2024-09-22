@@ -7,6 +7,7 @@ Classes:
   User
 
 """
+
 from __future__ import annotations
 
 import asyncio
@@ -20,7 +21,7 @@ from aiokafka import AIOKafkaProducer, AIOKafkaConsumer
 from role import Role
 from utils.exceptions import OperationNotAllowedException
 
-model = genai.GenerativeModel('gemini-1.0-pro-latest')
+model = genai.GenerativeModel("gemini-1.0-pro-latest")
 genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
 
 
@@ -90,7 +91,9 @@ class User:
             new_user.role = role
             return new_user
         except KeyError as e:
-            raise ValueError(f'{e.__str__()} must be supplied as keyword argument with this method.')
+            raise ValueError(
+                f"{e.__str__()} must be supplied as keyword argument with this method."
+            )
 
     @classmethod
     def from_role_options(cls, roles: List[Role]) -> Union[User, NoReturn]:
@@ -104,9 +107,13 @@ class User:
             new_user.role = random.choice(roles)
             return new_user
         except KeyError as e:
-            raise ValueError(f'{e.__str__()} must be supplied as keyword argument with this method.')
+            raise ValueError(
+                f"{e.__str__()} must be supplied as keyword argument with this method."
+            )
         except (IndexError, AssertionError):
-            raise ValueError(f'You must supply a non-empty list of Role objects, not {roles}')
+            raise ValueError(
+                f"You must supply a non-empty list of Role objects, not {roles}"
+            )
 
     @property
     def role(self) -> Role:
@@ -135,11 +142,15 @@ class User:
 
     @producer.setter
     def producer(self, *args):
-        raise OperationNotAllowedException("User producer attribute is private and is intended to be unmodifiable.")
+        raise OperationNotAllowedException(
+            "User producer attribute is private and is intended to be unmodifiable."
+        )
 
     @producer.deleter
     def producer(self, *args, **kwargs):
-        raise OperationNotAllowedException("User producer attribute is private and is intended to be unmodifiable.")
+        raise OperationNotAllowedException(
+            "User producer attribute is private and is intended to be unmodifiable."
+        )
 
     @property
     def consumer(self) -> AIOKafkaConsumer:
@@ -149,11 +160,15 @@ class User:
 
     @consumer.setter
     def consumer(self, *args):
-        raise OperationNotAllowedException("User consumer attribute is private and is intended to be unmodifiable.")
+        raise OperationNotAllowedException(
+            "User consumer attribute is private and is intended to be unmodifiable."
+        )
 
     @consumer.deleter
     def consumer(self, *args, **kwargs):
-        raise OperationNotAllowedException("User consumer attribute is private and is intended to be unmodifiable.")
+        raise OperationNotAllowedException(
+            "User consumer attribute is private and is intended to be unmodifiable."
+        )
 
     def set_random_role(self) -> None:
         """
@@ -175,7 +190,9 @@ class User:
         return message.text
 
     def __del__(self):
-        if isinstance(self.__consumer, AIOKafkaConsumer) and isinstance(self.__producer, AIOKafkaProducer):
+        if isinstance(self.__consumer, AIOKafkaConsumer) and isinstance(
+            self.__producer, AIOKafkaProducer
+        ):
             try:
                 loop = asyncio.get_running_loop()
                 loop.create_task(self.consumer.stop())

@@ -3,6 +3,7 @@ Controller module (also referable to as 'Application Controller' module)
 
 This module contains the class and module definitions for the Application Controller
 """
+
 import asyncio
 import random
 from typing import Optional, List
@@ -17,6 +18,7 @@ class Controller:
     """
     Class definition for application controller.
     """
+
     ws_url = None
     __websocket: Optional[websockets.WebSocketClientProtocol] = None
 
