@@ -95,7 +95,7 @@ def startup_apache_kafka(fastapi_application: FastAPI):
         text=True
     )
 
-    while eventlet.Timeout(int(os.getenv("APACHE_KAFKA_MAX_STARTUP_WAIT_TIME_SECS"))):
+    while eventlet.Timeout(int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS"))):
         breakout = False
         reads = [zookeeper_process.stdout, zookeeper_process.stderr]
         ready_to_read, _, _ = select.select(reads, [], [], 0.1)
@@ -140,7 +140,7 @@ def startup_apache_kafka(fastapi_application: FastAPI):
         text=True
     )
 
-    while eventlet.Timeout(int(os.getenv("APACHE_KAFKA_MAX_STARTUP_WAIT_TIME_SECS"))):
+    while eventlet.Timeout(int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS"))):
         breakout = False
         reads = [apache_kafka_server_startup_process.stdout, apache_kafka_server_startup_process.stderr]
         ready_to_read, _, _ = select.select(reads, [], [], 0.1)

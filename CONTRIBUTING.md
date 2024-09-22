@@ -50,7 +50,7 @@ You will need to set up the following environment variables:
 `GOOGLE_API_KEY` (API Key for Google Gemini AI)
 `TEST_CHAT_UUID` (e.g. chat/342498g2-87x3-4a64-9325-rb70471623ax)
 `DATABASE_URL` (postgresql database URL)
-`APACHE_KAFKA_MAX_STARTUP_WAIT_TIME_SECS` ((integer) number of seconds to wait for kafka zookeeper & kafka server start e.g. 5)
+`APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS` ((integer) number of seconds to wait for kafka zookeeper & kafka server start e.g. 5)
 `APACHE_KAFKA_ZOOKEEPER_SERVER_START_EXECUTABLE_FULL_PATH` (/path/to/zookeeper-server-start.sh)
 `APACHE_KAFKA_ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH` (/path/to/zookeeper.properties)
 `APACHE_KAFKA_ZOOKEEPER_SERVER_STOP_EXECUTABLE_FULL_PATH` (/path/to/zookeeper-server-stop.sh)

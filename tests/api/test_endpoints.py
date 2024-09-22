@@ -282,7 +282,7 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
 
             self.assertRaises(eventlet.timeout.Timeout, startup_apache_kafka, another_app)
 
-            mocked_eventlet_timeout.assert_called_with(int(os.getenv("APACHE_KAFKA_MAX_STARTUP_WAIT_TIME_SECS")))
+            mocked_eventlet_timeout.assert_called_with(int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS")))
 
             self.assertNotIn(call(text_from_apache_kafka_zookeeper_indicating_successful_start),
                              mocked_print_function.mock_calls)
@@ -375,7 +375,7 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
 
             self.mocked_eventlet_timeout = patch("api.endpoints.endpoints.eventlet.Timeout",
                                                  side_effect=int(
-                                                     os.getenv("APACHE_KAFKA_MAX_STARTUP_WAIT_TIME_SECS")) * 2 * [
+                                                     os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS")) * 2 * [
                                                                  True]).start()
 
         self.assertRaises(subprocess.SubprocessError, startup_apache_kafka, app)
@@ -412,7 +412,7 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
                                                                 stdout=self.mocked_subprocess_pipe,
                                                                 text=True)])
 
-            mocked_eventlet_timeout.assert_called_with(int(os.getenv("APACHE_KAFKA_MAX_STARTUP_WAIT_TIME_SECS")))
+            mocked_eventlet_timeout.assert_called_with(int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS")))
 
             self.mocked_select_select.assert_has_calls([call([0, 0], [], [], 0.1)])
 
@@ -448,7 +448,7 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
 
             self.assertRaises(eventlet.timeout.Timeout, startup_apache_kafka, another_app)
 
-            mocked_eventlet_timeout.assert_called_with(int(os.getenv("APACHE_KAFKA_MAX_STARTUP_WAIT_TIME_SECS")))
+            mocked_eventlet_timeout.assert_called_with(int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS")))
 
             self.mocked_subprocess_popen.assert_called_with(apache_kafka_server_startup_command,
                                                             stdout=self.mocked_subprocess_pipe,
@@ -489,7 +489,7 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(unittest.IsolatedAsyncio
 
             self.assertRaises(subprocess.CalledProcessError, startup_apache_kafka, another_app)
 
-            mocked_eventlet_timeout.assert_called_with(int(os.getenv("APACHE_KAFKA_MAX_STARTUP_WAIT_TIME_SECS")))
+            mocked_eventlet_timeout.assert_called_with(int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS")))
 
             self.mocked_subprocess_popen.assert_called_with(apache_kafka_server_startup_command,
                                                             stdout=self.mocked_subprocess_pipe,
