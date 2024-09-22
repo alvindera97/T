@@ -13,8 +13,10 @@ Classes:
 import os
 import random
 import unittest
+from types import SimpleNamespace
 from unittest.mock import patch
 
+import eventlet
 from fastapi import FastAPI
 from pydantic import ValidationError
 
@@ -160,14 +162,30 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
 
     def setUp(self):
         self.patch_subprocess_pipe = patch("subprocess.PIPE")
-        self.patch_subprocess_popen = patch("subprocess.Popen")
+        self.patch_subprocess_popen = patch("subprocess.Popen",
+                                            return_value=SimpleNamespace(
+                                                returncode=None,
+                                                stderr=0,
+                                                stdout=0,
+                                                kill=lambda: None
+                                            ))
+        self.patch_select_select = patch("select.select", return_value=(
+            [SimpleNamespace(readline=lambda: "Created topic some_topic.")], ["second"], ["third"]
+        ))
+        self.patch_eventlet_timeout = patch("utils.functions.utility_functions.eventlet.Timeout",
+                                            side_effect=int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS")) * 2 * [
+                                                True] + [eventlet.timeout.Timeout])
 
+        self.mocked_select_select = self.patch_select_select.start()
         self.mocked_subprocess_pipe = self.patch_subprocess_pipe.start()
         self.mocked_subprocess_popen = self.patch_subprocess_popen.start()
+        self.mocked_eventlet_timeout = self.patch_eventlet_timeout.start()
 
     def tearDown(self):
+        self.patch_select_select.stop()
         self.patch_subprocess_pipe.stop()
         self.patch_subprocess_popen.stop()
+        self.patch_eventlet_timeout.stop()
 
     def test_function_takes_topic_argument(self) -> None:
         """
@@ -244,7 +262,7 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
         try:
             another_app = FastAPI()
             another_app.state.zookeeper_subprocess = object
-            utils.create_apache_kafka_topic("some topic", another_app)
+            utils.create_apache_kafka_topic("some_topic", another_app)
 
         except Exception as e:
             self.fail(f"Unexpected exception raised: \n{e}")
@@ -272,3 +290,26 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
             stdout=self.mocked_subprocess_pipe,
             stderr=self.mocked_subprocess_pipe
         )
+
+    def test_function_raises_exception_if_kafka_topic_was_not_created_successfully(self) -> None:
+        """
+        Test function raises RuntimeError in the event that creation of kafka topic was not successful.
+        :return: None
+        """
+
+        with self.assertRaises(RuntimeError) as contex:
+            another_app = FastAPI()
+            another_app.state.zookeeper_subprocess = object
+            with patch("select.select", return_value=(
+                    [
+                        SimpleNamespace(readline=lambda: "Some other value"),
+                    ],
+                    ["second"],
+                    ["third"]
+            )):
+                wait_time = int(os.getenv('APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS'))
+                utils.create_apache_kafka_topic('some_topic', another_app)
+
+        self.assertEqual(contex.exception.__str__(),
+                         f"Failed to create kafka topic within {wait_time} second{'' if wait_time == 1 else 's'}. "
+                         f"To increase this wait time, increase APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS env.")
