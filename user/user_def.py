@@ -177,7 +177,8 @@ class User:
         """
         self.role = random.SystemRandom().choice(self.__role_members)
 
-    async def generate_message(self, message_context: str) -> Union[str, NoReturn]:
+    @classmethod
+    async def generate_message(cls, message_context: str) -> Union[str, NoReturn]:
         """
         Generate message from LLM given message_context. Message context stands for the context in which
         a user object generates messages / responses / reactions to.
