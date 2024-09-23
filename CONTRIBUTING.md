@@ -15,13 +15,7 @@ Officially, you can contribute to this project via raising issues, reporting bug
 - Open a new GitHub pull request with the correction.
 - Ensure the PR description clearly describes the problem and solution. Link the relevant issue if applicable.
 ## Setting Up Your Machine
-### Get The Source Code (the name of the main branch is `trunk`)
-You can use git to clone the source code via the command:
-`git clone git@github.com:alvindera97/T.git`
-
-Then you can change directory (`cd`) into the T folder via the command: 
-`cd T`
-### Python Version (`3.10` or `3.10` in a virtual environment)
+### Python Version (`3.10` or `3.10` **in a virtual environment**)
 #### Without a virtual environment
 To set up your machine consider using python version `3.10` . I am not aware of any breaking changes on versions higher than `python-3.10`, however on python version `3.10`, there are no deprecation warnings. 
 #### With a virtual environment
@@ -29,6 +23,13 @@ To set up a machine consider using python version `3.10`. I am not aware of any 
 ##### Create the virtual environment
 You can follow this guide for creating virtual environments: 
 https://docs.python.org/3/library/venv.html
+
+### Get The Source Code (the name of the main branch is `trunk`)
+You can use git to clone the source code via the command:
+`git clone git@github.com:alvindera97/T.git`
+
+Then you can change directory (`cd`) into the T folder via the command: 
+`cd T`
 ### Development Dependencies 
 #### PostgreSQL
 *Install PostgreSQL:*
@@ -36,6 +37,8 @@ You can install PostgreSQL by following the instructions on this page: https://w
 #### Python Dependencies
 To install the development requirements, you'll need to use pip:
 `python -m pip install -r requirements.txt`
+#### Use Black For Formatting
+Simply run the command `pre-commit install` and then on every commit, `black` will format all affected files.
 #### Apache Kafka 
 *Install Apache Kafka (**You'll also need Java installed to run Apache Kafka**):*
 You can follow the Apache Kafka installation page: https://kafka.apache.org/downloads
@@ -61,6 +64,9 @@ You will need to set up the following environment variables:
 `APACHE_KAFKA_CONSUMER_PROPERTIES_FULL_PATH` (/path/to/consumer.properties)
 `APACHE_KAFKA_BOOTSTRAP_SERVER_HOST` (e.g. "localhost")
 `APACHE_KAFKA_BOOTSTRAP_SERVER_PORT` (e.g. "9092")
+
+### Code formatting
+This project uses Black (https://github.com/psf/black) for all code formatting. 
 
 ## A Note On Tests
 All pull requests that include new functionality will require corresponding tests. All pull requests including functionality modification will include new tests or test modification(s) especially if your code modifications cause existing tests to fail.

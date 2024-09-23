@@ -7,6 +7,7 @@ anyio==4.4.0
 async-timeout==4.0.3
 Babel==2.15.0
 beautifulsoup4==4.12.3
+black==24.8.0
 cachetools==5.4.0
 certifi==2024.6.2
 charset-normalizer==3.3.2
@@ -45,6 +46,7 @@ mypy==1.11.1
 mypy-extensions==1.0.0
 packaging==24.1
 phonenumbers==8.13.40
+pre-commit==3.8.0
 proto-plus==1.24.0
 protobuf==4.25.4
 psycopg2==2.9.9
