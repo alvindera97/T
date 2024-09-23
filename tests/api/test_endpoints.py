@@ -10,6 +10,7 @@ import os
 import random
 import subprocess
 import unittest
+import uuid
 import warnings
 from types import SimpleNamespace
 from unittest.mock import patch, AsyncMock, Mock, call
@@ -1036,6 +1037,7 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
 
         self.assertTrue(post_response.status_code.__str__().startswith("3"))
 
+    @patch("api.endpoints.endpoints.utility_functions.create_apache_kafka_topic")
     @patch("controller.controller_def.User")
     def test_endpoint_redirect_url_matches_that_of_the_expected_chat_url(
         self, *_
@@ -1087,3 +1089,63 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
             with patch("controller.controller_def.websockets"):
                 response = self.client.post("/set_up_chat/", follow_redirects=True)
                 self.assertEqual(response.status_code, 422)
+
+    def test_endpoint_creates_kafka_topic_for_the_chat_before_returning_response_on_successful_function_call(
+        self,
+    ) -> None:
+        """
+        Test that endpoint calls function to create kafka topic before returning a response.
+        :return: None
+        """
+        test_chat_uuid = uuid.uuid4().__str__()
+        with patch("api.endpoints.endpoints.Controller"):
+            with patch("api.endpoints.endpoints.app") as mocked_fastapi_app:
+                with patch(
+                    "api.endpoints.endpoints.utility_functions.create_apache_kafka_topic"
+                ) as mocked_create_apache_kafka_topic:
+                    with patch(
+                        "api.endpoints.endpoints.utility_functions.add_new_chat",
+                        return_value=test_chat_uuid,
+                    ):
+                        self.client.post(
+                            "/set_up_chat/",
+                            json={"chat_context": "Hello world"},
+                            follow_redirects=True,
+                        )
+                        mocked_create_apache_kafka_topic.assert_called_once_with(
+                            test_chat_uuid, mocked_fastapi_app
+                        )
+
+    def test_endpoint_returns_server_error_on_exception_from_function_to_create_kafka_topic(
+        self,
+    ) -> None:
+        """
+        Test that endpoints returns with server error in the event that there is a failure (characterised by an exception
+        while creating the kafka topic).
+        :return: None
+        """
+        test_chat_uuid = uuid.uuid4().__str__()
+        with patch("api.endpoints.endpoints.Controller"):
+            with patch("api.endpoints.endpoints.app") as mocked_fastapi_app:
+                with patch(
+                    "api.endpoints.endpoints.utility_functions.create_apache_kafka_topic",
+                    side_effect=[ValueError],
+                ) as mocked_create_apache_kafka_topic:
+                    with patch(
+                        "api.endpoints.endpoints.utility_functions.add_new_chat",
+                        return_value=test_chat_uuid,
+                    ):
+                        response = self.client.post(
+                            "/set_up_chat/",
+                            json={"chat_context": "Hello world"},
+                            follow_redirects=True,
+                        )
+                        mocked_create_apache_kafka_topic.assert_called_once_with(
+                            test_chat_uuid, mocked_fastapi_app
+                        )
+
+                        self.assertEqual(response.status_code, 500)
+                        self.assertEqual(
+                            '{"detail":"An internal server error occurred at the final stages of setting up your new chat."}',
+                            response.text,
+                        )

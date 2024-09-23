@@ -14,7 +14,7 @@ from contextlib import asynccontextmanager
 
 import eventlet
 from aiokafka import AIOKafkaProducer
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI, WebSocket, HTTPException
 from fastapi.params import Depends
 from sqlalchemy.orm import Session
 from starlette.responses import RedirectResponse
@@ -309,5 +309,16 @@ async def set_up_chat(
     executor.submit(
         Controller, 1, "ws://localhost:8000/" + chat_url, request_json_body.chat_context
     )
+
+    # TODO: Ensure that there are no messages in he newly created kafka topic (i.e. topic doesn't already exist especially
+    #  with events in the stream before creating chat.
+
+    try:
+        utility_functions.create_apache_kafka_topic(chat_url.split("/")[-1], app)
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail="An internal server error occurred at the final stages of setting up your new chat.",
+        )
 
     return chat_url
