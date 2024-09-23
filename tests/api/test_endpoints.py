@@ -1080,6 +1080,35 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
                     "Hello world",
                 )
 
+    @patch("api.endpoints.endpoints.Controller")
+    def test_endpoint_does_not_create_new_application_controller_if_there_is_a_failure_to_create_kafka_topic(
+        self, mocked_application_controller: Mock
+    ) -> None:
+        """
+        Test that endpoint does not create application controller in the event that creation of kafka topic was
+        unsuccessful.
+        :return: None
+        """
+        test_chat_uuid = uuid.uuid4().__str__()
+        with patch(
+            "api.endpoints.endpoints.utility_functions.create_apache_kafka_topic",
+            side_effect=[ValueError],
+        ) as mocked_create_apache_kafka_topic:
+            with patch(
+                "api.endpoints.endpoints.utility_functions.add_new_chat",
+                return_value=test_chat_uuid,
+            ):
+                with patch("api.endpoints.endpoints.app") as mocked_fastapi_app:
+                    self.client.post(
+                        "/set_up_chat/",
+                        json={"chat_context": "Hello world"},
+                        follow_redirects=True,
+                    )
+                    mocked_create_apache_kafka_topic.assert_called_once_with(
+                        test_chat_uuid, mocked_fastapi_app
+                    )
+                    mocked_application_controller.assert_not_called()
+
     def test_endpoint_takes_request_json_body_of_expected_type(self) -> None:
         """
         Test that endpoint takes json request body of expected type (currently SetUpChatRequestBody)

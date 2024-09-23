@@ -305,20 +305,21 @@ async def set_up_chat(
     """
     chat_url = "chat/" + utility_functions.add_new_chat(session)
 
-    # run blocking Controller function in separate thread.
-    executor.submit(
-        Controller, 1, "ws://localhost:8000/" + chat_url, request_json_body.chat_context
-    )
-
-    # TODO: Ensure that there are no messages in he newly created kafka topic (i.e. topic doesn't already exist especially
+    # TODO: Ensure that there are no messages in the newly created kafka topic (i.e. topic doesn't already exist especially
     #  with events in the stream before creating chat.
 
     try:
         utility_functions.create_apache_kafka_topic(chat_url.split("/")[-1], app)
     except Exception as e:
+        print(f">>> Exception while attempting to create kafka topic: \n\n{e}")
         raise HTTPException(
             status_code=500,
             detail="An internal server error occurred at the final stages of setting up your new chat.",
         )
+
+    # run blocking Controller function in separate thread.
+    executor.submit(
+        Controller, 1, "ws://localhost:8000/" + chat_url, request_json_body.chat_context
+    )
 
     return chat_url
