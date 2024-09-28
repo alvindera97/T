@@ -303,13 +303,14 @@ async def set_up_chat(
     Creates a unique chat uuid and saves in database returning a redirect response.
     :return:
     """
-    chat_url = "chat/" + utility_functions.add_new_chat(session)
+    new_chat_uuid = utility_functions.add_new_chat(session)
+    chat_url = "chat/" + new_chat_uuid
 
     # TODO: Ensure that there are no messages in the newly created kafka topic (i.e. topic doesn't already exist especially
     #  with events in the stream before creating chat.
 
     try:
-        utility_functions.create_apache_kafka_topic(chat_url.split("/")[-1], app)
+        utility_functions.create_apache_kafka_topic(new_chat_uuid, app)
     except Exception as e:
         print(f">>> Exception while attempting to create kafka topic: \n\n{e}")
         raise HTTPException(
