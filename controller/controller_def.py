@@ -33,9 +33,9 @@ class Controller:
         :param chat_context: Group chat context
         """
 
-        assert type(number_of_users) is int
-        assert type(chat_context) is str
-        assert number_of_users > 0
+        assert (type(number_of_users) is int and number_of_users > 0) and type(
+            chat_context
+        ) is str
 
         self.ws_url = ws_url
         self.chat_context = chat_context
