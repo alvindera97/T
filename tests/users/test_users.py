@@ -225,91 +225,6 @@ class TestUserTestCase(unittest.TestCase):
             "Expected more than one role to be randomly selected.",
         )
 
-    def test_user_has_immutable_producer_object(self) -> None:
-        """
-        Test that User object has an attribute that will be performing Kafka producer-related operations
-        for the user object. This attribute should be able to exist as a truly private, final and
-         non-modifiable. Every User object is assigned one at initialization.
-        :return: None
-        """
-
-        def modify_producer() -> None:
-            """
-            This function ideally shouldn't run successfully, the producer attribute
-            must be immutable!
-            :return:
-            """
-            self.user.producer = "some other producer"
-
-        def delete_producer() -> None:
-            """
-            This function ideally shouldn't run successfully, the producer attribute
-            is protected from deletions.
-            :return: None
-            """
-            del self.user.producer
-
-        self.assertIsInstance(self.user.producer, AIOKafkaProducer)
-        self.assertRaises(OperationNotAllowedException, modify_producer)
-        self.assertRaises(OperationNotAllowedException, delete_producer)
-
-        user_2, user_3 = User(), User()
-
-        self.assertNotEqual(user_2.producer, user_3.producer)
-
-    def test_user_immutable_consumer_object(self) -> None:
-        """
-        Test that User object has an attribute that wil be performing Kafka consumer-related operations for the
-        user object. This attribute should be able to exists as a truly private, final and non-modifiable. Every
-        user is assigned one at initialization.
-        :return: None
-        """
-
-        def modify_consumer() -> None:
-            """
-            This function ideally shouldn't run successfully, the consumer attribute
-            must be immutable!
-            :return: None
-            """
-            self.user.consumer = "some other consumer"
-
-        def delete_consumer() -> None:
-            """
-            This function ideally shouldn't run successfully, the consumer attribute
-            is protected from deletions.
-            :return: None
-            """
-            del self.user.consumer
-
-        self.assertIsInstance(self.user.consumer, AIOKafkaConsumer)
-        self.assertRaises(OperationNotAllowedException, modify_consumer)
-        self.assertRaises(OperationNotAllowedException, delete_consumer)
-
-        user_2, user_3 = User(), User()
-        self.assertNotEqual(user_2.consumer, user_3.consumer)
-
-    def test_user_initialise_method_calls_methods_to_generate_get_producer_and_consumer_kafka_objects(
-        self,
-    ) -> None:
-        """
-        Test that user initialise method calls methods to populate producer and consumer properties.
-        :return: None
-        """
-        with patch("user.user_def.AIOKafkaProducer", new_callable=lambda: type("")):
-            with patch("user.user_def.AIOKafkaConsumer", new_callable=lambda: type("")):
-                with patch.object(User, "_User__generate_producer_object") as gpo:
-                    with patch.object(User, "_User__generate_consumer_object") as gco:
-                        gpo.return_value = "producer object"
-                        gco.return_value = "consumer object"
-
-                        user_1 = User()
-
-                        gpo.assert_called_once()
-                        gco.assert_called_once()
-
-                        self.assertEqual(user_1.producer, "producer object")
-                        self.assertEqual(user_1.consumer, "consumer object")
-
 
 class TestUserAsyncioMethodsTestCase(unittest.IsolatedAsyncioTestCase):
     """
@@ -317,24 +232,6 @@ class TestUserAsyncioMethodsTestCase(unittest.IsolatedAsyncioTestCase):
     """
 
     user = User()
-
-    async def test_static_method_creating_producer_objects(self) -> None:
-        """
-        Test that static method that returns AIOKafkaProducer objects returns expected object type
-        :return: None
-        """
-        static_method_call_result = await User._User__generate_producer_object()
-        self.assertIsInstance(static_method_call_result, AIOKafkaProducer)
-        await static_method_call_result.stop()
-
-    async def test_static_method_creating_consumer_objects(self) -> None:
-        """
-        Test that static method returns AIOKafkaConsumer objects returns expected object type
-        :return: None
-        """
-        static_method_call = await User._User__generate_consumer_object()
-        self.assertIsInstance(static_method_call, AIOKafkaConsumer)
-        await static_method_call.stop()
 
     async def test_user_generate_message_method_calls_google_gemini_api_method_to_generate_message(
         self,

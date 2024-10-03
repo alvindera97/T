@@ -10,16 +10,13 @@ Classes:
 
 from __future__ import annotations
 
-import asyncio
 import os
 import random
 from typing import List, NoReturn, Union
 
 import google.generativeai as genai
-from aiokafka import AIOKafkaProducer, AIOKafkaConsumer
 
 from role import Role
-from utils.exceptions import OperationNotAllowedException
 
 model = genai.GenerativeModel("gemini-1.0-pro-latest")
 genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
@@ -46,38 +43,6 @@ class User:
         super().__init__()
         self.name = name
         self.display_picture_url = display_picture_url
-        self.__producer = None
-        self.__consumer = None
-        try:
-            loop = asyncio.get_running_loop()
-            loop.create_task(self.initialize())
-        except RuntimeError:
-            asyncio.run(self.initialize())
-
-    async def initialize(self):
-        """
-        Async method to initialise user kafka producer and consumer
-        :return:
-        """
-        self.__producer = await self.__generate_producer_object()
-        self.__consumer = await self.__generate_consumer_object()
-
-    @classmethod
-    async def __generate_producer_object(cls) -> AIOKafkaProducer:
-        """
-        Coroutine that creates an AIOKafkaProducer and returns the Producer instance.
-
-        :return: AIOKafkaProducer instance
-        """
-        return AIOKafkaProducer(bootstrap_servers="localhost:9092")
-
-    @classmethod
-    async def __generate_consumer_object(cls) -> AIOKafkaConsumer:
-        """
-        Coroutine that creates an AIOKafkaConsumer and returns the Consumer instance
-        :return: AIOKafkaConsumer instance
-        """
-        return AIOKafkaConsumer(bootstrap_servers="localhost:9092")
 
     @classmethod
     def with_role(cls, role: Role) -> Union[User, NoReturn]:
@@ -134,42 +99,6 @@ class User:
         assert isinstance(role, Role)
         self.__role = role
 
-    @property
-    def producer(self) -> AIOKafkaProducer:
-        """Getter for User producer"""
-        assert isinstance(self.__producer, AIOKafkaProducer)
-        return self.__producer
-
-    @producer.setter
-    def producer(self, *args):
-        raise OperationNotAllowedException(
-            "User producer attribute is private and is intended to be unmodifiable."
-        )
-
-    @producer.deleter
-    def producer(self, *args, **kwargs):
-        raise OperationNotAllowedException(
-            "User producer attribute is private and is intended to be unmodifiable."
-        )
-
-    @property
-    def consumer(self) -> AIOKafkaConsumer:
-        """Getter for User consumer"""
-        assert isinstance(self.__consumer, AIOKafkaConsumer)
-        return self.__consumer
-
-    @consumer.setter
-    def consumer(self, *args):
-        raise OperationNotAllowedException(
-            "User consumer attribute is private and is intended to be unmodifiable."
-        )
-
-    @consumer.deleter
-    def consumer(self, *args, **kwargs):
-        raise OperationNotAllowedException(
-            "User consumer attribute is private and is intended to be unmodifiable."
-        )
-
     def set_random_role(self) -> None:
         """
         Set random role on instance
@@ -189,15 +118,3 @@ class User:
 
         message = await model.generate_content_async(message_context)
         return message.text
-
-    def __del__(self):
-        if isinstance(self.__consumer, AIOKafkaConsumer) and isinstance(
-            self.__producer, AIOKafkaProducer
-        ):
-            try:
-                loop = asyncio.get_running_loop()
-                loop.create_task(self.consumer.stop())
-                loop.create_task(self.producer.stop())
-            except RuntimeError:
-                asyncio.run(self.consumer.stop())
-                asyncio.run(self.producer.stop())
