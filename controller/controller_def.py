@@ -4,7 +4,7 @@ Controller module (also referable to as 'Application Controller' module)
 This module contains the class and module definitions for the Application Controller
 """
 
-import asyncio
+from __future__ import annotations
 import random
 from typing import Optional, List
 
@@ -22,7 +22,10 @@ class Controller:
     ws_url = None
     __websocket: Optional[websockets.WebSocketClientProtocol] = None
 
-    def __init__(self, number_of_users: int, ws_url: str, chat_context: str) -> None:
+    @staticmethod
+    async def initialise(
+        number_of_users: int, ws_url: str, chat_context: str
+    ) -> Controller:
         """
         Constructor for Controller object.
 
@@ -33,22 +36,22 @@ class Controller:
         :param chat_context: Group chat context
         """
 
+        cls = Controller()
+
         assert (type(number_of_users) is int and number_of_users > 0) and type(
             chat_context
         ) is str
 
-        self.ws_url = ws_url
-        self.chat_context = chat_context
-        chat_uuid = self.ws_url.split("/")[-1]
-        self.participating_users: List[User] = [User() for _ in range(number_of_users)]
+        cls.ws_url = ws_url
+        cls.chat_context = chat_context
+        chat_uuid = cls.ws_url.split("/")[-1]
+        cls.participating_users: List[User] = [User() for _ in range(number_of_users)]
 
-        for user in self.participating_users:
-            user.consumer.subscribe([chat_uuid])
+        cls.first_publisher: User = random.choice(cls.participating_users)
 
-        self.first_publisher: User = random.choice(self.participating_users)
-
-        self.first_publisher.role = Role.PUBLISHER
-        asyncio.run(self.connect_ws())
+        cls.first_publisher.role = Role.PUBLISHER
+        await cls.connect_ws()
+        return cls
 
     @property
     def websocket(self):
