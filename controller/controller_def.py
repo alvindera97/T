@@ -12,6 +12,7 @@ import websockets
 
 from role import Role
 from user import User
+from .kafka_manager_def import KafkaManagerFactory
 
 
 class Controller:
@@ -45,7 +46,13 @@ class Controller:
         cls.ws_url = ws_url
         cls.chat_context = chat_context
         chat_uuid = cls.ws_url.split("/")[-1]
+        cls.kafka_manager = KafkaManagerFactory.create_base_kafka_manager(
+            number_of_users
+        )
         cls.participating_users: List[User] = [User() for _ in range(number_of_users)]
+
+        for consumer in cls.kafka_manager.consumers:
+            consumer.subscribe([chat_uuid])
 
         cls.first_publisher: User = random.choice(cls.participating_users)
 

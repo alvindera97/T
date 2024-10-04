@@ -12,18 +12,47 @@ Classes:
 import os
 import random
 import unittest
-from typing import NoReturn
+from typing import NoReturn, Optional
 from unittest.mock import patch, AsyncMock
 
+import controller.kafka_manager_def
 import websockets
 from starlette.testclient import TestClient
 from starlette.websockets import WebSocketDisconnect
 
 from api.endpoints import app
-from controller import Controller
+from controller import Controller, KafkaManager
 from role import Role
 
 test_client = TestClient(app)
+
+KafkaManager_AIOKafkaProducer_Mock_patch: Optional[unittest.mock._patch] = None
+KafkaManager_AIOKafkaConsumer_Mock_patch: Optional[unittest.mock._patch] = None
+
+
+def setUpModule():
+    global KafkaManager_AIOKafkaProducer_Mock_patch, KafkaManager_AIOKafkaConsumer_Mock_patch
+    KafkaManager_AIOKafkaProducer_Mock_patch = patch(
+        "controller.kafka_manager_def.AIOKafkaProducer",
+        spec=controller.kafka_manager_def.AIOKafkaProducer,
+    )
+    KafkaManager_AIOKafkaConsumer_Mock_patch = patch(
+        "controller.kafka_manager_def.AIOKafkaConsumer",
+        spec=controller.kafka_manager_def.AIOKafkaConsumer,
+    )
+
+    KafkaManager_AIOKafkaProducer_Mock_patch.start()
+    KafkaManager_AIOKafkaConsumer_Mock_patch.start()
+
+
+def tearDownModule():
+    global KafkaManager_AIOKafkaProducer_Mock_patch, KafkaManager_AIOKafkaConsumer_Mock_patch
+
+    if isinstance(KafkaManager_AIOKafkaProducer_Mock_patch, unittest.mock._patch):
+        KafkaManager_AIOKafkaProducer_Mock_patch.stop()
+
+    if isinstance(KafkaManager_AIOKafkaConsumer_Mock_patch, unittest.mock._patch):
+        KafkaManager_AIOKafkaConsumer_Mock_patch.stop()
 
 
 class ApplicationControllerTestCase(unittest.IsolatedAsyncioTestCase):
@@ -134,6 +163,41 @@ class ApplicationControllerTestCase(unittest.IsolatedAsyncioTestCase):
             )
             self.assertEqual(controller.chat_context, "Some chat context")
 
+    async def test_initialised_controller_has_kafka_manager_attribute(self) -> None:
+        """
+        Test that the controller has a Kafka Manager attribute on initialisation.
+        :return: None
+        """
+        with patch("websockets.connect", new=AsyncMock()):
+            controller = await Controller.initialise(10, self.ws_url, self.chat_context)
+            controller_2 = await Controller.initialise(
+                10, self.ws_url, self.chat_context
+            )
+
+            self.assertTrue(hasattr(controller, "kafka_manager"))
+            self.assertTrue(isinstance(controller.kafka_manager, KafkaManager))
+            self.assertFalse(controller.kafka_manager is controller_2.kafka_manager)
+
+    async def test_controller_on_init_initialises_base_kafka_manager_with_correct_arguments(
+        self,
+    ) -> None:
+        """
+        Test that the controller at initialisation, creates a Kafka Manager via the Kafka Manager factory with correct
+        arguments.
+        :return: None
+        """
+        with patch("websockets.connect", new=AsyncMock()):
+            with patch(
+                "controller.kafka_manager_def.KafkaManagerFactory.create_base_kafka_manager"
+            ) as Mocked_KafkaManagerFactory_create_base_kafka_manager:
+                number_of_users = random.SystemRandom().randint(1, 10)
+                await Controller.initialise(
+                    number_of_users, self.ws_url, self.chat_context
+                )
+                Mocked_KafkaManagerFactory_create_base_kafka_manager.assert_called_once_with(
+                    number_of_users
+                )
+
     async def test_controller_connects_to_chat_websocket_on_init(self) -> None:
         """
         Test that controller calls method to connect to chat web socket on init.
@@ -221,3 +285,27 @@ class ApplicationControllerTestCase(unittest.IsolatedAsyncioTestCase):
             self.fail(
                 f"Exception not expected from this test, raised exception is: {e}"
             )
+
+    async def test_that_on_init_of_controller_all_consumers_in_kafka_manager_are_subscribed_to_group_chat_kafka_topic(
+        self,
+    ) -> None:
+        """
+        Test that on initialisation of application controller, all consumers in kafka manager are subscribed to the group chat
+        kafka topic.
+        :return: None
+        """
+        with patch(
+            "controller.controller_def.Controller.connect_ws",
+            new_callable=lambda: AsyncMock(),
+        ):
+            KafkaManager_AIOKafkaConsumer_Mock_patch.stop()
+            controller = await Controller.initialise(
+                random.randint(1, 10), self.ws_url, self.chat_context
+            )
+
+            for consumer in controller.kafka_manager.consumers:
+                self.assertEqual(len(consumer.subscription()), 1)
+                self.assertEqual(
+                    set(consumer.subscription()).pop(),
+                    os.getenv("TEST_CHAT_UUID").split("/")[-1],
+                )
