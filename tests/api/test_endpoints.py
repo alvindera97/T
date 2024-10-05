@@ -1061,6 +1061,7 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
             )
 
     @patch("controller.controller_def.User")
+    @patch("api.endpoints.endpoints.utility_functions.create_apache_kafka_topic")
     def test_endpoint_creates_new_application_controller_for_chat_session(
         self, *_
     ) -> None:
