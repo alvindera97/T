@@ -1012,7 +1012,7 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
         )
 
     @patch("controller.controller_def.User")
-    @patch("controller.Controller")
+    @patch("controller.Controller.initialise")
     def test_endpoint_creates_new_chat_uuid_in_database_chats_table(self, *_) -> None:
         """
         Test that request to endpoint creates new unique UUID record in test database
@@ -1046,7 +1046,9 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
         Test that URL redirected to from endpoint matches expected chat url
         :return: None
         """
-        with patch("api.endpoints.endpoints.Controller"):
+        with patch(
+            "api.endpoints.endpoints.Controller.initialise", new_callable=AsyncMock
+        ):
             response = self.client.post(
                 "/set_up_chat/",
                 json={"chat_context": "Hello world"},
@@ -1066,14 +1068,16 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
         Test that endpoint creates application controller.
         :return: None
         """
-        with patch("api.endpoints.endpoints.Controller") as mock_application_controller:
+        with patch(
+            "api.endpoints.endpoints.Controller.initialise", new_callable=AsyncMock
+        ) as mock_application_controller_initialise:
             with patch("controller.controller_def.websockets"):
                 response = self.client.post(
                     "/set_up_chat/",
                     json={"chat_context": "Hello world"},
                     follow_redirects=True,
                 )
-                mock_application_controller.assert_called_once_with(
+                mock_application_controller_initialise.assert_called_once_with(
                     1,
                     "ws://localhost:8000/"
                     + "/".join(response.url.__str__().split("/")[-2:]),
@@ -1127,7 +1131,9 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
         :return: None
         """
         test_chat_uuid = uuid.uuid4().__str__()
-        with patch("api.endpoints.endpoints.Controller"):
+        with patch(
+            "api.endpoints.endpoints.Controller.initialise", new_callable=AsyncMock
+        ):
             with patch("api.endpoints.endpoints.app") as mocked_fastapi_app:
                 with patch(
                     "api.endpoints.endpoints.utility_functions.create_apache_kafka_topic"
