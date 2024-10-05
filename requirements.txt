@@ -18,7 +18,7 @@ email_validator==2.2.0
 eventlet==0.37.0
 exceptiongroup==1.2.2
 Faker==26.0.0
-fastapi==0.112.0
+fastapi==0.115.0
 fastapi-cli==0.0.5
 google-ai-generativelanguage==0.6.6
 google-api-core==2.19.1
@@ -79,7 +79,7 @@ sphinxcontrib-jsmath==1.0.1
 sphinxcontrib-qthelp==1.0.7
 sphinxcontrib-serializinghtml==1.1.10
 SQLAlchemy==2.0.32
-starlette==0.37.2
+starlette==0.38.6
 tomli==2.0.1
 tqdm==4.66.5
 typer==0.12.3
