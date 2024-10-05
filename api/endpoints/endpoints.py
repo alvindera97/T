@@ -9,7 +9,6 @@ import select
 import subprocess
 import uuid
 import warnings
-from concurrent.futures.thread import ThreadPoolExecutor
 from contextlib import asynccontextmanager
 
 import eventlet
@@ -271,7 +270,7 @@ async def lifespan(fastapi_application: FastAPI):
     shutdown_apache_kafka(fastapi_application)
 
 
-app, executor = FastAPI(lifespan=lifespan), ThreadPoolExecutor()
+app = FastAPI(lifespan=lifespan)
 
 
 @app.websocket("/chat/{chat_uuid}")
@@ -318,9 +317,8 @@ async def set_up_chat(
             detail="An internal server error occurred at the final stages of setting up your new chat.",
         )
 
-    # run blocking Controller function in separate thread.
-    executor.submit(
-        Controller, 1, "ws://localhost:8000/" + chat_url, request_json_body.chat_context
+    await Controller.initialise(
+        1, f"ws://localhost:8000/{chat_url}", request_json_body.chat_context
     )
 
     return chat_url
