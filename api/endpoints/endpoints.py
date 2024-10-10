@@ -259,15 +259,11 @@ async def lifespan(fastapi_application: FastAPI):
     :param fastapi_application: FastAPI app instance.
     """
 
-    startup_apache_kafka(fastapi_application)
-
     await start_apache_kafka_producer(fastapi_application)
 
     yield
 
     await close_apache_kafka_producer(fastapi_application)
-
-    shutdown_apache_kafka(fastapi_application)
 
 
 app = FastAPI(lifespan=lifespan)

@@ -104,19 +104,6 @@ class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase)
             ),
         ).start()
 
-    @patch("api.endpoints.endpoints.startup_apache_kafka")
-    async def test_kafka_starts_at_startup(
-        self, mocked_startup_apache_kafka: Mock
-    ) -> None:
-        """
-        Test that apache kafka stated at backend startup
-
-        :param mocked_startup_apache_kafka: Mocked function to startup apache kafka.
-        :return: None
-        """
-        with TestClient(app):
-            mocked_startup_apache_kafka.assert_called_once()
-
     @patch(
         "api.endpoints.endpoints.start_apache_kafka_producer", new_callable=AsyncMock
     )
@@ -131,28 +118,6 @@ class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase)
         """
         with TestClient(app):
             mocked_start_apache_kafka_producer.assert_called_once()
-
-    @patch("api.endpoints.endpoints.shutdown_apache_kafka")
-    @patch(
-        "api.endpoints.endpoints.close_apache_kafka_producer", new_callable=AsyncMock
-    )
-    async def test_kafka_producer_and_consumer_are_closed_at_shutdown(
-        self, close_apache_producer: Mock, shutdown_apache: Mock
-    ) -> None:
-        """
-        Test that apache kafka producer and consumer is closed at close of backend.
-
-        :param close_apache_producer: Mocked function closing the kafka producer
-        :param shutdown_apache: Mocked function for shutting down kafka
-        :return: None
-        """
-
-        with TestClient(app):
-            pass
-
-        close_apache_producer.assert_called_once()
-
-        shutdown_apache.assert_called_once()
 
 
 # noinspection PyPep8Naming
@@ -214,31 +179,6 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(
         self.mocked_subprocess_popen.stop()
         self.mocked_subprocess_pipe.stop()
         self.mocked_select_select.stop()
-
-    def test_startup_apache_kafka_function_starts_apache_kafka_zookeeper(self) -> None:
-        """
-        Test that the function to start apache kafka starts Apache Kafka Zookeeper
-
-        :return: None
-        """
-        with TestClient(app):
-            expected_command = [
-                os.getenv("APACHE_KAFKA_ZOOKEEPER_SERVER_START_EXECUTABLE_FULL_PATH"),
-                os.getenv(
-                    "APACHE_KAFKA_ZOOKEEPER_KAFKA_ZOOKEEPER_PROPERTIES_FULL_PATH"
-                ),
-            ]
-
-            self.mocked_subprocess_popen.assert_has_calls(
-                [
-                    call(
-                        expected_command,
-                        stderr=self.mocked_subprocess_pipe,
-                        stdout=self.mocked_subprocess_pipe,
-                        text=True,
-                    )
-                ]
-            )
 
     def test_startup_apache_kafka_function_prints_contents_of_startup_output_to_terminal_during_execution(
         self,
