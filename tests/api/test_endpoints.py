@@ -69,8 +69,6 @@ class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase)
     Test case class for application backend lifecycle.
     """
 
-    # Notice of known issues with memory stream closure bugs discussed here: https://github.com/encode/starlette/discussions/2603
-
     def setUp(self):
         patch(
             "subprocess.Popen",
