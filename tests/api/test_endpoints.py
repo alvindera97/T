@@ -952,7 +952,7 @@ class WebSocketTestCase(base.BaseTestDatabaseTestCase):
 
         :return: None
         """
-        url_to_connect_to = "/ws/" + os.getenv("TEST_CHAT_UUID")
+        url_to_connect_to = "/ws/" + os.getenv("TEST_CHAT_URL")
 
         try:
             with self.client.websocket_connect(url_to_connect_to) as websocket:

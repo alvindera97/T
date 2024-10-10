@@ -51,7 +51,7 @@ If you're going to use a .env file to store all these environment variables, you
 
 You will need to set up the following environment variables:
 `GOOGLE_API_KEY` (API Key for Google Gemini AI)
-`TEST_CHAT_UUID` (e.g. chat/342498g2-87x3-4a64-9325-rb70471623ax)
+`TEST_CHAT_URL` (e.g. chat/342498g2-87x3-4a64-9325-rb70471623ax)
 `DATABASE_URL` (postgresql database URL)
 `APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS` ((integer) number of seconds to wait for kafka zookeeper & kafka server start e.g. 5)
 `APACHE_KAFKA_ZOOKEEPER_SERVER_START_EXECUTABLE_FULL_PATH` (/path/to/zookeeper-server-start.sh)

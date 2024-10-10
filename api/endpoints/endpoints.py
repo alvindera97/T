@@ -283,7 +283,7 @@ async def handle_chat(websocket: WebSocket, chat_uuid: uuid.UUID):
     """
     await websocket.accept()
 
-    if chat_uuid.__str__() != os.getenv("TEST_CHAT_UUID"):
+    if chat_uuid.__str__() != os.getenv("TEST_CHAT_URL"):
         raise Exception("Invalid chat URL")
 
     while True:
