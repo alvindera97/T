@@ -5,14 +5,9 @@ This module contains utility functions used in other modules.
 """
 
 import asyncio
-import os
 import random
-import select
-import subprocess
 from typing import Optional
 
-import eventlet
-from fastapi import FastAPI
 from sqlalchemy.orm import Session
 
 from json_defs.message import MessageJSON
@@ -121,49 +116,4 @@ def create_apache_kafka_topic(topic_title: str) -> None:
     if len(topic_title.split(" ")) != 1:
         raise ValueError(
             "create_apache_kafka_topic() 'topic_title' argument cannot contain spaces!"
-        )
-
-    try:
-        assert isinstance(fastapi_application, FastAPI)
-    except AssertionError:
-        raise ValueError(
-            "create_apache_kafka_topic() 'fastapi_application' must be a FastAPI instance!"
-        )
-
-    if not hasattr(fastapi_application.state, "zookeeper_subprocess"):
-        raise RuntimeError(
-            "fastapi_application instance has no running Apache Kafka Zookeeper server"
-        )
-
-    CREATE_KAFKA_TOPIC_COMMAND = [
-        os.getenv("APACHE_KAFKA_TOPICS_EXECUTABLE_FULL_PATH"),
-        "--create",
-        "--bootstrap-server",
-        f"{os.getenv('APACHE_KAFKA_BOOTSTRAP_SERVER_HOST')}:{os.getenv('APACHE_KAFKA_BOOTSTRAP_SERVER_PORT')}",
-        "--topic",
-        topic_title,
-    ]
-
-    wait_time = int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS"))
-    create_kafka_topic_subprocess = subprocess.Popen(
-        CREATE_KAFKA_TOPIC_COMMAND, stdout=subprocess.PIPE, stderr=subprocess.PIPE
-    )
-
-    try:
-        while eventlet.Timeout(wait_time):
-            reads = [
-                create_kafka_topic_subprocess.stdout,
-                create_kafka_topic_subprocess.stderr,
-            ]
-            ready_to_read, _, _ = select.select(reads, [], [], 0.1)
-
-            for pipe in ready_to_read:
-                output = pipe.readline()
-
-                if output:
-                    if f"Created topic {topic_title}." in output.strip():
-                        return
-    except eventlet.timeout.Timeout:
-        raise RuntimeError(
-            f"Failed to create kafka topic within {wait_time} second{'' if wait_time == 1 else 's'}. To increase this wait time, increase APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS env."
         )
