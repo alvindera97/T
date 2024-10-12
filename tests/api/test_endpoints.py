@@ -31,7 +31,7 @@ from models import Chat
 from tests.database import base
 from utils import exceptions
 
-timedotsleep_patcher = eventlet_timeout_patcher = None
+timedotsleep_patcher = None
 
 
 def setUpModule():
@@ -42,11 +42,9 @@ def setUpModule():
     global timedotsleep_patcher, eventlet_timeout_patcher
 
     timedotsleep_patcher = patch("time.sleep")
-    eventlet_timeout_patcher = patch("api.endpoints.endpoints.eventlet.Timeout")
 
     patch("builtins.print").start()
 
-    eventlet_timeout_patcher.start()
     timedotsleep_patcher.start()
 
 
@@ -55,13 +53,10 @@ def tearDownModule():
     Function containing executions after tests in module are ran.
     :return:
     """
-    global timedotsleep_patcher, eventlet_timeout_patcher
+    global timedotsleep_patcher
 
     if isinstance(timedotsleep_patcher, Mock):
         timedotsleep_patcher.stop()
-
-    if isinstance(eventlet_timeout_patcher, Mock):
-        eventlet_timeout_patcher.stop()
 
 
 class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase):
@@ -75,11 +70,6 @@ class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase)
             return_value=SimpleNamespace(
                 returncode=None, stdout=0, stderr=0, kill=lambda: None
             ),
-        ).start()
-
-        patch(
-            "api.endpoints.endpoints.eventlet.Timeout",
-            side_effect=[True, False, True, False],
         ).start()
 
         patch(
@@ -162,10 +152,6 @@ class ApplicationBackendStartupAndShutdownFunctionsTest(
                 ["second"],
                 ["third"],
             ),
-        ).start()
-
-        self.mocked_eventlet_timeout = patch(
-            "api.endpoints.endpoints.eventlet.Timeout", side_effect=[True, True]
         ).start()
 
     def tearDown(self):

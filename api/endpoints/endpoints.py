@@ -5,13 +5,10 @@ This module contains method(s) defining application any web socket endpoint(s)
 """
 
 import os
-import select
-import subprocess
 import uuid
 import warnings
 from contextlib import asynccontextmanager
 
-import eventlet
 from aiokafka import AIOKafkaProducer
 from fastapi import FastAPI, WebSocket, HTTPException
 from fastapi.params import Depends
@@ -21,7 +18,6 @@ from starlette.responses import RedirectResponse
 from controller import Controller
 from database import db
 from json_defs.requests import json_request_body_defs as json
-from utils import exceptions
 from utils.functions import utility_functions
 
 
