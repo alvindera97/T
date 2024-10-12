@@ -106,11 +106,10 @@ def add_new_chat(session: Session) -> str:
     return new_chat_uuid
 
 
-def create_apache_kafka_topic(topic_title: str, fastapi_application: FastAPI) -> None:
+def create_apache_kafka_topic(topic_title: str) -> None:
     """
     Function for creating Apache Kafka Topic
     :param topic_title: Title of the Apache Kafka topic intended to be created
-    :param fastapi_application FastAPI application instance
     :return: None
     """
     try:

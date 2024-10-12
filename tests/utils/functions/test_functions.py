@@ -18,6 +18,7 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 import eventlet
+from faker import Faker
 from fastapi import FastAPI
 from pydantic import ValidationError
 
@@ -26,6 +27,8 @@ from models import Chat
 from tests.database import base
 from user import User
 from utils.functions import utility_functions as utils
+
+faker = Faker()
 
 
 class TestCreateMessageJSON(unittest.TestCase):
@@ -217,25 +220,26 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
 
     def test_function_takes_topic_argument(self) -> None:
         """
-        Test that function takes 2 arguments:
+        Test that function takes 1 argument:
         1. topic name/title.
-        2. fastapi application instance
         :return: None
         """
 
         with self.assertRaises(TypeError) as context_1:
-            utils.create_apache_kafka_topic()
+            utils.create_apache_kafka_topic(
+                *(args := ["for"] + faker.sentence().split(" ") + ["extra", "measure"])
+            )
 
         with self.assertRaises(TypeError) as context_2:
-            utils.create_apache_kafka_topic("topic 1")
+            utils.create_apache_kafka_topic()
 
         self.assertEqual(
-            "create_apache_kafka_topic() missing 2 required positional arguments: 'topic_title' and 'fastapi_application'",
+            f"create_apache_kafka_topic() takes 1 positional argument but {len(args)} were given",
             context_1.exception.__str__(),
         )
 
         self.assertEqual(
-            "create_apache_kafka_topic() missing 1 required positional argument: 'fastapi_application'",
+            "create_apache_kafka_topic() missing 1 required positional argument: 'topic_title'",
             context_2.exception.__str__(),
         )
 
@@ -246,19 +250,16 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
         """
 
         with self.assertRaises(ValueError) as context_1:
-            utils.create_apache_kafka_topic(1, object)
+            utils.create_apache_kafka_topic(1)
 
         with self.assertRaises(ValueError) as context_2:
-            utils.create_apache_kafka_topic("", object)
+            utils.create_apache_kafka_topic("")
 
         with self.assertRaises(ValueError) as context_3:
-            utils.create_apache_kafka_topic(random.choice([True, False]), object)
-
-        with self.assertRaises(ValueError) as context_4:
-            utils.create_apache_kafka_topic("some topic", object)
+            utils.create_apache_kafka_topic(random.choice([True, False]))
 
         try:
-            utils.create_apache_kafka_topic("some topic", FastAPI())
+            utils.create_apache_kafka_topic("some_topic")
         except RuntimeError as re:
             assert (
                 re.__str__()
@@ -278,11 +279,6 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
             == context_3.exception.__str__()
         )
 
-        self.assertEqual(
-            context_4.exception.__str__(),
-            "create_apache_kafka_topic() 'fastapi_application' must be a FastAPI instance!",
-        )
-
     def test_function_raises_exception_if_fastapi_application_kafka_zookeeper_is_not_available(
         self,
     ) -> None:
@@ -293,7 +289,7 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
         """
 
         with self.assertRaises(RuntimeError) as context_1:
-            utils.create_apache_kafka_topic("some topic", FastAPI())
+            utils.create_apache_kafka_topic("some_topic")
 
         self.assertEqual(
             "fastapi_application instance has no running Apache Kafka Zookeeper server",
@@ -303,7 +299,7 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
         try:
             another_app = FastAPI()
             another_app.state.zookeeper_subprocess = object
-            utils.create_apache_kafka_topic("some_topic", another_app)
+            utils.create_apache_kafka_topic("some_topic")
 
         except Exception as e:
             self.fail(f"Unexpected exception raised: \n{e}")
@@ -324,7 +320,7 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
             topic_to_create,
         ], object
 
-        utils.create_apache_kafka_topic(topic_to_create, another_app)
+        utils.create_apache_kafka_topic(topic_to_create)
 
         self.mocked_subprocess_popen.assert_called_once_with(
             EXPECTED_COMMAND,
@@ -354,7 +350,7 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
                 ),
             ):
                 wait_time = int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS"))
-                utils.create_apache_kafka_topic("some_topic", another_app)
+                utils.create_apache_kafka_topic("some_topic")
 
         self.assertEqual(
             contex.exception.__str__(),
