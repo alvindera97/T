@@ -118,6 +118,10 @@ def create_apache_kafka_topic(topic_title: str) -> None:
         raise ValueError(
             "create_apache_kafka_topic() 'topic_title' argument must be non-empty string!"
         )
+    if len(topic_title.split(" ")) != 1:
+        raise ValueError(
+            "create_apache_kafka_topic() 'topic_title' argument cannot contain spaces!"
+        )
 
     try:
         assert isinstance(fastapi_application, FastAPI)

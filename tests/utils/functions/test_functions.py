@@ -258,6 +258,9 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
         with self.assertRaises(ValueError) as context_3:
             utils.create_apache_kafka_topic(random.choice([True, False]))
 
+        with self.assertRaises(ValueError) as context_4:
+            utils.create_apache_kafka_topic("some topic")
+
         try:
             utils.create_apache_kafka_topic("some_topic")
         except RuntimeError as re:
@@ -277,6 +280,11 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
             context_1.exception.__str__()
             == context_2.exception.__str__()
             == context_3.exception.__str__()
+        )
+
+        self.assertEqual(
+            context_4.exception.__str__(),
+            "create_apache_kafka_topic() 'topic_title' argument cannot contain spaces!",
         )
 
     def test_function_raises_exception_if_fastapi_application_kafka_zookeeper_is_not_available(
