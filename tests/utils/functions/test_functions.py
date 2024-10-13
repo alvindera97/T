@@ -304,12 +304,22 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
             .topics.keys()
         )
 
-    def test_function_calls_subprocess_popen_to_create_topic(self) -> None:
+    def test_function_displays_warning_in_the_event_topic_to_be_created_already_exists(
+        self,
+    ) -> None:
         """
+        Test function raises warning in the event that topic to be created has already been created.
         :return: None
         """
+        topic = self.randomly_generated_kafka_test_topic
 
+        with self.assertWarns(KafkaTopicAlreadyExists) as context:
+            utils.create_apache_kafka_topic(topic)
+            utils.create_apache_kafka_topic(topic)
 
+        self.assertEqual(
+            context.warning.__str__(),
+            f'Kafka topic: "{topic}" already exists, thus not attempting creation.',
         )
 
     def test_function_raises_exception_if_kafka_topic_was_not_created_successfully(
