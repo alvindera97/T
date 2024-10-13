@@ -6,8 +6,10 @@ This module contains utility functions used in other modules.
 
 import asyncio
 import random
+import time
 from typing import Optional
 
+from confluent_kafka.admin import AdminClient, NewTopic
 from sqlalchemy.orm import Session
 
 from json_defs.message import MessageJSON
@@ -116,4 +118,25 @@ def create_apache_kafka_topic(topic_title: str) -> None:
     if len(topic_title.split(" ")) != 1:
         raise ValueError(
             "create_apache_kafka_topic() 'topic_title' argument cannot contain spaces!"
+        )
+
+    a = AdminClient(
+        {
+            "bootstrap.servers": "localhost:9092",
+        }
+    )
+    if topic_title not in a.list_topics().topics.keys():
+        new_topic = NewTopic(topic_title, num_partitions=3, replication_factor=1)
+        execution = a.create_topics([new_topic])
+
+        # NOTE: sleep required to wait so python garbage collector doesn't clean up broker resources!
+        time.sleep(1)
+        if isinstance(execution[topic_title], BaseException):
+            raise RuntimeError(
+                f"Exception raised while creating kafka topic!: \n\n{execution[topic_title]}"
+            )
+    else:
+        warnings.warn(
+            f'Kafka topic: "{topic_title}" already exists, thus not attempting creation.',
+            KafkaTopicAlreadyExists,
         )
