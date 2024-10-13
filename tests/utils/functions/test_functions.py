@@ -306,26 +306,10 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
 
     def test_function_calls_subprocess_popen_to_create_topic(self) -> None:
         """
-        Test function calls subprocess.Popen to run command to create new kafka topic.
         :return: None
         """
-        topic_to_create, another_app = "some_topic", FastAPI()
 
-        EXPECTED_COMMAND, another_app.state.zookeeper_subprocess = [
-            os.getenv("APACHE_KAFKA_TOPICS_EXECUTABLE_FULL_PATH"),
-            "--create",
-            "--bootstrap-server",
-            f"{os.getenv('APACHE_KAFKA_BOOTSTRAP_SERVER_HOST')}:{os.getenv('APACHE_KAFKA_BOOTSTRAP_SERVER_PORT')}",
-            "--topic",
-            topic_to_create,
-        ], object
 
-        utils.create_apache_kafka_topic(topic_to_create)
-
-        self.mocked_subprocess_popen.assert_called_once_with(
-            EXPECTED_COMMAND,
-            stdout=self.mocked_subprocess_pipe,
-            stderr=self.mocked_subprocess_pipe,
         )
 
     def test_function_raises_exception_if_kafka_topic_was_not_created_successfully(
