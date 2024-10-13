@@ -27,6 +27,7 @@ from models import Chat
 from tests.database import base
 from user import User
 from utils.functions import utility_functions as utils
+from utils.functions.utility_functions import KafkaTopicAlreadyExists
 
 faker = Faker()
 

@@ -7,6 +7,7 @@ This module contains utility functions used in other modules.
 import asyncio
 import random
 import time
+import warnings
 from typing import Optional
 
 from confluent_kafka.admin import AdminClient, NewTopic
@@ -15,6 +16,14 @@ from sqlalchemy.orm import Session
 from json_defs.message import MessageJSON
 from models import Chat
 from user import User
+
+
+class KafkaTopicAlreadyExists(Warning):
+    """
+    Warning to indicate that kafka topic already exists
+    """
+
+    pass
 
 
 def create_message_JSON(
