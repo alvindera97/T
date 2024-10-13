@@ -206,6 +206,18 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
 
         return result
 
+    @property
+    def randomly_generated_kafka_test_topic(self) -> str:
+        """
+        Generate random kafka topic string
+        :return: String topic name
+        """
+        topic = "test_" + faker.sentence().split(" ")[0].lower()
+        current_topics = self._current_kafka_test_topics
+        while topic in current_topics:
+            topic = "test_" + faker.sentence().split(" ")[0].lower()
+
+        return topic
 
     def test_function_takes_topic_argument(self) -> None:
         """
@@ -237,6 +249,7 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
         Test that function raises ValueError on invalid input for topic title and fastapi_application
         :return: None
         """
+        topic = self.randomly_generated_kafka_test_topic
 
         with self.assertRaises(ValueError) as context_1:
             utils.create_apache_kafka_topic(1)
@@ -251,7 +264,7 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
             utils.create_apache_kafka_topic("some topic")
 
         try:
-            utils.create_apache_kafka_topic("some_topic")
+            utils.create_apache_kafka_topic(topic)
         except RuntimeError as re:
             assert (
                 re.__str__()
