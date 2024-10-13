@@ -38,6 +38,12 @@ jobs:
     - name: Run Black Formatter
       run: |
         black . --check
+    - name: Set Up Docker For Apache Kafka
+      run:
+        docker compose -f docker-compose.yaml up -d --wait
+    - name: Wait for Kafka and Zookeeper to be ready
+      run: |
+          while ! nc -z localhost 9092; do sleep 1; done
     - name: Test with unittest
       env:
         GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
