@@ -15,6 +15,7 @@ import os
 import random
 import unittest
 from types import SimpleNamespace
+from typing import List
 from unittest.mock import patch
 
 import eventlet
@@ -189,8 +190,21 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
         cls.confluent_kafka_admin_client = AdminClient(
             {"bootstrap.servers": "localhost:9092"}
         )
+    @property
+    def _current_kafka_test_topics(self) -> List[str]:
+        """
+        Get and return list of current kafka test topics.
+        :return: List of kafka topics used for tests.
+        """
+        result = []
+        topics: List[str] = (
+            self.confluent_kafka_admin_client.list_topics().topics.keys()
         )
+        for topic in topics:
+            if topic.startswith("test_"):
+                result.append(topic)
 
+        return result
 
 
     def test_function_takes_topic_argument(self) -> None:
