@@ -184,44 +184,14 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
     Test case class for tests on function for calling Apache Kafka topic.
     """
 
-    def setUp(self):
-        self.patch_subprocess_pipe = patch("subprocess.PIPE")
-        self.patch_subprocess_popen = patch(
-            "subprocess.Popen",
-            return_value=SimpleNamespace(
-                returncode=None, stderr=0, stdout=0, kill=lambda: None
-            ),
-        )
-        self.patch_select_select = patch(
-            "select.select",
-            return_value=(
-                [SimpleNamespace(readline=lambda: "Created topic some_topic.")],
-                ["second"],
-                ["third"],
-            ),
     @classmethod
     def setUpClass(cls):
         cls.confluent_kafka_admin_client = AdminClient(
             {"bootstrap.servers": "localhost:9092"}
         )
-        self.patch_eventlet_timeout = patch(
-            "utils.functions.utility_functions.eventlet.Timeout",
-            side_effect=int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS"))
-            * 2
-            * [True]
-            + [eventlet.timeout.Timeout],
         )
 
-        self.mocked_select_select = self.patch_select_select.start()
-        self.mocked_subprocess_pipe = self.patch_subprocess_pipe.start()
-        self.mocked_subprocess_popen = self.patch_subprocess_popen.start()
-        self.mocked_eventlet_timeout = self.patch_eventlet_timeout.start()
 
-    def tearDown(self):
-        self.patch_select_select.stop()
-        self.patch_subprocess_pipe.stop()
-        self.patch_subprocess_popen.stop()
-        self.patch_eventlet_timeout.stop()
 
     def test_function_takes_topic_argument(self) -> None:
         """
