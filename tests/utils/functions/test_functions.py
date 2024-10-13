@@ -11,7 +11,6 @@ Classes:
   TestAddChat
 """
 
-import os
 import random
 import time
 import unittest
@@ -19,10 +18,8 @@ from types import SimpleNamespace
 from typing import List
 from unittest.mock import patch
 
-import eventlet
 from confluent_kafka.admin import AdminClient
 from faker import Faker
-from fastapi import FastAPI
 from pydantic import ValidationError
 
 from json_defs.message import MessageJSON
