@@ -28,33 +28,6 @@ from models import Chat
 from tests.database import base
 from utils import exceptions
 
-timedotsleep_patcher = None
-
-
-def setUpModule():
-    """
-    Function containing executions before tests in module are run.
-    :return:
-    """
-    global timedotsleep_patcher, eventlet_timeout_patcher
-
-    timedotsleep_patcher = patch("time.sleep")
-
-    patch("builtins.print").start()
-
-    timedotsleep_patcher.start()
-
-
-def tearDownModule():
-    """
-    Function containing executions after tests in module are ran.
-    :return:
-    """
-    global timedotsleep_patcher
-
-    if isinstance(timedotsleep_patcher, Mock):
-        timedotsleep_patcher.stop()
-
 
 class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase):
     """
