@@ -289,13 +289,19 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
             "create_apache_kafka_topic() 'topic_title' argument cannot contain spaces!",
         )
 
-    def test_function_raises_exception_if_fastapi_application_kafka_zookeeper_is_not_available(
-        self,
-    ) -> None:
+    def test_function_creates_kafka_topic(self) -> None:
         """
+        Test function creates kafka topic with given name.
         :return: None
         """
+        topic = self.randomly_generated_kafka_test_topic
+        utils.create_apache_kafka_topic(topic)
 
+        self.assertTrue(
+            topic
+            in AdminClient({"bootstrap.servers": "localhost:9092}"})
+            .list_topics()
+            .topics.keys()
         )
 
     def test_function_calls_subprocess_popen_to_create_topic(self) -> None:
