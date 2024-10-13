@@ -7,15 +7,12 @@ Classes:
 """
 
 import os
-import random
-import subprocess
 import unittest
 import uuid
 import warnings
 from types import SimpleNamespace
-from unittest.mock import patch, AsyncMock, Mock, call
+from unittest.mock import patch, AsyncMock, Mock
 
-import eventlet
 from fastapi import FastAPI
 from fastapi.websockets import WebSocketDisconnect
 from starlette.testclient import TestClient
