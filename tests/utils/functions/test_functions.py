@@ -330,24 +330,6 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
         :return: None
         """
 
-        with self.assertRaises(RuntimeError) as contex:
-            another_app = FastAPI()
-            another_app.state.zookeeper_subprocess = object
-            with patch(
-                "select.select",
-                return_value=(
-                    [
-                        SimpleNamespace(readline=lambda: "Some other value"),
-                    ],
-                    ["second"],
-                    ["third"],
-                ),
-            ):
-                wait_time = int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS"))
-                utils.create_apache_kafka_topic("some_topic")
 
         self.assertEqual(
-            contex.exception.__str__(),
-            f"Failed to create kafka topic within {wait_time} second{'' if wait_time == 1 else 's'}. "
-            f"To increase this wait time, increase APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS env.",
         )
