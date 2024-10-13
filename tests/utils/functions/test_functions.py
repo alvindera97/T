@@ -329,7 +329,22 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
         Test function raises RuntimeError in the event that creation of kafka topic was not successful.
         :return: None
         """
+        topic, exception_text = (
+            self.randomly_generated_kafka_test_topic,
+            faker.sentence(),
+        )
 
+        with patch(
+            "utils.functions.utility_functions.AdminClient",
+            return_value=SimpleNamespace(
+                create_topics=lambda v: {v[0].topic: Exception(exception_text)},
+                list_topics=lambda: SimpleNamespace(topics={}),
+            ),
+        ):
+            with self.assertRaises(RuntimeError) as context:
+                utils.create_apache_kafka_topic(topic)
 
         self.assertEqual(
+            context.exception.__str__(),
+            f"Exception raised while creating kafka topic!: \n\n{exception_text}",
         )
