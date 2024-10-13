@@ -11,14 +11,15 @@ Classes:
   TestAddChat
 """
 
-import os
 import random
+import time
 import unittest
 from types import SimpleNamespace
+from typing import List
 from unittest.mock import patch
 
-import eventlet
-from fastapi import FastAPI
+from confluent_kafka.admin import AdminClient
+from faker import Faker
 from pydantic import ValidationError
 
 from json_defs.message import MessageJSON
@@ -26,6 +27,9 @@ from models import Chat
 from tests.database import base
 from user import User
 from utils.functions import utility_functions as utils
+from utils.functions.utility_functions import KafkaTopicAlreadyExists
+
+faker = Faker()
 
 
 class TestCreateMessageJSON(unittest.TestCase):
@@ -180,62 +184,68 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
     Test case class for tests on function for calling Apache Kafka topic.
     """
 
-    def setUp(self):
-        self.patch_subprocess_pipe = patch("subprocess.PIPE")
-        self.patch_subprocess_popen = patch(
-            "subprocess.Popen",
-            return_value=SimpleNamespace(
-                returncode=None, stderr=0, stdout=0, kill=lambda: None
-            ),
+    @classmethod
+    def setUpClass(cls):
+        cls.confluent_kafka_admin_client = AdminClient(
+            {"bootstrap.servers": "localhost:9092"}
         )
-        self.patch_select_select = patch(
-            "select.select",
-            return_value=(
-                [SimpleNamespace(readline=lambda: "Created topic some_topic.")],
-                ["second"],
-                ["third"],
-            ),
-        )
-        self.patch_eventlet_timeout = patch(
-            "utils.functions.utility_functions.eventlet.Timeout",
-            side_effect=int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS"))
-            * 2
-            * [True]
-            + [eventlet.timeout.Timeout],
-        )
-
-        self.mocked_select_select = self.patch_select_select.start()
-        self.mocked_subprocess_pipe = self.patch_subprocess_pipe.start()
-        self.mocked_subprocess_popen = self.patch_subprocess_popen.start()
-        self.mocked_eventlet_timeout = self.patch_eventlet_timeout.start()
 
     def tearDown(self):
-        self.patch_select_select.stop()
-        self.patch_subprocess_pipe.stop()
-        self.patch_subprocess_popen.stop()
-        self.patch_eventlet_timeout.stop()
+        if topics_to_delete := self._current_kafka_test_topics:
+            self.confluent_kafka_admin_client.delete_topics(topics_to_delete)
+            time.sleep(1)
+
+    @property
+    def _current_kafka_test_topics(self) -> List[str]:
+        """
+        Get and return list of current kafka test topics.
+        :return: List of kafka topics used for tests.
+        """
+        result = []
+        topics: List[str] = (
+            self.confluent_kafka_admin_client.list_topics().topics.keys()
+        )
+        for topic in topics:
+            if topic.startswith("test_"):
+                result.append(topic)
+
+        return result
+
+    @property
+    def randomly_generated_kafka_test_topic(self) -> str:
+        """
+        Generate random kafka topic string
+        :return: String topic name
+        """
+        topic = "test_" + faker.sentence().split(" ")[0].lower()
+        current_topics = self._current_kafka_test_topics
+        while topic in current_topics:
+            topic = "test_" + faker.sentence().split(" ")[0].lower()
+
+        return topic
 
     def test_function_takes_topic_argument(self) -> None:
         """
-        Test that function takes 2 arguments:
+        Test that function takes 1 argument:
         1. topic name/title.
-        2. fastapi application instance
         :return: None
         """
 
         with self.assertRaises(TypeError) as context_1:
-            utils.create_apache_kafka_topic()
+            utils.create_apache_kafka_topic(
+                *(args := ["for"] + faker.sentence().split(" ") + ["extra", "measure"])
+            )
 
         with self.assertRaises(TypeError) as context_2:
-            utils.create_apache_kafka_topic("topic 1")
+            utils.create_apache_kafka_topic()
 
         self.assertEqual(
-            "create_apache_kafka_topic() missing 2 required positional arguments: 'topic_title' and 'fastapi_application'",
+            f"create_apache_kafka_topic() takes 1 positional argument but {len(args)} were given",
             context_1.exception.__str__(),
         )
 
         self.assertEqual(
-            "create_apache_kafka_topic() missing 1 required positional argument: 'fastapi_application'",
+            "create_apache_kafka_topic() missing 1 required positional argument: 'topic_title'",
             context_2.exception.__str__(),
         )
 
@@ -244,21 +254,22 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
         Test that function raises ValueError on invalid input for topic title and fastapi_application
         :return: None
         """
+        topic = self.randomly_generated_kafka_test_topic
 
         with self.assertRaises(ValueError) as context_1:
-            utils.create_apache_kafka_topic(1, object)
+            utils.create_apache_kafka_topic(1)
 
         with self.assertRaises(ValueError) as context_2:
-            utils.create_apache_kafka_topic("", object)
+            utils.create_apache_kafka_topic("")
 
         with self.assertRaises(ValueError) as context_3:
-            utils.create_apache_kafka_topic(random.choice([True, False]), object)
+            utils.create_apache_kafka_topic(random.choice([True, False]))
 
         with self.assertRaises(ValueError) as context_4:
-            utils.create_apache_kafka_topic("some topic", object)
+            utils.create_apache_kafka_topic("some topic")
 
         try:
-            utils.create_apache_kafka_topic("some topic", FastAPI())
+            utils.create_apache_kafka_topic(topic)
         except RuntimeError as re:
             assert (
                 re.__str__()
@@ -280,56 +291,40 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
 
         self.assertEqual(
             context_4.exception.__str__(),
-            "create_apache_kafka_topic() 'fastapi_application' must be a FastAPI instance!",
+            "create_apache_kafka_topic() 'topic_title' argument cannot contain spaces!",
         )
 
-    def test_function_raises_exception_if_fastapi_application_kafka_zookeeper_is_not_available(
+    def test_function_creates_kafka_topic(self) -> None:
+        """
+        Test function creates kafka topic with given name.
+        :return: None
+        """
+        topic = self.randomly_generated_kafka_test_topic
+        utils.create_apache_kafka_topic(topic)
+
+        self.assertTrue(
+            topic
+            in AdminClient({"bootstrap.servers": "localhost:9092}"})
+            .list_topics()
+            .topics.keys()
+        )
+
+    def test_function_displays_warning_in_the_event_topic_to_be_created_already_exists(
         self,
     ) -> None:
         """
-        Test that function raises RuntimeError if FastAPI application instance does not have Apache Kafka Zookeeper
-        started successfully.
+        Test function raises warning in the event that topic to be created has already been created.
         :return: None
         """
+        topic = self.randomly_generated_kafka_test_topic
 
-        with self.assertRaises(RuntimeError) as context_1:
-            utils.create_apache_kafka_topic("some topic", FastAPI())
+        with self.assertWarns(KafkaTopicAlreadyExists) as context:
+            utils.create_apache_kafka_topic(topic)
+            utils.create_apache_kafka_topic(topic)
 
         self.assertEqual(
-            "fastapi_application instance has no running Apache Kafka Zookeeper server",
-            context_1.exception.__str__(),
-        )
-
-        try:
-            another_app = FastAPI()
-            another_app.state.zookeeper_subprocess = object
-            utils.create_apache_kafka_topic("some_topic", another_app)
-
-        except Exception as e:
-            self.fail(f"Unexpected exception raised: \n{e}")
-
-    def test_function_calls_subprocess_popen_to_create_topic(self) -> None:
-        """
-        Test function calls subprocess.Popen to run command to create new kafka topic.
-        :return: None
-        """
-        topic_to_create, another_app = "some_topic", FastAPI()
-
-        EXPECTED_COMMAND, another_app.state.zookeeper_subprocess = [
-            os.getenv("APACHE_KAFKA_TOPICS_EXECUTABLE_FULL_PATH"),
-            "--create",
-            "--bootstrap-server",
-            f"{os.getenv('APACHE_KAFKA_BOOTSTRAP_SERVER_HOST')}:{os.getenv('APACHE_KAFKA_BOOTSTRAP_SERVER_PORT')}",
-            "--topic",
-            topic_to_create,
-        ], object
-
-        utils.create_apache_kafka_topic(topic_to_create, another_app)
-
-        self.mocked_subprocess_popen.assert_called_once_with(
-            EXPECTED_COMMAND,
-            stdout=self.mocked_subprocess_pipe,
-            stderr=self.mocked_subprocess_pipe,
+            context.warning.__str__(),
+            f'Kafka topic: "{topic}" already exists, thus not attempting creation.',
         )
 
     def test_function_raises_exception_if_kafka_topic_was_not_created_successfully(
@@ -339,25 +334,22 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
         Test function raises RuntimeError in the event that creation of kafka topic was not successful.
         :return: None
         """
+        topic, exception_text = (
+            self.randomly_generated_kafka_test_topic,
+            faker.sentence(),
+        )
 
-        with self.assertRaises(RuntimeError) as contex:
-            another_app = FastAPI()
-            another_app.state.zookeeper_subprocess = object
-            with patch(
-                "select.select",
-                return_value=(
-                    [
-                        SimpleNamespace(readline=lambda: "Some other value"),
-                    ],
-                    ["second"],
-                    ["third"],
-                ),
-            ):
-                wait_time = int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS"))
-                utils.create_apache_kafka_topic("some_topic", another_app)
+        with patch(
+            "utils.functions.utility_functions.AdminClient",
+            return_value=SimpleNamespace(
+                create_topics=lambda v: {v[0].topic: Exception(exception_text)},
+                list_topics=lambda: SimpleNamespace(topics={}),
+            ),
+        ):
+            with self.assertRaises(RuntimeError) as context:
+                utils.create_apache_kafka_topic(topic)
 
         self.assertEqual(
-            contex.exception.__str__(),
-            f"Failed to create kafka topic within {wait_time} second{'' if wait_time == 1 else 's'}. "
-            f"To increase this wait time, increase APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS env.",
+            context.exception.__str__(),
+            f"Exception raised while creating kafka topic!: \n\n{exception_text}",
         )

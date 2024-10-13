@@ -63,7 +63,7 @@ class ApplicationControllerTestCase(unittest.IsolatedAsyncioTestCase):
     @classmethod
     def setUpClass(cls):
         cls.chat_context = "Some context"
-        cls.ws_url = "ws://localhost:8000/chat/" + os.getenv("TEST_CHAT_UUID")
+        cls.ws_url = "ws://localhost:8000/chat/" + os.getenv("TEST_CHAT_URL")
 
     async def test_controller_constructor_has_array_of_unique_users_based_on_constructor_argument(
         self,
@@ -269,7 +269,7 @@ class ApplicationControllerTestCase(unittest.IsolatedAsyncioTestCase):
         """
         try:
             with test_client.websocket_connect(
-                "/ws/" + os.getenv("TEST_CHAT_UUID")
+                "/ws/" + os.getenv("TEST_CHAT_URL")
             ) as test_websocket_client:
                 controller = await Controller.initialise(
                     2, self.ws_url, self.chat_context
@@ -307,5 +307,5 @@ class ApplicationControllerTestCase(unittest.IsolatedAsyncioTestCase):
                 self.assertEqual(len(consumer.subscription()), 1)
                 self.assertEqual(
                     set(consumer.subscription()).pop(),
-                    os.getenv("TEST_CHAT_UUID").split("/")[-1],
+                    os.getenv("TEST_CHAT_URL").split("/")[-1],
                 )

@@ -5,19 +5,25 @@ This module contains utility functions used in other modules.
 """
 
 import asyncio
-import os
 import random
-import select
-import subprocess
+import time
+import warnings
 from typing import Optional
 
-import eventlet
-from fastapi import FastAPI
+from confluent_kafka.admin import AdminClient, NewTopic
 from sqlalchemy.orm import Session
 
 from json_defs.message import MessageJSON
 from models import Chat
 from user import User
+
+
+class KafkaTopicAlreadyExists(Warning):
+    """
+    Warning to indicate that kafka topic already exists
+    """
+
+    pass
 
 
 def create_message_JSON(
@@ -106,11 +112,10 @@ def add_new_chat(session: Session) -> str:
     return new_chat_uuid
 
 
-def create_apache_kafka_topic(topic_title: str, fastapi_application: FastAPI) -> None:
+def create_apache_kafka_topic(topic_title: str) -> None:
     """
     Function for creating Apache Kafka Topic
     :param topic_title: Title of the Apache Kafka topic intended to be created
-    :param fastapi_application FastAPI application instance
     :return: None
     """
     try:
@@ -119,48 +124,28 @@ def create_apache_kafka_topic(topic_title: str, fastapi_application: FastAPI) ->
         raise ValueError(
             "create_apache_kafka_topic() 'topic_title' argument must be non-empty string!"
         )
-
-    try:
-        assert isinstance(fastapi_application, FastAPI)
-    except AssertionError:
+    if len(topic_title.split(" ")) != 1:
         raise ValueError(
-            "create_apache_kafka_topic() 'fastapi_application' must be a FastAPI instance!"
+            "create_apache_kafka_topic() 'topic_title' argument cannot contain spaces!"
         )
 
-    if not hasattr(fastapi_application.state, "zookeeper_subprocess"):
-        raise RuntimeError(
-            "fastapi_application instance has no running Apache Kafka Zookeeper server"
-        )
-
-    CREATE_KAFKA_TOPIC_COMMAND = [
-        os.getenv("APACHE_KAFKA_TOPICS_EXECUTABLE_FULL_PATH"),
-        "--create",
-        "--bootstrap-server",
-        f"{os.getenv('APACHE_KAFKA_BOOTSTRAP_SERVER_HOST')}:{os.getenv('APACHE_KAFKA_BOOTSTRAP_SERVER_PORT')}",
-        "--topic",
-        topic_title,
-    ]
-
-    wait_time = int(os.getenv("APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS"))
-    create_kafka_topic_subprocess = subprocess.Popen(
-        CREATE_KAFKA_TOPIC_COMMAND, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+    a = AdminClient(
+        {
+            "bootstrap.servers": "localhost:9092",
+        }
     )
+    if topic_title not in a.list_topics().topics.keys():
+        new_topic = NewTopic(topic_title, num_partitions=3, replication_factor=1)
+        execution = a.create_topics([new_topic])
 
-    try:
-        while eventlet.Timeout(wait_time):
-            reads = [
-                create_kafka_topic_subprocess.stdout,
-                create_kafka_topic_subprocess.stderr,
-            ]
-            ready_to_read, _, _ = select.select(reads, [], [], 0.1)
-
-            for pipe in ready_to_read:
-                output = pipe.readline()
-
-                if output:
-                    if f"Created topic {topic_title}." in output.strip():
-                        return
-    except eventlet.timeout.Timeout:
-        raise RuntimeError(
-            f"Failed to create kafka topic within {wait_time} second{'' if wait_time == 1 else 's'}. To increase this wait time, increase APACHE_KAFKA_OPS_MAX_WAIT_TIME_SECS env."
+        # NOTE: sleep required to wait so python garbage collector doesn't clean up broker resources!
+        time.sleep(1)
+        if isinstance(execution[topic_title], BaseException):
+            raise RuntimeError(
+                f"Exception raised while creating kafka topic!: \n\n{execution[topic_title]}"
+            )
+    else:
+        warnings.warn(
+            f'Kafka topic: "{topic_title}" already exists, thus not attempting creation.',
+            KafkaTopicAlreadyExists,
         )
