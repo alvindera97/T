@@ -18,6 +18,7 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 import eventlet
+from confluent_kafka.admin import AdminClient
 from faker import Faker
 from fastapi import FastAPI
 from pydantic import ValidationError
@@ -198,6 +199,10 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
                 ["second"],
                 ["third"],
             ),
+    @classmethod
+    def setUpClass(cls):
+        cls.confluent_kafka_admin_client = AdminClient(
+            {"bootstrap.servers": "localhost:9092"}
         )
         self.patch_eventlet_timeout = patch(
             "utils.functions.utility_functions.eventlet.Timeout",
