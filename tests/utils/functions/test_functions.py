@@ -13,6 +13,7 @@ Classes:
 
 import os
 import random
+import time
 import unittest
 from types import SimpleNamespace
 from typing import List
@@ -190,6 +191,12 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
         cls.confluent_kafka_admin_client = AdminClient(
             {"bootstrap.servers": "localhost:9092"}
         )
+
+    def tearDown(self):
+        if topics_to_delete := self._current_kafka_test_topics:
+            self.confluent_kafka_admin_client.delete_topics(topics_to_delete)
+            time.sleep(1)
+
     @property
     def _current_kafka_test_topics(self) -> List[str]:
         """
