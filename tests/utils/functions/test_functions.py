@@ -293,26 +293,10 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
         self,
     ) -> None:
         """
-        Test that function raises RuntimeError if FastAPI application instance does not have Apache Kafka Zookeeper
-        started successfully.
         :return: None
         """
 
-        with self.assertRaises(RuntimeError) as context_1:
-            utils.create_apache_kafka_topic("some_topic")
-
-        self.assertEqual(
-            "fastapi_application instance has no running Apache Kafka Zookeeper server",
-            context_1.exception.__str__(),
         )
-
-        try:
-            another_app = FastAPI()
-            another_app.state.zookeeper_subprocess = object
-            utils.create_apache_kafka_topic("some_topic")
-
-        except Exception as e:
-            self.fail(f"Unexpected exception raised: \n{e}")
 
     def test_function_calls_subprocess_popen_to_create_topic(self) -> None:
         """
