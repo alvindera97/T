@@ -39,9 +39,8 @@ To install the development requirements, you'll need to use pip:
 `python -m pip install -r requirements.txt`
 #### Use Black For Formatting
 Simply run the command `pre-commit install` and then on every commit, `black` will format all affected files.
-#### Apache Kafka 
-*Install Apache Kafka (**You'll also need Java installed to run Apache Kafka**):*
-You can follow the Apache Kafka installation page: https://kafka.apache.org/downloads
+#### Docker & Apache Kafka 
+You'll need to have docker (specifically docker engine & docker compose) installed to consumer for Apache Kafka. It's easier to simply install docker desktop. Check out the product page for more info: https://docs.docker.com/desktop/
 #### Google Gemini API Key
 You can get your Google Gemini API Key by following the instructions on this page: https://ai.google.dev/gemini-api/docs/api-key
 #### Environment Variables (CRITICALLY IMPORTANT)
@@ -65,11 +64,16 @@ All pull requests that include new functionality will require corresponding test
 To run test, you'll need to use the command: 
 `dotenv -- run python -m unittest`
 
+**NOTE**: You need to have your docker container running by running the command `docker compose up`
+
 ### Running test without the required environment variables in a .env file
 Note that these environment variables covered [here](https://github.com/alvindera97/T/blob/trunk/CONTRIBUTING.md#environment-variables-critically-important).
 
 To run tests, you'll need to use the command:
 `python -m unittest`
+
+**NOTE**: You need to have your docker container running by running the command `docker compose up`
+
 
 ## Running The Application
 ### Running the application with the required environment variables in a .env file:
