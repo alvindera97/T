@@ -134,7 +134,9 @@ def create_apache_kafka_topic(topic_title: str) -> None:
             "bootstrap.servers": "localhost:9092",
         }
     )
-    if topic_title not in a.list_topics().topics.keys():
+
+    existing_topics = set(a.list_topics().topics.keys())
+    if topic_title not in existing_topics:
         new_topic = NewTopic(topic_title, num_partitions=3, replication_factor=1)
         execution = a.create_topics([new_topic])
 
