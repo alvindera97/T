@@ -125,9 +125,6 @@ async def set_up_chat(
     new_chat_uuid = utility_functions.add_new_chat(session)
     chat_url = "chat/" + new_chat_uuid
 
-    # TODO: Ensure that there are no messages in the newly created kafka topic (i.e. topic doesn't already exist especially
-    #  with events in the stream before creating chat.
-
     try:
         utility_functions.create_apache_kafka_topic(new_chat_uuid)
     except Exception as e:
