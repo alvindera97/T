@@ -313,19 +313,29 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
         self,
     ) -> None:
         """
-        Test function raises warning in the event that topic to be created has already been created.
+        Test function raises warning in the event that topic to be created has already been created and the augmented
+        topic is created.
         :return: None
         """
         topic = self.randomly_generated_kafka_test_topic
+
+        topics_before_multiple_creation_calls = self._current_kafka_test_topics
 
         with self.assertWarns(KafkaTopicAlreadyExists) as context:
             utils.create_apache_kafka_topic(topic)
             utils.create_apache_kafka_topic(topic)
 
-        self.assertEqual(
-            context.warning.__str__(),
-            f'Kafka topic: "{topic}" already exists, thus not attempting creation.',
+        self.assertTrue(
+            f'Kafka topic: "{topic}" already exists, thus topic has been augmented to: '
+            in context.warning.__str__(),
         )
+
+        new_topic = context.warning.__str__().split(
+            f'Kafka topic: "{topic}" already exists, thus topic has been augmented to: '
+        )[-1]
+
+        self.assertTrue(new_topic in self._current_kafka_test_topics)
+        self.assertFalse(new_topic in topics_before_multiple_creation_calls)
 
     def test_function_raises_exception_if_kafka_topic_was_not_created_successfully(
         self,
