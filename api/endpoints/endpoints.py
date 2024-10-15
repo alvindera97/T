@@ -129,7 +129,7 @@ async def set_up_chat(
     #  with events in the stream before creating chat.
 
     try:
-        utility_functions.create_apache_kafka_topic(new_chat_uuid, app)
+        utility_functions.create_apache_kafka_topic(new_chat_uuid)
     except Exception as e:
         print(f">>> Exception while attempting to create kafka topic: \n\n{e}")
         raise HTTPException(

@@ -417,7 +417,7 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
                         follow_redirects=True,
                     )
                     mocked_create_apache_kafka_topic.assert_called_once_with(
-                        test_chat_uuid, mocked_fastapi_app
+                        test_chat_uuid
                     )
                     mocked_application_controller.assert_not_called()
 
@@ -456,7 +456,7 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
                             follow_redirects=True,
                         )
                         mocked_create_apache_kafka_topic.assert_called_once_with(
-                            test_chat_uuid, mocked_fastapi_app
+                            test_chat_uuid
                         )
 
     def test_endpoint_returns_server_error_on_exception_from_function_to_create_kafka_topic(
@@ -484,7 +484,7 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
                             follow_redirects=True,
                         )
                         mocked_create_apache_kafka_topic.assert_called_once_with(
-                            test_chat_uuid, mocked_fastapi_app
+                            test_chat_uuid
                         )
 
                         self.assertEqual(response.status_code, 500)
