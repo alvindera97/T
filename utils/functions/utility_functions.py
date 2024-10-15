@@ -7,6 +7,7 @@ This module contains utility functions used in other modules.
 import asyncio
 import random
 import time
+import uuid
 import warnings
 from typing import Optional
 
@@ -114,7 +115,14 @@ def add_new_chat(session: Session) -> str:
 
 def create_apache_kafka_topic(topic_title: str) -> None:
     """
-    Function for creating Apache Kafka Topic
+    Function for creating Apache Kafka Topic.
+
+    In the event where :topic_title already exists as a kafka topic, the resolution
+    strategy is thus:
+    - Raise a KafkaTopicAlreadyExists warning about the duplicate topic creation issue
+    - Employ uuid.uuid4() to create a UUID suffix that is appended to topic_title to form a new topic string.
+    - Call create_apache_kafka_topic() with the new topic string.
+
     :param topic_title: Title of the Apache Kafka topic intended to be created
     :return: None
     """
@@ -147,7 +155,17 @@ def create_apache_kafka_topic(topic_title: str) -> None:
                 f"Exception raised while creating kafka topic!: \n\n{execution[topic_title]}"
             )
     else:
+        new_topic_suffix = uuid.uuid4()
+        while (
+            new_topic := topic_title
+            + "_"
+            + new_topic_suffix.__str__().replace("-", "_")
+        ) in existing_topics:
+            new_topic_suffix = uuid.uuid4()
+
         warnings.warn(
-            f'Kafka topic: "{topic_title}" already exists, thus not attempting creation.',
+            f'Kafka topic: "{topic_title}" already exists, thus topic has been augmented to: {new_topic}',
             KafkaTopicAlreadyExists,
         )
+
+        return create_apache_kafka_topic(new_topic)
