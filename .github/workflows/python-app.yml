@@ -44,15 +44,9 @@ jobs:
         echo "Waiting for Kafka to be ready on port 9092..."
         timeout 60 bash -c 'until echo > /dev/tcp/localhost/9092; do sleep 1; done'
         echo "Kafka is up and running!"
-    - name: Verify Kafka and Zookeeper Status
-      run: |
-        docker ps
-        docker logs $(docker ps --filter "ancestor=wurstmeister/kafka" --format "{{.Names}}")
-        docker logs $(docker ps --filter "ancestor=zookeeper" --format "{{.Names}}")
-
     - name: Test with unittest
       env:
         GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
         TEST_CHAT_URL: ${{ secrets.TEST_CHAT_URL }}
       run: |
-        python -m unittest
+        python -m unittest -b
