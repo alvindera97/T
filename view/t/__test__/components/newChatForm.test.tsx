@@ -134,3 +134,27 @@ describe("Assert <NewChatForm /> Contents", () => {
     ).toBeTruthy();
   });
 });
+
+describe("Assert <NewChatForm /> Group Chat Name Input Details", () => {
+  render(<NewChatForm />);
+
+  it("Asserts group name chat input is child of child element of single form element", () => {});
+});
+
+describe("Assert <NewChatForm /> Group Chat Context Input Details", () => {
+  render(<NewChatForm />);
+
+  it("", () => {});
+});
+
+describe("Assert <NewChatForm /> Number Of Chat Members Input Details", () => {
+  render(<NewChatForm />);
+
+  it("", () => {});
+});
+
+describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
+  render(<NewChatForm />);
+
+  it("", () => {});
+});
