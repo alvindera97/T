@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest"
+    "test": "vitest",
+    "coverage": "vitest --coverage"
   },
   "dependencies": {
     "flowbite-react": "^0.10.2",
