@@ -196,10 +196,45 @@ describe("Assert <NewChatForm /> Group Chat Context Input Details", () => {
   });
 });
 
-describe("Assert <NewChatForm /> Number Of Chat Members Input Details", () => {
-  render(<NewChatForm />);
+describe("Assert <NewChatForm /> Number Of Chat users Input Details", () => {
+  const { container } = render(<NewChatForm />);
+  const newGroupChatForm = container.querySelectorAll("form");
+  const groupChatNumberOfUsersInput = newGroupChatForm
+    .item(0)
+    .querySelector("input#new-group-chat-number-of-users");
 
-  it("", () => {});
+  if (groupChatNumberOfUsersInput === null) {
+    fail("Input for group chat number of users wasn't found");
+  }
+
+  it("Asserts group chat number of users input is child of child element of single form element", () => {
+    expect(newGroupChatForm.length).toEqual(1);
+    expect(groupChatNumberOfUsersInput).toBeInTheDocument();
+  });
+
+  it("Asserts group chat group number of users input is enabled ", () => {
+    expect(groupChatNumberOfUsersInput).toBeEnabled();
+  });
+
+  it("Asserts group chat group number of users input is editable", async () => {
+    await userEvent.type(groupChatNumberOfUsersInput, "10");
+
+    expect(groupChatNumberOfUsersInput).toHaveValue(10);
+  });
+
+  it("Asserts group chat number of users input only accepts positive integer Number inputs", async () => {
+    await userEvent.clear(groupChatNumberOfUsersInput);
+    await userEvent.type(groupChatNumberOfUsersInput, "string input");
+
+    expect(groupChatNumberOfUsersInput).toBeEmptyDOMElement();
+  });
+
+  it("Asserts group chat number of users input cannot accept any value below 1", async () => {
+    await userEvent.clear(groupChatNumberOfUsersInput);
+    await userEvent.type(groupChatNumberOfUsersInput, "0");
+
+    expect(groupChatNumberOfUsersInput).toBeEmptyDOMElement();
+  });
 });
 
 describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {

@@ -13,6 +13,24 @@ export default function NewChatForm() {
       />
       <input
         type="number"
+        min={1}
+        step={1}
+        onKeyDown={(e) => {
+          if (
+            !(
+              (e.key >= "0" && e.key <= "9") ||
+              e.key === "Backspace" ||
+              e.key === "ArrowLeft" ||
+              e.key === "ArrowRight" ||
+              e.key === "Tab"
+            ) ||
+            (e.key >= "0" &&
+              e.key <= "9" &&
+              Number(e.currentTarget.value + e.key) < 1)
+          ) {
+            e.preventDefault();
+          }
+        }}
         id="new-group-chat-number-of-users"
         placeholder="Number of group chat users"
       />
