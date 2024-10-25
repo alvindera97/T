@@ -165,9 +165,35 @@ describe("Assert <NewChatForm /> Group Chat Name Input Details", () => {
 });
 
 describe("Assert <NewChatForm /> Group Chat Context Input Details", () => {
-  render(<NewChatForm />);
+  const { container } = render(<NewChatForm />);
+  const newGroupChatForm = container.querySelectorAll("form");
+  const groupChatContextInput = newGroupChatForm
+    .item(0)
+    .querySelector("textarea#new-group-chat-context");
 
-  it("", () => {});
+  if (groupChatContextInput === null) {
+    fail("Input for group chat context wasn't found");
+  }
+
+  it("Asserts group chat group context input is child of child element of single form element", () => {
+    expect(newGroupChatForm.length).toEqual(1);
+    expect(groupChatContextInput).toBeInTheDocument();
+  });
+
+  it("Asserts group chat group context input is enabled", () => {
+    expect(groupChatContextInput).toBeEnabled();
+  });
+
+  it("Asserts group chat group context input is editable", async () => {
+    await userEvent.type(
+      groupChatContextInput,
+      "Hello world, this is the group chat context"
+    );
+
+    expect(groupChatContextInput).toHaveValue(
+      "Hello world, this is the group chat context"
+    );
+  });
 });
 
 describe("Assert <NewChatForm /> Number Of Chat Members Input Details", () => {
