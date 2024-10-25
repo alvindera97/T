@@ -1,4 +1,5 @@
 import { Button } from "flowbite-react";
+import { Button, TextInput } from "flowbite-react";
 export default function NewChatForm() {
   return (
     <form
@@ -16,7 +17,7 @@ export default function NewChatForm() {
         id="new-group-chat-context"
         placeholder="Chat context — General topic, mood and sentiment of the group chat."
       />
-      <input
+      <TextInput
         type="number"
         min={1}
         step={1}
