@@ -1,5 +1,7 @@
-import { Button } from "flowbite-react";
+"use client";
+
 import { Button, TextInput } from "flowbite-react";
+
 export default function NewChatForm() {
   return (
     <form
