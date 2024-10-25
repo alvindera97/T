@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, TextInput } from "flowbite-react";
+import { Button, Textarea, TextInput } from "flowbite-react";
 
 export default function NewChatForm() {
   return (
@@ -10,12 +10,12 @@ export default function NewChatForm() {
       id="new-chat-form"
       role="start-new-chat-form"
     >
-      <input
+      <TextInput
         placeholder="Group chat name"
         type="text"
         id="new-group-chat-name"
       />
-      <textarea
+      <Textarea
         id="new-group-chat-context"
         placeholder="Chat context — General topic, mood and sentiment of the group chat."
       />
