@@ -1,7 +1,12 @@
 import { Button } from "flowbite-react";
 export default function NewChatForm() {
   return (
-    <form action={"POST"} id="new-chat-form" role="start-new-chat-form">
+    <form
+      className="flex flex-col gap-y-2"
+      action={"POST"}
+      id="new-chat-form"
+      role="start-new-chat-form"
+    >
       <input
         placeholder="Group chat name"
         type="text"
