@@ -2,6 +2,7 @@ import { expect, describe, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import NewChatForm from "../../src/components/NewChatForm";
 import { HTMLInputTypeAttribute } from "react";
+import userEvent from "@testing-library/user-event";
 
 // Asserts new chat form component renders expected components
 
@@ -136,9 +137,31 @@ describe("Assert <NewChatForm /> Contents", () => {
 });
 
 describe("Assert <NewChatForm /> Group Chat Name Input Details", () => {
-  render(<NewChatForm />);
+  const { container } = render(<NewChatForm />);
+  const newGroupChatForm = container.querySelectorAll("form");
+  const groupChatNameInput = newGroupChatForm
+    .item(0)
+    .querySelector("input#new-group-chat-name");
 
-  it("Asserts group name chat input is child of child element of single form element", () => {});
+  it("Asserts group chat name input is child of child element of single form element", () => {
+    expect(newGroupChatForm.length).toEqual(1);
+    expect(groupChatNameInput).toBeInTheDocument();
+  });
+
+  it("Asserts group chat name input is enabled", () => {
+    expect(groupChatNameInput).toBeEnabled();
+  });
+
+  it("Asserts group chat name input is editable", async () => {
+    if (groupChatNameInput === null) {
+      fail("Input for group chat name wasn't found!");
+    }
+
+    // https://github.com/testing-library/user-event/issues/1150#issuecomment-1851795697
+    await userEvent.type(groupChatNameInput, "Hello world");
+
+    expect(groupChatNameInput).toHaveValue("Hello world");
+  });
 });
 
 describe("Assert <NewChatForm /> Group Chat Context Input Details", () => {
