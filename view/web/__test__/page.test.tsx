@@ -1,9 +1,9 @@
 import { expect, describe, it } from "vitest";
 import { render } from "@testing-library/react";
-import Page from "../src/app/page";
+import Home from "../src/app/page";
 
-describe("Home Page Initial Load", () => {
-  const { container } = render(<Page />);
+describe("Home Page Initial Load", async () => {
+  const { container } = render(<Home />);
 
   it("Assert home page renders new chat form.", () => {
     const newChatForm = container.querySelector("form");
