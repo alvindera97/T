@@ -27,6 +27,12 @@ describe("Assert <NewChatForm /> Contents", () => {
     expect(formElement.getAttribute("method")).toEqual("POST");
   });
 
+  it("Asserts new chat form action is set to appropriate url", () => {
+    expect(formElement.getAttribute("action")).toEqual(
+      `${process.env.NEXT_PUBLIC_T_BACKEND_URL}/set_up_chat/`
+    );
+  });
+
   it("Asserts there is a singular form element in the component", () => {
     const element = container.querySelectorAll("form");
 

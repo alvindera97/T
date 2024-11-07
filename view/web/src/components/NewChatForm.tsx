@@ -23,6 +23,7 @@ export default function NewChatForm() {
     <form
       className="flex flex-col gap-y-2"
       method={"POST"}
+      action={`${process.env.NEXT_PUBLIC_T_BACKEND_URL}/set_up_chat/`}
       id="new-chat-form"
       role="start-new-chat-form"
     >
