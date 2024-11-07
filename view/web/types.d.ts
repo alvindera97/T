@@ -1,0 +1,1 @@
+type CallableWithArgs = [Function, any[]?];
