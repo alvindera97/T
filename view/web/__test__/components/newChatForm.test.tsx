@@ -1,8 +1,9 @@
-import { expect, describe, it } from "vitest";
-import { render, screen } from "@testing-library/react";
-import NewChatForm from "../../src/components/NewChatForm";
 import { HTMLInputTypeAttribute } from "react";
 import userEvent from "@testing-library/user-event";
+import { executeRandomCallable } from "../../src/utils";
+import NewChatForm from "../../src/components/NewChatForm";
+import { render, screen, waitFor } from "@testing-library/react";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 
 // Asserts new chat form component renders expected components
 
@@ -238,7 +239,123 @@ describe("Assert <NewChatForm /> Number Of Chat users Input Details", () => {
 });
 
 describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
-  render(<NewChatForm />);
+  const { container } = render(<NewChatForm />);
+  const queryResultLength = container.querySelectorAll(
+    "button#start-group-chat-btn"
+  ).length;
 
-  it("", () => {});
+  if (queryResultLength !== 1) {
+    fail(
+      `Expected to find 1 element in query result for 'start chat button', found: ${queryResultLength}`
+    );
+  }
+
+  const startChatButton = container.querySelector(
+    "button#start-group-chat-btn"
+  )!;
+
+  const newGroupChatForm = container.querySelectorAll("form");
+  const groupChatNameInput = newGroupChatForm
+    .item(0)
+    .querySelector("input#new-group-chat-name");
+  const groupChatContextInput = newGroupChatForm
+    .item(0)
+    .querySelector("textarea#new-group-chat-context");
+  const groupChatNumberOfUsersInput = newGroupChatForm
+    .item(0)
+    .querySelector("input#new-group-chat-number-of-users");
+
+  it("Asserts the submit button is disabled at first render of the component", () => {
+    expect(startChatButton).toBeDisabled();
+  });
+
+  if (
+    groupChatNameInput === null ||
+    groupChatContextInput === null ||
+    groupChatNumberOfUsersInput === null
+  ) {
+    fail("Failed to find all inputs for the 'start group chat' form.");
+  }
+
+  beforeEach(() => {
+    userEvent.clear(groupChatNameInput);
+    userEvent.clear(groupChatContextInput);
+    userEvent.clear(groupChatNumberOfUsersInput);
+  });
+
+  afterEach(() => {
+    userEvent.clear(groupChatNameInput);
+    userEvent.clear(groupChatContextInput);
+    userEvent.clear(groupChatNumberOfUsersInput);
+  });
+
+  function fillGroupChatName() {
+    waitFor(
+      async () => await userEvent.type(groupChatNameInput!, "Hello world!")
+    );
+  }
+
+  function fillGroupChatContext() {
+    waitFor(
+      async () =>
+        await userEvent.type(groupChatContextInput!, "Some group chat context")
+    );
+  }
+
+  function fillGroupChatNumberOfUsers() {
+    waitFor(
+      async () =>
+        await userEvent.type(
+          groupChatNumberOfUsersInput!,
+          `${Math.floor(Math.random() * (100 - 1 + 1)) + 1}`
+        )
+    );
+  }
+
+  it("Asserts the submit button is disabled when only the group chat name is entered", () => {
+    fillGroupChatName();
+
+    expect(startChatButton).toBeDisabled();
+  });
+
+  it("Asserts the submit button is disabled when only the group chat context is entered", () => {
+    fillGroupChatContext();
+
+    expect(startChatButton).toBeDisabled();
+  });
+
+  it("Asserts the submit button is disabled when only the group chat number of users is entered", () => {
+    fillGroupChatNumberOfUsers();
+
+    expect(startChatButton).toBeDisabled();
+  });
+
+  it("Asserts the submit button is disabled when all the inputs have not been filled", async () => {
+    await executeRandomCallable(
+      [
+        [fillGroupChatName],
+        [fillGroupChatContext],
+        [fillGroupChatNumberOfUsers],
+      ],
+      2
+    );
+
+    expect(startChatButton).toBeDisabled();
+  });
+
+  it("Assert that the submit button is enabled after all form inputs are entered", async () => {
+    await executeRandomCallable(
+      [
+        [async () => await userEvent.type(groupChatNameInput, "hello world")],
+        [async () => await userEvent.type(groupChatNumberOfUsersInput, "10")],
+        [
+          async () =>
+            await userEvent.type(groupChatContextInput, "group chat context"),
+        ],
+      ],
+      3
+    );
+
+    expect(startChatButton).toBeEnabled();
+  });
 });
