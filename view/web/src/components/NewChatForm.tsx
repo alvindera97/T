@@ -37,7 +37,7 @@ export default function NewChatForm() {
       />
       <Textarea
         ref={newGroupChatContextInputRef}
-        onChange={(e) => {
+        onChange={() => {
           setAllInputsAreFilled(checkAllInputsAreFilled());
         }}
         id="new-group-chat-context"

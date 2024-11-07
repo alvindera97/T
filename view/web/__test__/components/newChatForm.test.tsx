@@ -289,43 +289,20 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
     userEvent.clear(groupChatNumberOfUsersInput);
   });
 
-  function fillGroupChatName() {
-    waitFor(
-      async () => await userEvent.type(groupChatNameInput!, "Hello world!")
-    );
-  }
-
-  function fillGroupChatContext() {
-    waitFor(
-      async () =>
-        await userEvent.type(groupChatContextInput!, "Some group chat context")
-    );
-  }
-
-  function fillGroupChatNumberOfUsers() {
-    waitFor(
-      async () =>
-        await userEvent.type(
-          groupChatNumberOfUsersInput!,
-          `${Math.floor(Math.random() * (100 - 1 + 1)) + 1}`
-        )
-    );
-  }
-
-  it("Asserts the submit button is disabled when only the group chat name is entered", () => {
-    fillGroupChatName();
+  it("Asserts the submit button is disabled when only the group chat name is entered", async () => {
+    await userEvent.type(groupChatNameInput, "hello world");
 
     expect(startChatButton).toBeDisabled();
   });
 
-  it("Asserts the submit button is disabled when only the group chat context is entered", () => {
-    fillGroupChatContext();
+  it("Asserts the submit button is disabled when only the group chat context is entered", async () => {
+    await userEvent.type(groupChatContextInput, "group chat context");
 
     expect(startChatButton).toBeDisabled();
   });
 
-  it("Asserts the submit button is disabled when only the group chat number of users is entered", () => {
-    fillGroupChatNumberOfUsers();
+  it("Asserts the submit button is disabled when only the group chat number of users is entered", async () => {
+    await userEvent.type(groupChatNumberOfUsersInput, "10");
 
     expect(startChatButton).toBeDisabled();
   });
@@ -333,9 +310,12 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
   it("Asserts the submit button is disabled when all the inputs have not been filled", async () => {
     await executeRandomCallable(
       [
-        [fillGroupChatName],
-        [fillGroupChatContext],
-        [fillGroupChatNumberOfUsers],
+        [async () => await userEvent.type(groupChatNameInput, "hello world")],
+        [async () => await userEvent.type(groupChatNumberOfUsersInput, "10")],
+        [
+          async () =>
+            await userEvent.type(groupChatContextInput, "group chat context"),
+        ],
       ],
       2
     );
