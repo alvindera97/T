@@ -23,8 +23,8 @@ describe("Assert <NewChatForm /> Contents", () => {
     expect(formElement.id).toEqual("new-chat-form");
   });
 
-  it("Asserts new chat form action is POST", () => {
-    expect(formElement.getAttribute("action")).toEqual("POST");
+  it("Asserts new chat form method is POST", () => {
+    expect(formElement.getAttribute("method")).toEqual("POST");
   });
 
   it("Asserts there is a singular form element in the component", () => {

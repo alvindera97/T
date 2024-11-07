@@ -22,7 +22,7 @@ export default function NewChatForm() {
   return (
     <form
       className="flex flex-col gap-y-2"
-      action={"POST"}
+      method={"POST"}
       id="new-chat-form"
       role="start-new-chat-form"
     >
