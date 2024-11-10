@@ -344,4 +344,22 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
 
     expect(startChatButton).toBeEnabled();
   });
+
+  it("Asserts that the submit button is disabled once it is clicked", async () => {
+    await executeRandomCallable(
+      [
+        [async () => await userEvent.type(groupChatNameInput, "hello world")],
+        [async () => await userEvent.type(groupChatNumberOfUsersInput, "10")],
+        [
+          async () =>
+            await userEvent.type(groupChatContextInput, "group chat context"),
+        ],
+      ],
+      3
+    );
+
+    expect(startChatButton).toBeEnabled();
+    await userEvent.click(startChatButton);
+    expect(startChatButton).toBeDisabled();
+  });
 });

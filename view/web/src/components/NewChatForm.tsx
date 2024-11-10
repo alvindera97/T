@@ -76,6 +76,7 @@ export default function NewChatForm() {
         type="submit"
         id="start-group-chat-btn"
         disabled={!allInputsAreFilled}
+        onClick={() => setAllInputsAreFilled(false)}
         className={`all-inputs-are-filled-${allInputsAreFilled}`}
       >
         Start chat
