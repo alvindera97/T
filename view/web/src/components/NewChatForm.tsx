@@ -32,7 +32,7 @@ export default function NewChatForm() {
         placeholder="Group chat name"
         type="text"
         id="new-group-chat-name"
-        onChange={(e) => {
+        onChange={() => {
           setAllInputsAreFilled(checkAllInputsAreFilled());
         }}
       />
@@ -49,7 +49,7 @@ export default function NewChatForm() {
         type="number"
         min={1}
         step={1}
-        onChange={(e) => {
+        onChange={() => {
           setAllInputsAreFilled(checkAllInputsAreFilled());
         }}
         onKeyDown={(e) => {
