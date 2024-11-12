@@ -2,8 +2,8 @@ import { HTMLInputTypeAttribute } from "react";
 import userEvent from "@testing-library/user-event";
 import { executeRandomCallable } from "../../src/utils";
 import NewChatForm from "../../src/components/NewChatForm";
-import { render, screen, waitFor } from "@testing-library/react";
-import { expect, describe, it, beforeEach, afterEach } from "vitest";
+import { render, screen } from "@testing-library/react";
+import { expect, describe, it, beforeEach, afterEach, vi } from "vitest";
 
 // Asserts new chat form component renders expected components
 
