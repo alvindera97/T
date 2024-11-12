@@ -46,7 +46,7 @@ describe("Assert <NewChatForm /> Contents", () => {
       id: string;
       placeholder: string;
       type: HTMLInputTypeAttribute;
-    }> = new Array();
+    }> = [];
 
     container.querySelectorAll("input").forEach((element) =>
       elements.push({
@@ -71,7 +71,7 @@ describe("Assert <NewChatForm /> Contents", () => {
     const elements: Array<{
       id: string;
       placeholder: string;
-    }> = new Array();
+    }> = [];
 
     container.querySelectorAll("textarea").forEach((element) =>
       elements.push({
@@ -96,7 +96,7 @@ describe("Assert <NewChatForm /> Contents", () => {
       id: string;
       placeholder: string;
       type: HTMLInputTypeAttribute;
-    }> = new Array();
+    }> = [];
 
     container.querySelectorAll("input").forEach((element) =>
       elements.push({
@@ -123,7 +123,7 @@ describe("Assert <NewChatForm /> Contents", () => {
     const elements: Array<{
       id: string;
       type: HTMLInputTypeAttribute;
-    }> = new Array();
+    }> = [];
 
     querySelectorElements.forEach((element) =>
       elements.push({
