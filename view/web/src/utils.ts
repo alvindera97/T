@@ -53,7 +53,7 @@ export async function executeRandomCallable(
 
   for (let i = 0; i < n; i++) {
     const randomIndex = Math.floor(Math.random() * availableIndexes.length);
-    const selectedIndex = availableIndexes.splice(randomIndex, 1)[0]; // Remove it from the available list
+    const selectedIndex = availableIndexes.splice(randomIndex, 1)[0]; // Remove selected callable from the available list
     const [fn, args] = list[selectedIndex];
 
     const result = args && args.length > 0 ? fn(...args) : fn();
