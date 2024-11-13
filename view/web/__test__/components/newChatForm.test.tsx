@@ -3,7 +3,8 @@ import userEvent from "@testing-library/user-event";
 import { executeRandomCallable } from "../../src/utils";
 import NewChatForm from "../../src/components/NewChatForm";
 import { render, screen } from "@testing-library/react";
-import { expect, describe, it, beforeEach, afterEach, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import axios from "axios";
 
 // Asserts new chat form component renders expected components
 
@@ -21,16 +22,6 @@ describe("Assert <NewChatForm /> Contents", () => {
 
   it("Asserts new chat form is ID new-chat-form", () => {
     expect(formElement.id).toEqual("new-chat-form");
-  });
-
-  it("Asserts new chat form method is POST", () => {
-    expect(formElement.getAttribute("method")).toEqual("POST");
-  });
-
-  it("Asserts new chat form action is set to appropriate url", () => {
-    expect(formElement.getAttribute("action")).toEqual(
-      `${process.env.NEXT_PUBLIC_T_BACKEND_URL}/set_up_chat/`
-    );
   });
 
   it("Asserts there is a singular form element in the component", () => {
@@ -134,12 +125,6 @@ describe("Assert <NewChatForm /> Contents", () => {
 
     expect(elements.length).toEqual(1);
     expect(querySelectorElements.item(0).textContent).equals("Start chat");
-    expect(
-      elements.find(
-        (element) =>
-          element.id === "start-group-chat-btn" && element.type === "submit"
-      )
-    ).toBeTruthy();
   });
 });
 
@@ -287,12 +272,22 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
     userEvent.clear(groupChatNameInput);
     userEvent.clear(groupChatContextInput);
     userEvent.clear(groupChatNumberOfUsersInput);
+
+    // Set up mock
+    vi.mock("axios", () => ({
+      default: {
+        post: vi.fn().mockResolvedValue({ data: { success: true } }), // Adjust the mock response as needed
+      },
+    }));
   });
 
   afterEach(() => {
     userEvent.clear(groupChatNameInput);
     userEvent.clear(groupChatContextInput);
     userEvent.clear(groupChatNumberOfUsersInput);
+
+    // Restore mocks
+    vi.clearAllMocks();
   });
 
   it("Asserts the submit button is disabled when only the group chat name is entered", async () => {
@@ -361,5 +356,29 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
     expect(startChatButton).toBeEnabled();
     await userEvent.click(startChatButton);
     expect(startChatButton).toBeDisabled();
+  });
+
+  it("Asserts that on form submission, POST request is made", async () => {
+    await executeRandomCallable(
+      [
+        [async () => await userEvent.type(groupChatNameInput, "hello world")],
+        [async () => await userEvent.type(groupChatNumberOfUsersInput, "10")],
+        [
+          async () =>
+            await userEvent.type(groupChatContextInput, "group chat context"),
+        ],
+      ],
+      3
+    );
+
+    await userEvent.click(startChatButton);
+
+    expect(axios.post).toHaveBeenCalledOnce();
+    expect(axios.post).toHaveBeenCalledWith(
+      `${process.env.NEXT_PUBLIC_T_BACKEND_URL}/set_up_chat`,
+      {
+        chat_context: "group chat context",
+      }
+    );
   });
 });

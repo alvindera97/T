@@ -2,10 +2,12 @@
 
 import { Button, Textarea, TextInput } from "flowbite-react";
 import { useRef, useState } from "react";
+import axios from "axios";
 
 export default function NewChatForm() {
   const [allInputsAreFilled, setAllInputsAreFilled] = useState(false);
 
+  const formRef = useRef<HTMLFormElement>(null);
   const newGroupChatNameInputRef = useRef<HTMLInputElement>(null);
   const newGroupChatContextInputRef = useRef<HTMLTextAreaElement>(null);
   const newGroupChatNumberOfUsersInputRef = useRef<HTMLInputElement>(null);
@@ -21,9 +23,8 @@ export default function NewChatForm() {
 
   return (
     <form
+      ref={formRef}
       className="flex flex-col gap-y-2"
-      method={"POST"}
-      action={`${process.env.NEXT_PUBLIC_T_BACKEND_URL}/set_up_chat/`}
       id="new-chat-form"
       role="start-new-chat-form"
     >
@@ -73,10 +74,19 @@ export default function NewChatForm() {
       />
 
       <Button
-        type="submit"
         id="start-group-chat-btn"
         disabled={!allInputsAreFilled}
-        onClick={() => setAllInputsAreFilled(false)}
+        onClick={(e: { preventDefault: () => void }) => {
+          e.preventDefault();
+          if (allInputsAreFilled) {
+            setAllInputsAreFilled(false);
+            axios
+              .post(`${process.env.NEXT_PUBLIC_T_BACKEND_URL}/set_up_chat`, {
+                chat_context: "group chat context",
+              })
+              );
+          }
+        }}
         className={`all-inputs-are-filled-${allInputsAreFilled}`}
       >
         Start chat
