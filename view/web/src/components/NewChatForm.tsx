@@ -80,11 +80,9 @@ export default function NewChatForm() {
           e.preventDefault();
           if (allInputsAreFilled) {
             setAllInputsAreFilled(false);
-            axios
-              .post(`${process.env.NEXT_PUBLIC_T_BACKEND_URL}/set_up_chat`, {
-                chat_context: "group chat context",
-              })
-              );
+            axios.post(`${process.env.NEXT_PUBLIC_T_BACKEND_URL}/set_up_chat`, {
+              chat_context: "group chat context",
+            });
           }
         }}
         className={`all-inputs-are-filled-${allInputsAreFilled}`}
