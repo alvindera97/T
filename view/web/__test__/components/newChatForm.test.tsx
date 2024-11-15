@@ -290,6 +290,25 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
     vi.clearAllMocks();
   });
 
+  /**
+   * Randomly fill chat inputs
+   *
+   * @param numberOfInputsToFill number of inputs to fill.
+   */
+  async function randomlyFillNewChatFormInputs(numberOfInputsToFill: number) {
+    await executeRandomCallable(
+      [
+        [async () => await userEvent.type(groupChatNameInput!, "hello world")],
+        [async () => await userEvent.type(groupChatNumberOfUsersInput!, "10")],
+        [
+          async () =>
+            await userEvent.type(groupChatContextInput!, "group chat context"),
+        ],
+      ],
+      numberOfInputsToFill
+    );
+  }
+
   it("Asserts the submit button is disabled when only the group chat name is entered", async () => {
     await userEvent.type(groupChatNameInput, "hello world");
 
@@ -309,17 +328,7 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
   });
 
   it("Asserts the submit button is disabled when all the inputs have not been filled", async () => {
-    await executeRandomCallable(
-      [
-        [async () => await userEvent.type(groupChatNameInput, "hello world")],
-        [async () => await userEvent.type(groupChatNumberOfUsersInput, "10")],
-        [
-          async () =>
-            await userEvent.type(groupChatContextInput, "group chat context"),
-        ],
-      ],
-      2
-    );
+    await randomlyFillNewChatFormInputs(2);
 
     expect(startChatButton).toBeDisabled();
   });
@@ -341,17 +350,7 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
   });
 
   it("Asserts that the submit button is disabled once it is clicked", async () => {
-    await executeRandomCallable(
-      [
-        [async () => await userEvent.type(groupChatNameInput, "hello world")],
-        [async () => await userEvent.type(groupChatNumberOfUsersInput, "10")],
-        [
-          async () =>
-            await userEvent.type(groupChatContextInput, "group chat context"),
-        ],
-      ],
-      3
-    );
+    await randomlyFillNewChatFormInputs(3);
 
     expect(startChatButton).toBeEnabled();
     await userEvent.click(startChatButton);
@@ -359,17 +358,7 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
   });
 
   it("Asserts that on form submission, POST request is made", async () => {
-    await executeRandomCallable(
-      [
-        [async () => await userEvent.type(groupChatNameInput, "hello world")],
-        [async () => await userEvent.type(groupChatNumberOfUsersInput, "10")],
-        [
-          async () =>
-            await userEvent.type(groupChatContextInput, "group chat context"),
-        ],
-      ],
-      3
-    );
+    await randomlyFillNewChatFormInputs(3);
 
     await userEvent.click(startChatButton);
 
