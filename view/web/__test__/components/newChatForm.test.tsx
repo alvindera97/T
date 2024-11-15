@@ -2,9 +2,10 @@ import { HTMLInputTypeAttribute } from "react";
 import userEvent from "@testing-library/user-event";
 import { executeRandomCallable } from "../../src/utils";
 import NewChatForm from "../../src/components/NewChatForm";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import axios from "axios";
+import { Toaster } from "react-hot-toast";
 
 // Asserts new chat form component renders expected components
 
@@ -231,6 +232,7 @@ describe("Assert <NewChatForm /> Number Of Chat users Input Details", () => {
 
 describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
   const { container } = render(<NewChatForm />);
+  render(<Toaster />);
   const queryResultLength = container.querySelectorAll(
     "button#start-group-chat-btn"
   ).length;
@@ -276,7 +278,7 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
     // Set up mock
     vi.mock("axios", () => ({
       default: {
-        post: vi.fn().mockResolvedValue({ data: { success: true } }), // Adjust the mock response as needed
+        post: vi.fn().mockResolvedValue({ data: { success: true } }),
       },
     }));
   });
@@ -368,6 +370,33 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
       {
         chat_context: "group chat context",
       }
+    );
+  });
+
+  it("Asserts that on failed axios request, a toast indicating an error in setting up the chat is rendered", async () => {
+    vi.mock("axios", () => ({
+      default: {
+        post: vi.fn().mockRejectedValue(new Error("Connection Failed")),
+      },
+    }));
+
+    await randomlyFillNewChatFormInputs(3);
+    await userEvent.click(startChatButton);
+
+    expect(axios.post).toHaveBeenCalledOnce();
+    expect(axios.post).toHaveBeenCalledWith(
+      `${process.env.NEXT_PUBLIC_T_BACKEND_URL}/set_up_chat`,
+      { chat_context: "group chat context" }
+    );
+
+    await waitFor(
+      () => {
+        const toast = screen.getAllByText(
+          "An error occurred while setting up your chat"
+        );
+        expect(toast.length).toBeGreaterThan(0);
+      },
+      { timeout: 4000 }
     );
   });
 });
