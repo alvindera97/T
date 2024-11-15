@@ -6,6 +6,7 @@ import axios from "axios";
 import { toast, Toaster } from "react-hot-toast";
 
 export default function NewChatForm() {
+  const [requestInProgress, setRequestInProgress] = useState(false);
   const [allInputsAreFilled, setAllInputsAreFilled] = useState(false);
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -22,6 +23,10 @@ export default function NewChatForm() {
     );
   }
 
+  function handleFormInputEvent() {
+    if (!requestInProgress) setAllInputsAreFilled(checkAllInputsAreFilled);
+  }
+
   return (
     <>
       <Toaster position={"top-right"} reverseOrder={false} />
@@ -36,15 +41,11 @@ export default function NewChatForm() {
           placeholder="Group chat name"
           type="text"
           id="new-group-chat-name"
-          onChange={() => {
-            setAllInputsAreFilled(checkAllInputsAreFilled());
-          }}
+          onChange={handleFormInputEvent}
         />
         <Textarea
           ref={newGroupChatContextInputRef}
-          onChange={() => {
-            setAllInputsAreFilled(checkAllInputsAreFilled());
-          }}
+          onChange={handleFormInputEvent}
           id="new-group-chat-context"
           placeholder="Chat context — General topic, mood and sentiment of the group chat."
         />
@@ -53,9 +54,7 @@ export default function NewChatForm() {
           type="number"
           min={1}
           step={1}
-          onChange={() => {
-            setAllInputsAreFilled(checkAllInputsAreFilled());
-          }}
+          onChange={handleFormInputEvent}
           onKeyDown={(e) => {
             if (
               !(
@@ -80,6 +79,7 @@ export default function NewChatForm() {
           id="start-group-chat-btn"
           disabled={!allInputsAreFilled}
           onClick={(e: { preventDefault: () => void }) => {
+            setRequestInProgress(true);
             e.preventDefault();
             if (allInputsAreFilled) {
               setAllInputsAreFilled(false);
@@ -101,6 +101,7 @@ export default function NewChatForm() {
                       2000
                     );
                   }, 1500);
+                  setRequestInProgress(false);
                 });
             }
           }}
