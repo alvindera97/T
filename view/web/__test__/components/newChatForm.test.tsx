@@ -399,4 +399,38 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
       { timeout: 4000 }
     );
   });
+
+  it("Asserts that on failed axios request to start a new chat, the start chat button becomes re-enabled if all inputs are still filled", async () => {
+    vi.mock("axios", () => ({
+      default: {
+        post: vi.fn().mockRejectedValue(new Error("Connection Failed")),
+      },
+    }));
+
+    await randomlyFillNewChatFormInputs(3);
+    await userEvent.click(startChatButton);
+
+    expect(startChatButton).toBeDisabled();
+    await waitFor(() => expect(startChatButton).toBeEnabled(), {
+      timeout: 1500,
+    });
+  });
+
+  it("Asserts that on failed axios request to start a new chat, the start chat button remains disabled if all inputs are not filled", async () => {
+    vi.mock("axios", () => ({
+      default: {
+        post: vi.fn().mockRejectedValue(new Error("Connection Failed")),
+      },
+    }));
+
+    await randomlyFillNewChatFormInputs(3);
+    await userEvent.click(startChatButton);
+
+    await userEvent.clear(groupChatNameInput);
+
+    expect(startChatButton).toBeDisabled();
+    await waitFor(() => expect(startChatButton).toBeDisabled(), {
+      timeout: 4000,
+    });
+  });
 });

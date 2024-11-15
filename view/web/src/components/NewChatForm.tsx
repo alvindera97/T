@@ -96,6 +96,10 @@ export default function NewChatForm() {
                         duration: 4000,
                       }
                     );
+                    setTimeout(
+                      () => setAllInputsAreFilled(checkAllInputsAreFilled()),
+                      2000
+                    );
                   }, 1500);
                 });
             }
