@@ -42,7 +42,11 @@ export async function executeRandomCallable(
   n: number = 1
 ): Promise<any[]> {
   if (n > list.length) {
-    throw new Error("Cannot make more choices than the length of the list");
+    throw new Error("Cannot make more choices than the length of the list!");
+  }
+
+  if (n < 0) {
+    throw new Error("Cannot make negative number of choices!");
   }
 
   const results: any[] = [];
