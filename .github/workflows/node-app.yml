@@ -31,6 +31,6 @@ jobs:
         working-directory: ./view/web
         run: npm run build
 
-      - name: Run Vitest tests
+      - name: Run Vitest tests With Coverage
         working-directory: ./view/web
-        run: npm run test
+        run: npm run coverage
