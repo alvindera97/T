@@ -373,7 +373,7 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
     );
   });
 
-  it("Asserts that on failed axios request, a toast indicating an error in setting up the chat is rendered", async () => {
+  it("Asserts that on failed axios request to start new chat, a toast indicating an error in setting up the chat is rendered", async () => {
     vi.mock("axios", () => ({
       default: {
         post: vi.fn().mockRejectedValue(new Error("Connection Failed")),
