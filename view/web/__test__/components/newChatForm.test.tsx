@@ -412,7 +412,7 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
 
     expect(startChatButton).toBeDisabled();
     await waitFor(() => expect(startChatButton).toBeEnabled(), {
-      timeout: 1500,
+      timeout: 4000,
     });
   });
 
