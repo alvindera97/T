@@ -91,7 +91,10 @@ export default function NewChatForm() {
                 .catch(() => {
                   setTimeout(() => {
                     toast.error(
-                      "An error occurred while setting up your chat",
+                      process.env.NEXT_PUBLIC_CHAT_CREATION_FAILURE_MESSAGE !==
+                        undefined
+                        ? process.env.NEXT_PUBLIC_CHAT_CREATION_FAILURE_MESSAGE
+                        : "An error occurred while setting up your chat",
                       {
                         duration: 4000,
                       }

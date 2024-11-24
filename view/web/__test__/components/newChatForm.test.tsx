@@ -392,7 +392,9 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
     await waitFor(
       () => {
         const toast = screen.getAllByText(
-          "An error occurred while setting up your chat"
+          process.env.NEXT_PUBLIC_CHAT_CREATION_FAILURE_MESSAGE
+            ? process.env.NEXT_PUBLIC_CHAT_CREATION_FAILURE_MESSAGE
+            : "An error occurred while setting up your chat"
         );
         expect(toast.length).toBeGreaterThan(0);
       },
