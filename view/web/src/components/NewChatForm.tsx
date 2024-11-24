@@ -96,7 +96,7 @@ export default function NewChatForm() {
                         ? process.env.NEXT_PUBLIC_CHAT_CREATION_FAILURE_MESSAGE
                         : "An error occurred while setting up your chat",
                       {
-                        duration: 4000,
+                        duration: 7000,
                       }
                     );
                     setTimeout(
