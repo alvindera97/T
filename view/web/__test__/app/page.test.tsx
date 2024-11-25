@@ -1,6 +1,6 @@
 import { expect, describe, it } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
-import Home from "../src/app/page";
+import Home from "../../src/app/page";
 
 describe("Home Page Initial Load", async () => {
   const { container } = render(<Home />);
