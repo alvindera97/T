@@ -274,13 +274,6 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
     userEvent.clear(groupChatNameInput);
     userEvent.clear(groupChatContextInput);
     userEvent.clear(groupChatNumberOfUsersInput);
-
-    // Set up mock
-    vi.mock("axios", () => ({
-      default: {
-        post: vi.fn().mockResolvedValue({ data: { success: true } }),
-      },
-    }));
   });
 
   afterEach(() => {
@@ -352,6 +345,12 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
   });
 
   it("Asserts that the submit button is disabled once it is clicked", async () => {
+    vi.mock("axios", () => ({
+      default: {
+        post: vi.fn().mockResolvedValue({ data: { success: true } }),
+      },
+    }));
+
     await randomlyFillNewChatFormInputs(3);
 
     expect(startChatButton).toBeEnabled();
@@ -360,6 +359,12 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
   });
 
   it("Asserts that on form submission, POST request is made", async () => {
+    vi.mock("axios", () => ({
+      default: {
+        post: vi.fn().mockResolvedValue({ data: { success: true } }),
+      },
+    }));
+
     await randomlyFillNewChatFormInputs(3);
 
     await userEvent.click(startChatButton);
@@ -412,7 +417,7 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
     await randomlyFillNewChatFormInputs(3);
     await userEvent.click(startChatButton);
 
-    expect(startChatButton).toBeDisabled();
+    await waitFor(() => expect(startChatButton).toBeDisabled());
     await waitFor(() => expect(startChatButton).toBeEnabled(), {
       timeout: 4000,
     });
