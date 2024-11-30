@@ -2,7 +2,7 @@ describe("New Chat Form", () => {
   it("should redirect to the correct chat page after submitting the form", () => {
     const chatUUID = crypto.randomUUID();
 
-    cy.intercept("POST", "http://localhost:8000/set_up_chat", {
+    cy.intercept("POST", `*/set_up_chat`, {
       statusCode: 302,
       headers: {
         Location: `http://localhost:3000/chat/${chatUUID}`,
