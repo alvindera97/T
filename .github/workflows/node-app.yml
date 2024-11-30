@@ -51,6 +51,7 @@ jobs:
         run: npx cypress run --headless
         env:
           CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
+          NEXT_PUBLIC_T_BACKEND_URL: ${{ secrets.NEXT_PUBLIC_T_BACKEND_URL }}
 
       - name: Stop the server after tests
         run: |
