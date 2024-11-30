@@ -39,9 +39,12 @@ jobs:
         working-directory: ./view/web
         run: npm install cypress
 
-      - name: Start Production Server
+      - name: Start Production Server in the background
         working-directory: ./view/web
-        run: npm run start
+        run: npm run start &
+
+      - name: Wait for the server to be ready
+        run: sleep 10
 
       - name: Run Cypress tests
         working-directory: ./view/web
@@ -49,6 +52,10 @@ jobs:
         env:
           CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
 
+      - name: Stop the server after tests
+        run: |
+          echo "Stopping the server..."
+          pkill -f "npm run start"  # This kills the background server process
 
       - name: Upload Cypress screenshots and videos
         if: always()
