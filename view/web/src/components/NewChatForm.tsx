@@ -4,8 +4,10 @@ import { Button, Textarea, TextInput } from "flowbite-react";
 import { useRef, useState } from "react";
 import axios from "axios";
 import { toast, Toaster } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function NewChatForm() {
+  const router = useRouter();
   const [requestInProgress, setRequestInProgress] = useState(false);
   const [allInputsAreFilled, setAllInputsAreFilled] = useState(false);
 
@@ -87,7 +89,11 @@ export default function NewChatForm() {
                 .post(`${process.env.NEXT_PUBLIC_T_BACKEND_URL}/set_up_chat`, {
                   chat_context: "group chat context",
                 })
-                .then()
+                .then((res) => {
+                  router.push(
+                    res.request.responseURL.split("/").splice(-2).join("/")
+                  );
+                })
                 .catch(() => {
                   setTimeout(() => {
                     toast.error(
@@ -97,7 +103,7 @@ export default function NewChatForm() {
                         undefined
                           ? process.env
                               .NEXT_PUBLIC_CHAT_CREATION_FAILURE_MESSAGE
-                          : "An error occurred while setting up your chat"}
+                          : "An error occurred while setting u p your chat"}
                       </p>,
                       {
                         duration: 7000,
