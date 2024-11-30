@@ -5,7 +5,7 @@ import NewChatForm from "../../src/components/NewChatForm";
 import { render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import axios from "axios";
-import { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 
 // Asserts new chat form component renders expected components
 
@@ -378,12 +378,23 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
     );
   });
 
-  it("Asserts that on failed axios request to start new chat, a toast indicating an error in setting up the chat is rendered", async () => {
+  it("Asserts that on failed axios request to start new chat, a toast indicating an error in setting up the chat is rendered for 7 seconds", async () => {
     vi.mock("axios", () => ({
       default: {
         post: vi.fn().mockRejectedValue(new Error("Connection Failed")),
       },
     }));
+
+    // @ts-ignore
+    vi.mock(import("react-hot-toast"), async (importOriginal) => {
+      const actual = await importOriginal();
+      return {
+        ...actual,
+        toast: {
+          error: vi.fn(),
+        },
+      };
+    });
 
     await randomlyFillNewChatFormInputs(3);
     await userEvent.click(startChatButton);
@@ -396,12 +407,16 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
 
     await waitFor(
       () => {
-        const toast = screen.getAllByText(
-          process.env.NEXT_PUBLIC_CHAT_CREATION_FAILURE_MESSAGE
-            ? process.env.NEXT_PUBLIC_CHAT_CREATION_FAILURE_MESSAGE
-            : "An error occurred while setting up your chat"
+        expect(toast.error).toHaveBeenCalledWith(
+          <p>
+            {process.env.NEXT_PUBLIC_CHAT_CREATION_FAILURE_MESSAGE !== undefined
+              ? process.env.NEXT_PUBLIC_CHAT_CREATION_FAILURE_MESSAGE
+              : "An error occurred while setting u p your chat"}
+          </p>,
+          {
+            duration: 7000,
+          }
         );
-        expect(toast.length).toBeGreaterThan(0);
       },
       { timeout: 4000 }
     );
