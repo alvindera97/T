@@ -34,3 +34,27 @@ jobs:
       - name: Run Vitest tests With Coverage
         working-directory: ./view/web
         run: npm run coverage
+
+      - name: Install Cypress
+        working-directory: ./view/web
+        run: npm install cypress
+
+      - name: Start Production Server
+        working-directory: ./view/web
+        run: npm run start
+
+      - name: Run Cypress tests
+        working-directory: ./view/web
+        run: npx cypress run --headless
+        env:
+          CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
+
+
+      - name: Upload Cypress screenshots and videos
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-artifacts
+          path: |
+            ./view/web/cypress/screenshots
+            ./view/web/cypress/videos
