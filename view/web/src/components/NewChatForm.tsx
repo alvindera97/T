@@ -42,7 +42,7 @@ export default function NewChatForm() {
     setSubmitButtonTextContent(newText);
     setTimeout(() => {
       setSubmitButtonTextOpacity(100);
-    }, 400);
+    }, 200);
   }
 
   return (
