@@ -7,15 +7,17 @@ import { toast, Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 export default function NewChatForm() {
-  const router = useRouter();
-  const [requestInProgress, setRequestInProgress] = useState(false);
-  const [allInputsAreFilled, setAllInputsAreFilled] = useState(false);
-  const [submitButtonTextContent, setSubmitButtonTextContent] = useState<
+  type StartNewChatSubmitButtonText =
     | "Start chat"
     | "Setting up chat ..."
     | "Please wait ..."
-    | "Starting chat ..."
-  >("Start chat");
+    | "Starting chat ...";
+  const router = useRouter();
+  const [requestInProgress, setRequestInProgress] = useState(false);
+  const [allInputsAreFilled, setAllInputsAreFilled] = useState(false);
+  const [submitButtonTextContent, setSubmitButtonTextContent] =
+    useState<StartNewChatSubmitButtonText>("Start chat");
+  const [submitButtonTextOpacity, setSubmitButtonTextOpacity] = useState(100);
 
   const formRef = useRef<HTMLFormElement>(null);
   const newGroupChatNameInputRef = useRef<HTMLInputElement>(null);
@@ -33,6 +35,14 @@ export default function NewChatForm() {
 
   function handleFormInputEvent() {
     if (!requestInProgress) setAllInputsAreFilled(checkAllInputsAreFilled);
+  }
+
+  async function updateSubmitButtonText(newText: StartNewChatSubmitButtonText) {
+    if (newText !== "Setting up chat ...") setSubmitButtonTextOpacity(0);
+    setSubmitButtonTextContent(newText);
+    setTimeout(() => {
+      setSubmitButtonTextOpacity(100);
+    }, 400);
   }
 
   return (
@@ -87,26 +97,26 @@ export default function NewChatForm() {
           type={"submit"}
           id="start-group-chat-btn"
           disabled={!allInputsAreFilled}
-          onClick={(e: { preventDefault: () => void }) => {
+          onClick={async (e: { preventDefault: () => void }) => {
             setRequestInProgress(true);
             e.preventDefault();
             if (allInputsAreFilled) {
               setAllInputsAreFilled(false);
-              setSubmitButtonTextContent("Setting up chat ...");
+              await updateSubmitButtonText("Setting up chat ...");
               axios
                 .post(`${process.env.NEXT_PUBLIC_T_BACKEND_URL}/set_up_chat`, {
                   chat_context: "group chat context",
                 })
                 .then((res) => {
                   setSubmitButtonTextContent("Please wait ...");
-                  setTimeout(() => {
-                    setSubmitButtonTextContent("Starting chat ...");
+                  setTimeout(async () => {
+                    await updateSubmitButtonText("Starting chat ...");
                     router.push(
                       res.request.responseURL.split("/").splice(-2).join("/")
                     );
                   }, 2000);
                 })
-                .catch(() => {
+                .catch(async () => {
                   setTimeout(() => {
                     toast.error(
                       <p>
@@ -127,13 +137,20 @@ export default function NewChatForm() {
                     );
                   }, 1500);
                   setRequestInProgress(false);
-                  setSubmitButtonTextContent("Start chat");
+                  await updateSubmitButtonText("Start chat");
                 });
             }
           }}
           className={`all-inputs-are-filled-${allInputsAreFilled}`}
         >
-          {submitButtonTextContent}
+          <span
+            style={{
+              opacity: `${submitButtonTextOpacity}%`,
+              transition: "opacity 1s ease",
+            }}
+          >
+            {submitButtonTextContent}
+          </span>
         </Button>
       </form>
     </>
