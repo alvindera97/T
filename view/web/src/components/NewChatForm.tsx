@@ -37,7 +37,7 @@ export default function NewChatForm() {
     if (!requestInProgress) setAllInputsAreFilled(checkAllInputsAreFilled);
   }
 
-  async function updateSubmitButtonText(newText: StartNewChatSubmitButtonText) {
+  function updateSubmitButtonText(newText: StartNewChatSubmitButtonText) {
     if (newText !== "Setting up chat ...") setSubmitButtonTextOpacity(0);
     setSubmitButtonTextContent(newText);
     setTimeout(() => {
@@ -97,26 +97,26 @@ export default function NewChatForm() {
           type={"submit"}
           id="start-group-chat-btn"
           disabled={!allInputsAreFilled}
-          onClick={async (e: { preventDefault: () => void }) => {
+          onClick={(e: { preventDefault: () => void }) => {
             setRequestInProgress(true);
             e.preventDefault();
             if (allInputsAreFilled) {
               setAllInputsAreFilled(false);
-              await updateSubmitButtonText("Setting up chat ...");
+              updateSubmitButtonText("Setting up chat ...");
               axios
                 .post(`${process.env.NEXT_PUBLIC_T_BACKEND_URL}/set_up_chat`, {
                   chat_context: "group chat context",
                 })
                 .then((res) => {
                   setSubmitButtonTextContent("Please wait ...");
-                  setTimeout(async () => {
-                    await updateSubmitButtonText("Starting chat ...");
+                  setTimeout(() => {
+                    updateSubmitButtonText("Starting chat ...");
                     router.push(
                       res.request.responseURL.split("/").splice(-2).join("/")
                     );
                   }, 2000);
                 })
-                .catch(async () => {
+                .catch(() => {
                   setTimeout(() => {
                     toast.error(
                       <p>
@@ -137,7 +137,7 @@ export default function NewChatForm() {
                     );
                   }, 1500);
                   setRequestInProgress(false);
-                  await updateSubmitButtonText("Start chat");
+                  updateSubmitButtonText("Start chat");
                 });
             }
           }}

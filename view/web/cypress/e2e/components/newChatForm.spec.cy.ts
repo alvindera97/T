@@ -1,8 +1,8 @@
+import { chatUUID } from "../../support/e2e";
+
 function fillAllInputsForStartChatForm({
-  requestInterceptName,
   submitForm = false,
 }: {
-  requestInterceptName?: string;
   submitForm: boolean;
 }) {
   cy.get("#new-group-chat-name").type("Test Chat");
@@ -11,10 +11,6 @@ function fillAllInputsForStartChatForm({
 
   if (submitForm) {
     cy.get("#start-group-chat-btn").click();
-
-    if (requestInterceptName) {
-      cy.wait(`@${requestInterceptName}`);
-    }
   }
 }
 
@@ -32,17 +28,7 @@ describe("New Chat Form", () => {
   });
 
   it("should redirect to the correct chat page after submitting the form", () => {
-    const chatUUID = crypto.randomUUID();
-
-    cy.intercept("POST", "*/set_up_chat", {
-      statusCode: 302,
-      headers: {
-        Location: `http://localhost:3000/chat/${chatUUID}`,
-      },
-    }).as("postChat");
-
     fillAllInputsForStartChatForm({
-      requestInterceptName: "postChat",
       submitForm: true,
     });
 
@@ -50,15 +36,7 @@ describe("New Chat Form", () => {
   });
 
   it("Asserts that the text on the submit button changes during progress", () => {
-    cy.intercept("POST", "*/set_up_chat", {
-      statusCode: 302,
-      headers: {
-        Location: `http://localhost:3000/chat/${crypto.randomUUID()}`,
-      },
-    }).as("postChat");
-
     fillAllInputsForStartChatForm({
-      requestInterceptName: "postChat",
       submitForm: true,
     });
 
@@ -68,16 +46,11 @@ describe("New Chat Form", () => {
   });
 
   it("Asserts that the submit button text returns to its initial state after a failed request", () => {
-    cy.intercept("POST", "*/set_up_chat", {
-      statusCode: 400,
-    }).as("postChat2");
-
     cy.get("#start-group-chat-btn")
       .invoke("text")
       .then((initialText) => {
         fillAllInputsForStartChatForm({
           submitForm: true,
-          requestInterceptName: "postChat2",
         });
 
         // Assert that the button text returns to its initial state

@@ -14,7 +14,35 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import "./commands";
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+let i = 0;
+const throttleTimes = [10, 3200, 10];
+export const chatUUID = crypto.randomUUID();
+
+beforeEach(() => {
+  cy.intercept(
+    {
+      method: "POST",
+      url: "*/set_up_chat",
+    },
+    (req) => {
+      req.on("response", (res) => {
+        res.setDelay(throttleTimes.at(i)!);
+        i++;
+      });
+      req.reply(
+        i < 2
+          ? {
+              statusCode: 302,
+              headers: {
+                Location: `http://localhost:3000/chat/${chatUUID}`,
+              },
+            }
+          : { statusCode: 400 }
+      );
+    }
+  ).as("postChat");
+});
