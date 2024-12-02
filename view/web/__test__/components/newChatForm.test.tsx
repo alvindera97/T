@@ -411,7 +411,7 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
           <p>
             {process.env.NEXT_PUBLIC_CHAT_CREATION_FAILURE_MESSAGE !== undefined
               ? process.env.NEXT_PUBLIC_CHAT_CREATION_FAILURE_MESSAGE
-              : "An error occurred while setting u p your chat"}
+              : "An error occurred while setting up your chat"}
           </p>,
           {
             duration: 7000,
