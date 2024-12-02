@@ -10,6 +10,12 @@ export default function NewChatForm() {
   const router = useRouter();
   const [requestInProgress, setRequestInProgress] = useState(false);
   const [allInputsAreFilled, setAllInputsAreFilled] = useState(false);
+  const [submitButtonTextContent, setSubmitButtonTextContent] = useState<
+    | "Start chat"
+    | "Setting up chat ..."
+    | "Please wait ..."
+    | "Starting chat ..."
+  >("Start chat");
 
   const formRef = useRef<HTMLFormElement>(null);
   const newGroupChatNameInputRef = useRef<HTMLInputElement>(null);
@@ -78,6 +84,7 @@ export default function NewChatForm() {
         />
 
         <Button
+          type={"submit"}
           id="start-group-chat-btn"
           disabled={!allInputsAreFilled}
           onClick={(e: { preventDefault: () => void }) => {
@@ -85,14 +92,19 @@ export default function NewChatForm() {
             e.preventDefault();
             if (allInputsAreFilled) {
               setAllInputsAreFilled(false);
+              setSubmitButtonTextContent("Setting up chat ...");
               axios
                 .post(`${process.env.NEXT_PUBLIC_T_BACKEND_URL}/set_up_chat`, {
                   chat_context: "group chat context",
                 })
                 .then((res) => {
-                  router.push(
-                    res.request.responseURL.split("/").splice(-2).join("/")
-                  );
+                  setSubmitButtonTextContent("Please wait ...");
+                  setTimeout(() => {
+                    setSubmitButtonTextContent("Starting chat ...");
+                    router.push(
+                      res.request.responseURL.split("/").splice(-2).join("/")
+                    );
+                  }, 2000);
                 })
                 .catch(() => {
                   setTimeout(() => {
@@ -103,7 +115,7 @@ export default function NewChatForm() {
                         undefined
                           ? process.env
                               .NEXT_PUBLIC_CHAT_CREATION_FAILURE_MESSAGE
-                          : "An error occurred while setting u p your chat"}
+                          : "An error occurred while setting up your chat"}
                       </p>,
                       {
                         duration: 7000,
@@ -115,12 +127,13 @@ export default function NewChatForm() {
                     );
                   }, 1500);
                   setRequestInProgress(false);
+                  setSubmitButtonTextContent("Start chat");
                 });
             }
           }}
           className={`all-inputs-are-filled-${allInputsAreFilled}`}
         >
-          Start chat
+          {submitButtonTextContent}
         </Button>
       </form>
     </>
