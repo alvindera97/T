@@ -379,17 +379,20 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
             "api.endpoints.endpoints.Controller.initialise", new_callable=AsyncMock
         ) as mock_application_controller_initialise:
             with patch("controller.controller_def.websockets"):
-                response = self.client.post(
-                    "/set_up_chat/",
-                    json={"chat_context": "Hello world"},
-                    follow_redirects=True,
-                )
-                mock_application_controller_initialise.assert_called_once_with(
-                    1,
-                    "ws://localhost:8000/"
-                    + "/".join(response.url.__str__().split("/")[-2:]),
-                    "Hello world",
-                )
+                chat = Chat()
+                chat_uuid = uuid.uuid4()
+                chat.uuid = chat_uuid
+                with patch("utils.functions.utility_functions.Chat", return_value=chat):
+                    self.client.post(
+                        "/set_up_chat/",
+                        json={"chat_context": "Hello world"},
+                        follow_redirects=True,
+                    )
+                    mock_application_controller_initialise.assert_called_once_with(
+                        1,
+                        f"ws://localhost:8000/chat/{chat_uuid.__str__()}",
+                        "Hello world",
+                    )
 
     @patch("api.endpoints.endpoints.Controller")
     def test_endpoint_does_not_create_new_application_controller_if_there_is_a_failure_to_create_kafka_topic(
