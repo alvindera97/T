@@ -26,7 +26,6 @@ from api.endpoints.endpoints import (
 )
 from models import Chat
 from tests.database import base
-from utils import exceptions
 
 
 class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase):
@@ -410,7 +409,7 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
                 "api.endpoints.endpoints.utility_functions.add_new_chat",
                 return_value=test_chat_uuid,
             ):
-                with patch("api.endpoints.endpoints.app") as mocked_fastapi_app:
+                with patch("api.endpoints.endpoints.app"):
                     self.client.post(
                         "/set_up_chat/",
                         json={"chat_context": "Hello world"},
@@ -442,7 +441,7 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
         with patch(
             "api.endpoints.endpoints.Controller.initialise", new_callable=AsyncMock
         ):
-            with patch("api.endpoints.endpoints.app") as mocked_fastapi_app:
+            with patch("api.endpoints.endpoints.app"):
                 with patch(
                     "api.endpoints.endpoints.utility_functions.create_apache_kafka_topic"
                 ) as mocked_create_apache_kafka_topic:
@@ -469,7 +468,7 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
         """
         test_chat_uuid = uuid.uuid4().__str__()
         with patch("api.endpoints.endpoints.Controller"):
-            with patch("api.endpoints.endpoints.app") as mocked_fastapi_app:
+            with patch("api.endpoints.endpoints.app"):
                 with patch(
                     "api.endpoints.endpoints.utility_functions.create_apache_kafka_topic",
                     side_effect=[ValueError],
