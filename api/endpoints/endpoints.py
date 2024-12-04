@@ -11,6 +11,7 @@ from contextlib import asynccontextmanager
 
 from aiokafka import AIOKafkaProducer
 from fastapi import FastAPI, WebSocket, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.params import Depends
 from sqlalchemy.orm import Session
 from starlette.responses import RedirectResponse
@@ -91,6 +92,16 @@ async def lifespan(fastapi_application: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+
+origins = ["http://localhost:3000"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["POST", "OPTIONS", "GET", "PUT", "DELETE"],
+    allow_headers=["*"],
+)
 
 
 @app.websocket("/chat/{chat_uuid}")
