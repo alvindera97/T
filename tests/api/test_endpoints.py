@@ -362,8 +362,9 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
             )
 
             self.assertEqual(
-                f"chat/{[i for i in self.session.query(Chat)][-1].uuid.__str__()}",
-                "/".join(response.url.__str__().split("/")[-2:]),
+                f"{os.getenv('HOST_URL')}/chat/{[i for i in self.session.query(Chat)][-1].uuid.__str__()}",
+                f"{os.getenv('HOST_URL')}/"
+                + "/".join(response.url.__str__().split("/")[-2:]),
             )
 
     @patch("controller.controller_def.User")

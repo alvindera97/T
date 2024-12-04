@@ -48,5 +48,6 @@ jobs:
       env:
         GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
         TEST_CHAT_URL: ${{ secrets.TEST_CHAT_URL }}
+        HOST_URL: ${{ secrets.HOST_URL }}
       run: |
         python -m unittest -b

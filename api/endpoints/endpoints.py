@@ -138,4 +138,4 @@ async def set_up_chat(
         1, f"ws://localhost:8000/{chat_url}", request_json_body.chat_context
     )
 
-    return chat_url
+    return f"{os.getenv('HOST_URL')}/{chat_url}"
