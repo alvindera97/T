@@ -7,6 +7,7 @@ Classes:
 """
 
 import os
+import random
 import unittest
 import uuid
 import warnings
@@ -325,7 +326,14 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
         :return: None
         """
         previous_chat_count = self.session.query(Chat).count()
-        self.client.post("/set_up_chat/", json={"chat_context": "Hello world"})
+        self.client.post(
+            "/set_up_chat/",
+            json={
+                "chat_title": "Hello world",
+                "chat_context": "Some chat context",
+                "chat_number_of_users": random.randint(1, 100),
+            },
+        )
 
         self.assertEqual(self.session.query(Chat).count(), previous_chat_count + 1)
 
@@ -357,7 +365,11 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
         ):
             response = self.client.post(
                 "/set_up_chat/",
-                json={"chat_context": "Hello world"},
+                json={
+                    "chat_title": "Hello world",
+                    "chat_context": "Some chat context",
+                    "chat_number_of_users": random.randint(1, 100),
+                },
                 follow_redirects=True,
             )
 
@@ -386,13 +398,17 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
                 with patch("utils.functions.utility_functions.Chat", return_value=chat):
                     self.client.post(
                         "/set_up_chat/",
-                        json={"chat_context": "Hello world"},
+                        json={
+                            "chat_title": "Hello world",
+                            "chat_context": "Some chat context",
+                            "chat_number_of_users": random.randint(1, 100),
+                        },
                         follow_redirects=True,
                     )
                     mock_application_controller_initialise.assert_called_once_with(
                         1,
                         f"ws://localhost:8000/chat/{chat_uuid.__str__()}",
-                        "Hello world",
+                        "Some chat context",
                     )
 
     @patch("api.endpoints.endpoints.Controller")
@@ -416,7 +432,11 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
                 with patch("api.endpoints.endpoints.app"):
                     self.client.post(
                         "/set_up_chat/",
-                        json={"chat_context": "Hello world"},
+                        json={
+                            "chat_title": "Hello world",
+                            "chat_context": "Some chat context",
+                            "chat_number_of_users": random.randint(1, 100),
+                        },
                         follow_redirects=True,
                     )
                     mocked_create_apache_kafka_topic.assert_called_once_with(
@@ -455,7 +475,11 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
                     ):
                         self.client.post(
                             "/set_up_chat/",
-                            json={"chat_context": "Hello world"},
+                            json={
+                                "chat_title": "Hello world",
+                                "chat_context": "Some chat context",
+                                "chat_number_of_users": random.randint(1, 100),
+                            },
                             follow_redirects=True,
                         )
                         mocked_create_apache_kafka_topic.assert_called_once_with(
@@ -483,7 +507,11 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
                     ):
                         response = self.client.post(
                             "/set_up_chat/",
-                            json={"chat_context": "Hello world"},
+                            json={
+                                "chat_title": "Hello world",
+                                "chat_context": "Some chat context",
+                                "chat_number_of_users": random.randint(1, 100),
+                            },
                             follow_redirects=True,
                         )
                         mocked_create_apache_kafka_topic.assert_called_once_with(
