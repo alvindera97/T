@@ -50,7 +50,7 @@ phonenumbers==8.13.40
 pre-commit==3.8.0
 proto-plus==1.24.0
 protobuf==4.25.4
-psycopg2==2.9.9
+psycopg2-binary==2.9.10
 pyaes==1.6.1
 pyasn1==0.6.0
 pyasn1_modules==0.4.0
