@@ -103,9 +103,27 @@ export default function NewChatForm() {
             if (allInputsAreFilled) {
               setAllInputsAreFilled(false);
               updateSubmitButtonText("Setting up chat ...");
+              const chat_title = (
+                document.getElementById(
+                  "new-group-chat-name"
+                ) as HTMLInputElement
+              ).value;
+              const chat_context = (
+                document.getElementById(
+                  "new-group-chat-context"
+                ) as HTMLTextAreaElement
+              ).value;
+              const chat_number_of_users = (
+                document.getElementById(
+                  "new-group-chat-number-of-users"
+                ) as HTMLInputElement
+              ).value;
+
               axios
                 .post(`${process.env.NEXT_PUBLIC_T_BACKEND_URL}/set_up_chat`, {
-                  chat_context: "group chat context",
+                  chat_title: chat_title,
+                  chat_context: chat_context,
+                  chat_number_of_users: Number(chat_number_of_users),
                 })
                 .then((res) => {
                   setSubmitButtonTextContent("Please wait ...");
