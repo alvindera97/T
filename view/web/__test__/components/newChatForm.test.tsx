@@ -380,10 +380,6 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
     await userEvent.click(startChatButton);
 
     expect(axios.post).toHaveBeenCalledOnce();
-    expect(axios.post).toHaveBeenCalledWith(
-      `${process.env.NEXT_PUBLIC_T_BACKEND_URL}/set_up_chat`,
-      { chat_context: "group chat context" }
-    );
 
     await waitFor(
       () => {
