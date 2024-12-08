@@ -39,27 +39,16 @@ jobs:
         working-directory: ./view/web
         run: npm install cypress
 
-      - name: Start Production Server in the background
-        working-directory: ./view/web
-        run: npm run start &
-
-      - name: Wait for the server to be ready
-        run: sleep 10
-
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
-        working-directory: ./view/web
-        run: npx cypress run --headless
+        with:
+          browser: chrome
+          start: npm start
+          working-directory: ./view/web
         env:
           T_BACKEND_URL: ${{ secrets.NEXT_PUBLIC_T_BACKEND_URL }}
           CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
           NEXT_PUBLIC_T_BACKEND_URL: ${{ secrets.NEXT_PUBLIC_T_BACKEND_URL }}
-
-      - name: Stop the server after tests
-        run: |
-          echo "Stopping the server..."
-          pkill -f "npm run start"  # This kills the background server process
-
       - name: Upload Cypress screenshots and videos
         if: always()
         uses: actions/upload-artifact@v3
