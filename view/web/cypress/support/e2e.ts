@@ -26,7 +26,7 @@ beforeEach(() => {
   cy.intercept(
     {
       method: "POST",
-      url: "*/set_up_chat",
+      url: `${Cypress.env("T_BACKEND_URL")}/set_up_chat`,
     },
     (req) => {
       req.on("response", (res) => {

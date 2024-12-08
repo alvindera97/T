@@ -47,9 +47,11 @@ jobs:
         run: sleep 10
 
       - name: Run Cypress tests
+        uses: cypress-io/github-action@v6
         working-directory: ./view/web
         run: npx cypress run --headless
         env:
+          T_BACKEND_URL: ${{ secrets.NEXT_PUBLIC_T_BACKEND_URL }}
           CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
           NEXT_PUBLIC_T_BACKEND_URL: ${{ secrets.NEXT_PUBLIC_T_BACKEND_URL }}
 
