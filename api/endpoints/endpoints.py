@@ -133,7 +133,9 @@ async def set_up_chat(
     Creates a unique chat uuid and saves in database returning a redirect response.
     :return:
     """
-    new_chat_uuid = utility_functions.add_new_chat(session)
+    new_chat_uuid = utility_functions.add_new_chat(
+        session, request_json_body.chat_title, request_json_body.chat_context
+    )
     chat_url = "chat/" + new_chat_uuid
 
     try:

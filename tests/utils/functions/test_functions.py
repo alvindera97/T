@@ -160,7 +160,7 @@ class TestAddChat(base.BaseTestDatabaseTestCase):
         self.assertRaises(TypeError, lambda: utils.add_new_chat())
 
         try:
-            utils.add_new_chat(self.session)
+            utils.add_new_chat(self.session, faker.word(), faker.sentence())
         except Exception as e:
             self.fail(f"Unexpected exception raised: {e}")
 
@@ -171,12 +171,48 @@ class TestAddChat(base.BaseTestDatabaseTestCase):
         :return: None
         """
 
-        count_before_addition = self.session.query(Chat).count()
+        chat_context = faker.sentence()
+        count_before_addition, chat_title = (
+            self.session.query(Chat).count(),
+            faker.word(),
+        )
 
-        chat = utils.add_new_chat(self.session)
+        chat = utils.add_new_chat(self.session, chat_title, chat_context)
 
         self.assertEqual(self.session.query(Chat).first().uuid.__str__(), chat)
+        self.assertEqual(
+            self.session.query(Chat).first().chat_title.__str__(), chat_title
+        )
+        self.assertEqual(
+            self.session.query(Chat).first().chat_context.__str__(), chat_context
+        )
         self.assertEqual(self.session.query(Chat).count(), count_before_addition + 1)
+
+    def test_function_raises_exception_when_chat_title_is_an_empty_string(self) -> None:
+        """
+        Test that function raises exception if the chat title is essentially an empty string.
+        """
+        self.assertRaises(
+            AssertionError,
+            utils.add_new_chat,
+            self.session,
+            " " * random.randint(1, 1000),
+            faker.sentence(),
+        )
+
+    def test_function_raises_exception_when_chat_context_is_an_empty_string(
+        self,
+    ) -> None:
+        """
+        Test that function raises exception if the chat context is essentially an empty string.
+        """
+        self.assertRaises(
+            AssertionError,
+            utils.add_new_chat,
+            self.session,
+            faker.word(),
+            " " * random.randint(1, 1000),
+        )
 
 
 class TestCreateApacheKafkaTopic(unittest.TestCase):

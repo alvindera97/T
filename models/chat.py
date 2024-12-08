@@ -6,7 +6,7 @@ This module contains class and module definitions for the Message model
 
 import uuid
 
-from sqlalchemy import Column, UUID
+from sqlalchemy import Column, UUID, String
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
@@ -19,4 +19,6 @@ class Chat(Base):
 
     __tablename__ = "Chats"
 
+    chat_title = Column("chat_title", String, nullable=False)
     uuid = Column("uuid", UUID, primary_key=True, default=uuid.uuid4)
+    chat_context = Column("chat_number_of_users", String, nullable=False)

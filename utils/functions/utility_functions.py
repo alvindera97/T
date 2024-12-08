@@ -97,13 +97,23 @@ def generate_message_from_user(
     )
 
 
-def add_new_chat(session: Session) -> str:
+def add_new_chat(session: Session, chat_title: str, chat_context: str) -> str:
     """
     Add new chat to database.
-    :return: Added Chat uuid string to the database
+
+    :param session: Application session object
+    :param chat_title: Chat title
+    :param chat_context: Chat context
+    :return: Added Chat uuid string to the database.
     """
 
+    assert len(chat_title.strip()) > 0
+    assert len(chat_context.strip()) > 0
+
     new_chat = Chat()
+
+    new_chat.chat_title, new_chat.chat_context = chat_title, chat_context
+
     session.add(new_chat)
     session.flush()
 
