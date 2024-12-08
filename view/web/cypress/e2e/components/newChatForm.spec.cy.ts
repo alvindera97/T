@@ -57,4 +57,18 @@ describe("New Chat Form", () => {
         cy.get("#start-group-chat-btn").should("have.text", initialText);
       });
   });
+
+  it("Should make a POST request on form submission", () => {
+    fillAllInputsForStartChatForm({
+      submitForm: true,
+    });
+
+    cy.wait("@postChat", { timeout: 10000 })
+      .its("request.body")
+      .then((body) => {
+        expect(body.chat_context).to.equal("Chat context here");
+        expect(body.chat_title).to.equal("Test Chat");
+        expect(body.chat_number_of_users).to.equal(5);
+      });
+  });
 });

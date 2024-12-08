@@ -19,7 +19,7 @@ import "./commands";
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 let i = 0;
-const throttleTimes = [10, 3200, 10];
+const throttleTimes = [10, 3200, 10, 10, 10];
 export const chatUUID = crypto.randomUUID();
 
 beforeEach(() => {

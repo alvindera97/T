@@ -358,26 +358,6 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
     expect(startChatButton).toBeDisabled();
   });
 
-  it("Asserts that on form submission, POST request is made", async () => {
-    vi.mock("axios", () => ({
-      default: {
-        post: vi.fn().mockResolvedValue({ data: { success: true } }),
-      },
-    }));
-
-    await randomlyFillNewChatFormInputs(3);
-
-    await userEvent.click(startChatButton);
-
-    expect(axios.post).toHaveBeenCalledOnce();
-    expect(axios.post).toHaveBeenCalledWith(
-      `${process.env.NEXT_PUBLIC_T_BACKEND_URL}/set_up_chat`,
-      {
-        chat_context: "group chat context",
-      }
-    );
-  });
-
   it("Asserts that on failed axios request to start new chat, a toast indicating an error in setting up the chat is rendered for 7 seconds", async () => {
     vi.mock("axios", () => ({
       default: {
