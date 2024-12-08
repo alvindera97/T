@@ -248,13 +248,13 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
   )!;
 
   const newGroupChatForm = container.querySelectorAll("form");
-  const groupChatNameInput = newGroupChatForm
+  const groupChatNameInput: HTMLInputElement | null = newGroupChatForm
     .item(0)
     .querySelector("input#new-group-chat-name");
-  const groupChatContextInput = newGroupChatForm
+  const groupChatContextInput: HTMLTextAreaElement | null = newGroupChatForm
     .item(0)
     .querySelector("textarea#new-group-chat-context");
-  const groupChatNumberOfUsersInput = newGroupChatForm
+  const groupChatNumberOfUsersInput: HTMLInputElement | null = newGroupChatForm
     .item(0)
     .querySelector("input#new-group-chat-number-of-users");
 
