@@ -9,23 +9,23 @@ import { Toaster, toast } from "react-hot-toast";
 
 // Asserts new chat form component renders expected components
 
-describe("Assert <NewChatForm /> Contents", () => {
+describe("<NewChatForm /> component", () => {
   const { container } = render(<NewChatForm />);
   const formElement: HTMLInputElement = screen.getByRole("start-new-chat-form");
 
-  it("Assert new chat form role is of start-new-chat-form and it renders.", () => {
+  it("form role is of start-new-chat-form.", () => {
     expect(formElement).toBeInTheDocument();
   });
 
-  it("Asserts new chat from is an HTMLFormElement", () => {
+  it("form is an HTMLFormElement", () => {
     expect(formElement).toBeInstanceOf(HTMLFormElement);
   });
 
-  it("Asserts new chat form is ID new-chat-form", () => {
+  it("form is ID new-chat-form", () => {
     expect(formElement.id).toEqual("new-chat-form");
   });
 
-  it("Asserts there is a singular form element in the component", () => {
+  it("contains a singular form element in the component", () => {
     const element = container.querySelectorAll("form");
 
     expect(element.length).toEqual(1);
@@ -33,7 +33,7 @@ describe("Assert <NewChatForm /> Contents", () => {
     expect(element.item(0).role).toEqual("start-new-chat-form");
   });
 
-  it("Asserts new new chat form contains input for group chat name", () => {
+  it("contains input for group chat name", () => {
     const elements: Array<{
       id: string;
       placeholder: string;
@@ -59,7 +59,7 @@ describe("Assert <NewChatForm /> Contents", () => {
     ).toBeTruthy();
   });
 
-  it("Asserts new chat form contains input for chat context", () => {
+  it("contains input for chat context", () => {
     const elements: Array<{
       id: string;
       placeholder: string;
@@ -83,7 +83,7 @@ describe("Assert <NewChatForm /> Contents", () => {
     ).toBeTruthy();
   });
 
-  it("Assert new chat form contains input for number of chat members", () => {
+  it("contains input for number of chat members", () => {
     const elements: Array<{
       id: string;
       placeholder: string;
@@ -109,7 +109,7 @@ describe("Assert <NewChatForm /> Contents", () => {
     ).toBeTruthy();
   });
 
-  it("Asserts new chat form contains button to start chat (submit button)", () => {
+  it("contains button to start chat (submit button)", () => {
     const querySelectorElements = container.querySelectorAll("button");
 
     const elements: Array<{
@@ -129,23 +129,23 @@ describe("Assert <NewChatForm /> Contents", () => {
   });
 });
 
-describe("Assert <NewChatForm /> Group Chat Name Input Details", () => {
+describe("<NewChatForm /> component group chat name input", () => {
   const { container } = render(<NewChatForm />);
   const newGroupChatForm = container.querySelectorAll("form");
   const groupChatNameInput = newGroupChatForm
     .item(0)
     .querySelector("input#new-group-chat-name");
 
-  it("Asserts group chat name input is child of child element of single form element", () => {
+  it("is child of child element of single form element", () => {
     expect(newGroupChatForm.length).toEqual(1);
     expect(groupChatNameInput).toBeInTheDocument();
   });
 
-  it("Asserts group chat name input is enabled", () => {
+  it("is enabled", () => {
     expect(groupChatNameInput).toBeEnabled();
   });
 
-  it("Asserts group chat name input is editable", async () => {
+  it("is editable", async () => {
     if (groupChatNameInput === null) {
       fail("Input for group chat name wasn't found!");
     }
@@ -157,7 +157,7 @@ describe("Assert <NewChatForm /> Group Chat Name Input Details", () => {
   });
 });
 
-describe("Assert <NewChatForm /> Group Chat Context Input Details", () => {
+describe("<NewChatForm /> component group chat context input", () => {
   const { container } = render(<NewChatForm />);
   const newGroupChatForm = container.querySelectorAll("form");
   const groupChatContextInput = newGroupChatForm
@@ -168,16 +168,16 @@ describe("Assert <NewChatForm /> Group Chat Context Input Details", () => {
     fail("Input for group chat context wasn't found");
   }
 
-  it("Asserts group chat group context input is child of child element of single form element", () => {
+  it("is child of child element of single form element", () => {
     expect(newGroupChatForm.length).toEqual(1);
     expect(groupChatContextInput).toBeInTheDocument();
   });
 
-  it("Asserts group chat group context input is enabled", () => {
+  it("is enabled", () => {
     expect(groupChatContextInput).toBeEnabled();
   });
 
-  it("Asserts group chat group context input is editable", async () => {
+  it("is editable", async () => {
     await userEvent.type(
       groupChatContextInput,
       "Hello world, this is the group chat context"
@@ -189,7 +189,7 @@ describe("Assert <NewChatForm /> Group Chat Context Input Details", () => {
   });
 });
 
-describe("Assert <NewChatForm /> Number Of Chat users Input Details", () => {
+describe("<NewChatForm /> component number of chat users input", () => {
   const { container } = render(<NewChatForm />);
   const newGroupChatForm = container.querySelectorAll("form");
   const groupChatNumberOfUsersInput = newGroupChatForm
@@ -200,29 +200,29 @@ describe("Assert <NewChatForm /> Number Of Chat users Input Details", () => {
     fail("Input for group chat number of users wasn't found");
   }
 
-  it("Asserts group chat number of users input is child of child element of single form element", () => {
+  it("is child of child element of single form element", () => {
     expect(newGroupChatForm.length).toEqual(1);
     expect(groupChatNumberOfUsersInput).toBeInTheDocument();
   });
 
-  it("Asserts group chat group number of users input is enabled ", () => {
+  it("is enabled ", () => {
     expect(groupChatNumberOfUsersInput).toBeEnabled();
   });
 
-  it("Asserts group chat group number of users input is editable", async () => {
+  it("is editable", async () => {
     await userEvent.type(groupChatNumberOfUsersInput, "10");
 
     expect(groupChatNumberOfUsersInput).toHaveValue(10);
   });
 
-  it("Asserts group chat number of users input only accepts positive integer Number inputs", async () => {
+  it("only accepts positive integer number inputs", async () => {
     await userEvent.clear(groupChatNumberOfUsersInput);
     await userEvent.type(groupChatNumberOfUsersInput, "string input");
 
     expect(groupChatNumberOfUsersInput).toBeEmptyDOMElement();
   });
 
-  it("Asserts group chat number of users input cannot accept any value below 1", async () => {
+  it("cannot accept any value below 1", async () => {
     await userEvent.clear(groupChatNumberOfUsersInput);
     await userEvent.type(groupChatNumberOfUsersInput, "0");
 
@@ -230,7 +230,7 @@ describe("Assert <NewChatForm /> Number Of Chat users Input Details", () => {
   });
 });
 
-describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
+describe("<NewChatForm /> component submit button", () => {
   const { container } = render(<NewChatForm />);
   render(<Toaster />);
   const queryResultLength = container.querySelectorAll(
@@ -258,7 +258,7 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
     .item(0)
     .querySelector("input#new-group-chat-number-of-users");
 
-  it("Asserts the submit button is disabled at first render of the component", () => {
+  it("is disabled at first render of the component", () => {
     expect(startChatButton).toBeDisabled();
   });
 
@@ -304,31 +304,31 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
     );
   }
 
-  it("Asserts the submit button is disabled when only the group chat name is entered", async () => {
+  it("is disabled when only the group chat name is entered", async () => {
     await userEvent.type(groupChatNameInput, "hello world");
 
     expect(startChatButton).toBeDisabled();
   });
 
-  it("Asserts the submit button is disabled when only the group chat context is entered", async () => {
+  it("is disabled when only the group chat context is entered", async () => {
     await userEvent.type(groupChatContextInput, "group chat context");
 
     expect(startChatButton).toBeDisabled();
   });
 
-  it("Asserts the submit button is disabled when only the group chat number of users is entered", async () => {
+  it("is disabled when only the group chat number of users is entered", async () => {
     await userEvent.type(groupChatNumberOfUsersInput, "10");
 
     expect(startChatButton).toBeDisabled();
   });
 
-  it("Asserts the submit button is disabled when all the inputs have not been filled", async () => {
+  it("is disabled when all the inputs have not been filled", async () => {
     await randomlyFillNewChatFormInputs(2);
 
     expect(startChatButton).toBeDisabled();
   });
 
-  it("Assert that the submit button is enabled after all form inputs are entered", async () => {
+  it("is enabled after all form inputs are entered", async () => {
     await executeRandomCallable(
       [
         [async () => await userEvent.type(groupChatNameInput, "hello world")],
@@ -344,7 +344,7 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
     expect(startChatButton).toBeEnabled();
   });
 
-  it("Asserts that the submit button is disabled once it is clicked", async () => {
+  it("is disabled once it is clicked", async () => {
     vi.mock("axios", () => ({
       default: {
         post: vi.fn().mockResolvedValue({ data: { success: true } }),
@@ -358,7 +358,7 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
     expect(startChatButton).toBeDisabled();
   });
 
-  it("Asserts that on failed axios request to start new chat, a toast indicating an error in setting up the chat is rendered for 7 seconds", async () => {
+  it("on failed axios request to start new chat, a toast indicating an error in setting up the chat is rendered for 7 seconds", async () => {
     vi.mock("axios", () => ({
       default: {
         post: vi.fn().mockRejectedValue(new Error("Connection Failed")),
@@ -398,7 +398,7 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
     );
   });
 
-  it("Asserts that on failed axios request to start a new chat, the start chat button becomes re-enabled if all inputs are still filled", async () => {
+  it("on failed axios request to start a new chat, the start chat button becomes re-enabled if all inputs are still filled", async () => {
     vi.mock("axios", () => ({
       default: {
         post: vi.fn().mockRejectedValue(new Error("Connection Failed")),
@@ -414,7 +414,7 @@ describe("Assert <NewChatForm /> Start Chat (Submit) Button Details", () => {
     });
   });
 
-  it("Asserts that on failed axios request to start a new chat, the start chat button remains disabled if all inputs are not filled", async () => {
+  it("on failed axios request to start a new chat, the start chat button remains disabled if all inputs are not filled", async () => {
     vi.mock("axios", () => ({
       default: {
         post: vi.fn().mockRejectedValue(new Error("Connection Failed")),

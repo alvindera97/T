@@ -2,15 +2,13 @@ import { expect, describe, it } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import Home from "../../src/app/page";
 
-describe("Home Page Initial Load", async () => {
+describe("Home Page", async () => {
   const { container } = render(<Home />);
 
-  await waitFor(() =>
-    expect(screen.getByText("Start chat")).toBeInTheDocument()
-  );
-  expect(screen.getByText("Start chat")).toBeInTheDocument();
+  it("should render new chat creation form", () => {
+    waitFor(() => expect(screen.getByText("Start chat")).toBeInTheDocument());
+    expect(screen.getByText("Start chat")).toBeInTheDocument();
 
-  it("Assert home page renders new chat form.", () => {
     waitFor(() => {
       const newChatForm = container.querySelector("form");
       const newChatFormGroupInputs = newChatForm?.querySelectorAll("input");

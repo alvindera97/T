@@ -104,7 +104,7 @@ describe("Form for creating new group chat", () => {
         cy.visit("http://localhost:3000");
       });
 
-      it("Asserts that the submit button text returns to its initial state after a failed request", () => {
+      it("submit button text returns to its initial state after a failed request", () => {
         interceptFailedRequestToCreateNewGroupChat();
         cy.get("#start-group-chat-btn")
           .invoke("text")
