@@ -14,8 +14,45 @@ function fillAllInputsForStartChatForm({
   }
 }
 
-describe("New Chat Form", () => {
+function interceptSuccessfulRequestToCreateNewGroupChat() {
+  cy.intercept(
+    {
+      method: "POST",
+      url: `${Cypress.env("T_BACKEND_URL")}/set_up_chat`,
+      // url: `**`,
+    },
+    (req) => {
+      req.on("response", (res) => {
+        res.setDelay(100);
+      });
+      req.reply({
+        statusCode: 302,
+        headers: {
+          Location: `http://localhost:3000/chat/${chatUUID}`,
+        },
+      });
+    }
+  ).as("successfulNewChatCreationRequest");
+}
+
+function interceptFailedRequestToCreateNewGroupChat() {
+  cy.intercept(
+    {
+      method: "POST",
+      url: `${Cypress.env("T_BACKEND_URL")}/set_up_chat`,
+    },
+    (req) => {
+      req.on("response", (res) => {
+        res.setDelay(1000);
+      });
+      req.reply({ statusCode: 400 });
+    }
+  ).as("failedNewChatCreationRequest");
+}
+
+describe("Form for creating new group chat", () => {
   beforeEach(() => {
+    interceptSuccessfulRequestToCreateNewGroupChat();
     cy.visit("http://localhost:3000");
   });
 
@@ -27,48 +64,73 @@ describe("New Chat Form", () => {
     });
   });
 
-  it("should redirect to the correct chat page after submitting the form", () => {
-    fillAllInputsForStartChatForm({
-      submitForm: true,
-    });
+  describe("during submission", () => {
+    describe("on successful form submission", () => {
+      beforeEach(() => {
+        interceptSuccessfulRequestToCreateNewGroupChat();
+        cy.visit("http://localhost:3000");
+      });
 
-    cy.url().should("eq", `http://localhost:3000/chat/${chatUUID}`);
-  });
-
-  it("Asserts that the text on the submit button changes during progress", () => {
-    fillAllInputsForStartChatForm({
-      submitForm: true,
-    });
-
-    cy.get("#start-group-chat-btn").should("have.text", "Setting up chat ...");
-    cy.get("#start-group-chat-btn").should("have.text", "Please wait ...");
-    cy.get("#start-group-chat-btn").should("have.text", "Starting chat ...");
-  });
-
-  it("Asserts that the submit button text returns to its initial state after a failed request", () => {
-    cy.get("#start-group-chat-btn")
-      .invoke("text")
-      .then((initialText) => {
+      it("the text on the submit button changes during progress", () => {
+        interceptSuccessfulRequestToCreateNewGroupChat();
         fillAllInputsForStartChatForm({
           submitForm: true,
         });
 
-        // Assert that the button text returns to its initial state
-        cy.get("#start-group-chat-btn").should("have.text", initialText);
+        cy.get("#start-group-chat-btn").should(
+          "have.text",
+          "Setting up chat ..."
+        );
+        cy.get("#start-group-chat-btn").should("have.text", "Please wait ...");
+        cy.get("#start-group-chat-btn").should(
+          "have.text",
+          "Starting chat ..."
+        );
       });
-  });
 
-  it("Should make a POST request on form submission", () => {
-    fillAllInputsForStartChatForm({
-      submitForm: true,
+      it("should redirect to the correct chat page after submitting the form", () => {
+        interceptSuccessfulRequestToCreateNewGroupChat();
+        fillAllInputsForStartChatForm({
+          submitForm: true,
+        });
+
+        cy.url().should("eq", `http://localhost:3000/chat/${chatUUID}`);
+      });
     });
 
-    cy.wait("@postChat", { timeout: 10000 })
-      .its("request.body")
-      .then((body) => {
-        expect(body.chat_context).to.equal("Chat context here");
-        expect(body.chat_title).to.equal("Test Chat");
-        expect(body.chat_number_of_users).to.equal(5);
+    describe("on failed form submission", () => {
+      beforeEach(() => {
+        interceptFailedRequestToCreateNewGroupChat();
+        cy.visit("http://localhost:3000");
       });
+
+      it("Asserts that the submit button text returns to its initial state after a failed request", () => {
+        interceptFailedRequestToCreateNewGroupChat();
+        cy.get("#start-group-chat-btn")
+          .invoke("text")
+          .then((initialText) => {
+            fillAllInputsForStartChatForm({
+              submitForm: true,
+            });
+
+            // Assert that the button text returns to its initial state
+            cy.get("#start-group-chat-btn").should("have.text", initialText);
+          });
+      });
+    });
+
+    it("should make a POST request for form submission", () => {
+      fillAllInputsForStartChatForm({
+        submitForm: true,
+      });
+
+      cy.wait("@successfulNewChatCreationRequest", { timeout: 10000 })
+        .its("request.body")
+        .then((body) => {
+          expect(body.chat_context).to.equal("Chat context here");
+          expect(body.chat_title).to.equal("Test Chat");
+          expect(body.chat_number_of_users).to.equal(5);
+        });
+    });
   });
 });
