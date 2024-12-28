@@ -14,6 +14,7 @@ Classes:
 import random
 import time
 import unittest
+import uuid
 from types import SimpleNamespace
 from typing import List
 from unittest.mock import patch
@@ -399,3 +400,20 @@ class TestCreateApacheKafkaTopic(unittest.TestCase):
             context.exception.__str__(),
             f"Exception raised while creating kafka topic!: \n\n{exception_text}",
         )
+
+
+class TestGetRandomUUID(unittest.TestCase):
+    """
+    Test case class for function that generates UUID.
+    """
+
+    def test_function_returns_valid_uuid(self) -> None:
+        """
+        Test function returns valid uuid
+        """
+        try:
+            uuid.UUID(utils.generate_random_uuid())
+        except ValueError as e:
+            self.fail(f"Failed valid UUID check! Exception raised: {e}")
+        except Exception as e:
+            self.fail(f"Unexpected exception raised: {e}")

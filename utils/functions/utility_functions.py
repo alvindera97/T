@@ -27,6 +27,13 @@ class KafkaTopicAlreadyExists(Warning):
     pass
 
 
+def generate_random_uuid():
+    """
+    Returns uuid string.
+    """
+    return uuid.uuid4().__str__()
+
+
 def create_message_JSON(
     content: str,
     thread_id: int,
