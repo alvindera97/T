@@ -5,16 +5,13 @@ Classes:
   BaseTestDatabaseTestCase
 """
 
-import inspect
 import os
 import unittest
 
 from sqlalchemy import create_engine
-from sqlalchemy.exc import OperationalError
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.orm import sessionmaker
 from starlette.testclient import TestClient
 
-import models
 from api.endpoints import app
 from database import db
 from models.chat import Base
@@ -32,39 +29,36 @@ class BaseTestDatabaseTestCase(unittest.TestCase):
             echo=os.getenv("DEBUG", False) == "True",
             connect_args={"check_same_thread": False},
         )
-        cls.__session = sessionmaker(autocommit=False, autoflush=False, bind=cls.engine)
+        cls.connection = cls.engine.connect()
+        cls.SessionFactory = sessionmaker(
+            autocommit=False, autoflush=False, bind=cls.connection
+        )
 
-        Base.metadata.create_all(bind=cls.engine)
+        # Use the shared connection for the entire test lifecycle since we're using in-memory database for testing.
+        cls.connection.begin()
 
-        cls.Session = cls.__session()
+        Base.metadata.create_all(bind=cls.connection)
 
-        # Override the `get_db` dependency in FastAPI
         def override_get_db():
-            """
-            Overrides the get_db function to use the in-memory SQLite database for testing.
-            """
-            DATABASE = cls.Session
+            session = cls.SessionFactory()
             try:
-                yield DATABASE
+                yield session
             finally:
-                DATABASE.close()
+                session.rollback()
+                session.close()
 
-        # Apply the override to the FastAPI app
         app.dependency_overrides[db.get_db] = override_get_db
         cls.client = TestClient(app)
 
     def setUp(self):
-        self.session: Session = self.Session
+        self.session = self.SessionFactory()
 
-        # Guarantee all Tables of models are available in the test database.
-
-        for _, table in inspect.getmembers(models, inspect.isclass):
-            try:
-                self.session.query(table).count()
-            except OperationalError:
-                Base.metadata.create_all(bind=self.engine)
+    def tearDown(self):
+        self.session.rollback()
+        self.session.close()
 
     @classmethod
     def tearDownClass(cls):
-        Base.metadata.drop_all(cls.engine)
+        Base.metadata.drop_all(bind=cls.connection)
+        cls.connection.close()
         cls.engine.dispose()
