@@ -21,4 +21,4 @@ class Chat(Base):
 
     chat_title = Column("chat_title", String, nullable=False)
     uuid = Column("uuid", UUID, primary_key=True, default=uuid.uuid4)
-    chat_context = Column("chat_number_of_users", String, nullable=False)
+    chat_context = Column("chat_context", String, nullable=False)
