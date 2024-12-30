@@ -8,6 +8,7 @@ import unittest
 import pydantic
 
 from json_defs import json
+from utils.functions import utility_functions as utils
 
 
 class TestSetUpChatRequestJsonProperties(unittest.TestCase):
@@ -58,3 +59,29 @@ class TestSetUpChatRequestJsonProperties(unittest.TestCase):
         self.assertEqual(annotations.get("chat_title"), str)
         self.assertEqual(annotations.get("chat_context"), str)
         self.assertEqual(annotations.get("chat_number_of_users"), int)
+
+
+class TestGetChatInfoRequestBody(unittest.TestCase):
+    """
+    Test class for testing chat info request body properties.
+    """
+
+    def test_json_has_expected_fields(self) -> None:
+        """
+        Test that json definition has expected fields.
+        """
+        self.assertTrue(json.GetChatInfoRequestBody, pydantic.BaseModel)
+        self.assertEqual(json.GetChatInfoRequestBody.model_fields.__len__(), 1)
+        self.assertIsNotNone(json.GetChatInfoRequestBody.model_fields.get("chat_uuid"))
+
+        try:
+            json.GetChatInfoRequestBody(**{"chat_uuid": utils.generate_random_uuid()})
+        except Exception as e:
+            self.fail(f"Instantiation of object failed, exception: {e}")
+
+    def test_json_has_fields_of_expected_type(self) -> None:
+        """
+        Test that json definition has expected fields with expected types.
+        """
+        annotations = json.GetChatInfoRequestBody.__annotations__
+        self.assertEqual(annotations.get("chat_uuid"), str)

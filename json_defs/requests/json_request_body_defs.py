@@ -16,3 +16,11 @@ class SetUpChatRequestBody(pydantic.BaseModel):
     chat_title: str
     chat_context: str
     chat_number_of_users: int
+
+
+class GetChatInfoRequestBody(pydantic.BaseModel):
+    """
+    Class definition for request body for retrieving chat information.
+    """
+
+    chat_uuid: str
