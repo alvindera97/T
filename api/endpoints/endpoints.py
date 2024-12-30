@@ -14,11 +14,12 @@ from fastapi import FastAPI, WebSocket, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.params import Depends
 from sqlalchemy.orm import Session
-from starlette.responses import RedirectResponse
+from starlette.responses import RedirectResponse, JSONResponse
 
 from controller import Controller
 from database import db
 from json_defs.requests import json_request_body_defs as json
+from models import Chat
 from utils.functions import utility_functions
 
 
@@ -152,3 +153,25 @@ async def set_up_chat(
     )
 
     return f"{os.getenv('HOST_URL')}/{chat_url}"
+
+
+@app.post("/get_chat_info", response_class=JSONResponse, status_code=200)
+async def get_chat_info(
+    request_json_body: json.GetChatInfoRequestBody,
+    session: Session = Depends(db.get_db),
+):
+    """
+    Endpoint for getting chat information.
+
+    If uuid supplied in the request isn't a valid uuid in database, this endpoint will respond with an empty json body.
+    """
+    chat_uuid_object = uuid.UUID(request_json_body.chat_uuid)
+    chat: Chat = session.query(Chat).filter(Chat.uuid == chat_uuid_object).first()
+
+    if chat:
+        return JSONResponse(
+            content={
+                "chat_title": chat.chat_title,
+            }
+        )
+    return JSONResponse(content={}, status_code=400)

@@ -6,6 +6,7 @@ Classes:
   WebSocketTestCase
 """
 
+import json
 import os
 import random
 import unittest
@@ -14,6 +15,7 @@ import warnings
 from types import SimpleNamespace
 from unittest.mock import patch, AsyncMock, Mock
 
+from faker import Faker
 from fastapi import FastAPI
 from fastapi.websockets import WebSocketDisconnect
 from starlette.testclient import TestClient
@@ -524,3 +526,90 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
                             '{"detail":"An internal server error occurred at the final stages of setting up your new chat."}',
                             response.text,
                         )
+
+
+class GetChatInformationTestCase(base.BaseTestDatabaseTestCase):
+    """
+    Test case class for endpoint returning chat information.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+
+    def setUp(self):
+        super().setUp()
+
+    @classmethod
+    def tearDownClass(cls):
+        super().tearDownClass()
+
+    def test_endpoint_returns_correct_chat_information_for_valid_existing_chat(self):
+        """
+        Test that endpoint returns correct information for created [valid] chat.
+        """
+
+        faker = Faker()
+
+        test_chat_uuid = uuid.uuid4()
+        chat_context = faker.sentence()
+        chat_title = faker.catch_phrase()
+        chat_number_of_users = random.randint(1, 100)
+        mocked_chat_object = Chat()
+        mocked_chat_object.uuid = test_chat_uuid
+
+        with patch(
+            "utils.functions.utility_functions.Chat",
+            new_callable=lambda: lambda: mocked_chat_object,
+        ):
+            with patch(  # topic not created on kafka [not necessary for test purposes]
+                "api.endpoints.endpoints.utility_functions.create_apache_kafka_topic"
+            ):
+                with patch(
+                    "api.endpoints.endpoints.Controller.initialise",
+                    new_callable=AsyncMock,
+                ):
+                    res = self.client.post(
+                        "/set_up_chat/",
+                        json={
+                            "chat_title": chat_title,
+                            "chat_context": chat_context,
+                            "chat_number_of_users": chat_number_of_users,
+                        },
+                        follow_redirects=True,
+                    )
+
+        response = self.client.post(
+            "/get_chat_info/", json={"chat_uuid": test_chat_uuid.__str__()}
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(json.loads(response.content)), 1)
+        self.assertEqual(json.loads(response.content).get("chat_title"), chat_title)
+
+    def test_endpoint_returns_expected_response_for_invalid_existing_chat(self) -> None:
+        """
+        Test that endpoint returns correct information for invalid chat info request.
+        """
+        faker = Faker()
+
+        with patch(
+            "api.endpoints.endpoints.utility_functions.create_apache_kafka_topic"
+        ):
+            with patch(
+                "api.endpoints.endpoints.Controller.initialise", new_callable=AsyncMock
+            ):
+                res = self.client.post(
+                    "/set_up_chat",
+                    json={
+                        "chat_title": faker.catch_phrase(),
+                        "chat_context": faker.sentence(),
+                        "chat_number_of_users": random.randint(1, 100),
+                    },
+                    follow_redirects=True,
+                )
+
+        response = self.client.post(
+            "/get_chat_info/", json={"chat_uuid": uuid.uuid4().__str__()}
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(len(json.loads(response.content)), 0)
