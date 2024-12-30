@@ -27,6 +27,7 @@ from api.endpoints.endpoints import (
 )
 from models import Chat
 from tests.database import base
+from utils.functions import utility_functions as utils
 
 
 class ApplicationBackendStartupAndShutdownTest(unittest.IsolatedAsyncioTestCase):
@@ -420,7 +421,7 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
         unsuccessful.
         :return: None
         """
-        test_chat_uuid = uuid.uuid4().__str__()
+        test_chat_uuid = utils.generate_random_uuid()
         with patch(
             "api.endpoints.endpoints.utility_functions.create_apache_kafka_topic",
             side_effect=[ValueError],
@@ -461,7 +462,7 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
         Test that endpoint calls function to create kafka topic before returning a response.
         :return: None
         """
-        test_chat_uuid = uuid.uuid4().__str__()
+        test_chat_uuid = utils.generate_random_uuid()
         with patch(
             "api.endpoints.endpoints.Controller.initialise", new_callable=AsyncMock
         ):
@@ -494,7 +495,7 @@ class SetUpChatEndpointTestCase(base.BaseTestDatabaseTestCase):
         while creating the kafka topic).
         :return: None
         """
-        test_chat_uuid = uuid.uuid4().__str__()
+        test_chat_uuid = utils.generate_random_uuid()
         with patch("api.endpoints.endpoints.Controller"):
             with patch("api.endpoints.endpoints.app"):
                 with patch(
