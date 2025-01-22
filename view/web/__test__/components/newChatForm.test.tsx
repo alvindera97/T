@@ -7,8 +7,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
 
-// Asserts new chat form component renders expected components
-
 describe("<NewChatForm /> component", () => {
   const { container } = render(<NewChatForm />);
   const formElement: HTMLInputElement = screen.getByRole("start-new-chat-form");
