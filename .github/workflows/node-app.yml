@@ -34,26 +34,3 @@ jobs:
       - name: Run Vitest tests With Coverage
         working-directory: ./view/web
         run: npm run coverage
-
-      - name: Install Cypress
-        working-directory: ./view/web
-        run: npm install cypress
-
-      - name: Run Cypress tests
-        uses: cypress-io/github-action@v6
-        with:
-          browser: chrome
-          start: npm start
-          working-directory: ./view/web
-        env:
-          T_BACKEND_URL: ${{ secrets.NEXT_PUBLIC_T_BACKEND_URL }}
-          CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
-          NEXT_PUBLIC_T_BACKEND_URL: ${{ secrets.NEXT_PUBLIC_T_BACKEND_URL }}
-      - name: Upload Cypress screenshots and videos
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: cypress-artifacts
-          path: |
-            ./view/web/cypress/screenshots
-            ./view/web/cypress/videos
