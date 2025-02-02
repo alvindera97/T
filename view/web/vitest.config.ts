@@ -8,5 +8,6 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: ["setupTests.ts"],
     env: loadEnv("", process.cwd(), ""),
+    dir: "./__test__",
   },
 });
