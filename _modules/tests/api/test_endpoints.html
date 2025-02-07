@@ -1,0 +1,1081 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tests.api.test_endpoints &#8212; T  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/tests/api/test_endpoints';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">T  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../modules.html">T</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api.html">api package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.endpoints.html">api.endpoints package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../controller.html">controller package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../database.html">database package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../json_defs.html">json_defs package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../json_defs.message.html">json_defs.message package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../json_defs.requests.html">json_defs.requests package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../models.html">models package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../role.html">role package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../tests.html">tests package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../tests.api.html">tests.api package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../tests.controller.html">tests.controller package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../tests.database.html">tests.database package</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../tests.json_defs.html">tests.json_defs package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../tests.json_defs.messages.html">tests.json_defs.messages package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../tests.json_defs.requests.html">tests.json_defs.requests package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../tests.models.html">tests.models package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../tests.roles.html">tests.roles package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../tests.users.html">tests.users package</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../tests.utils.html">tests.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../tests.utils.exceptions.html">tests.utils.exceptions package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../tests.utils.functions.html">tests.utils.functions package</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../user.html">user package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../utils.html">utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils.exceptions.html">utils.exceptions package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils.functions.html">utils.functions package</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for tests.api.test_endpoints</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module for tests for application api endpoints.</span>
+
+<span class="sd">Classes:</span>
+<span class="sd">  SetUpChatEndpointTestCase</span>
+<span class="sd">  WebSocketTestCase</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">SimpleNamespace</span>
+<span class="kn">from</span> <span class="nn">unittest.mock</span> <span class="kn">import</span> <span class="n">patch</span><span class="p">,</span> <span class="n">AsyncMock</span><span class="p">,</span> <span class="n">Mock</span>
+
+<span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
+<span class="kn">from</span> <span class="nn">fastapi.websockets</span> <span class="kn">import</span> <span class="n">WebSocketDisconnect</span>
+<span class="kn">from</span> <span class="nn">starlette.testclient</span> <span class="kn">import</span> <span class="n">TestClient</span>
+
+<span class="kn">from</span> <span class="nn">api.endpoints</span> <span class="kn">import</span> <span class="n">app</span>
+<span class="kn">from</span> <span class="nn">api.endpoints.endpoints</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">InelegantKafkaShutdownWarning</span><span class="p">,</span>
+    <span class="n">start_apache_kafka_producer</span><span class="p">,</span>
+    <span class="n">MultipleKafkaProducerStartWarning</span><span class="p">,</span>
+    <span class="n">close_apache_kafka_producer</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">models</span> <span class="kn">import</span> <span class="n">Chat</span>
+<span class="kn">from</span> <span class="nn">tests.database</span> <span class="kn">import</span> <span class="n">base</span>
+<span class="kn">from</span> <span class="nn">utils.functions</span> <span class="kn">import</span> <span class="n">utility_functions</span> <span class="k">as</span> <span class="n">utils</span>
+
+
+<div class="viewcode-block" id="ApplicationBackendStartupAndShutdownTest">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownTest">[docs]</a>
+<span class="k">class</span> <span class="nc">ApplicationBackendStartupAndShutdownTest</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">IsolatedAsyncioTestCase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test case class for application backend lifecycle.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ApplicationBackendStartupAndShutdownTest.setUp">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownTest.setUp">[docs]</a>
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">patch</span><span class="p">(</span>
+            <span class="s2">&quot;subprocess.Popen&quot;</span><span class="p">,</span>
+            <span class="n">return_value</span><span class="o">=</span><span class="n">SimpleNamespace</span><span class="p">(</span>
+                <span class="n">returncode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kill</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="kc">None</span>
+            <span class="p">),</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+        <span class="n">patch</span><span class="p">(</span>
+            <span class="s2">&quot;select.select&quot;</span><span class="p">,</span>
+            <span class="n">return_value</span><span class="o">=</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">readline</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="s2">&quot;first&quot;</span><span class="p">),</span>
+                    <span class="n">SimpleNamespace</span><span class="p">(</span>
+                        <span class="n">readline</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="s2">&quot;binding to port 0.0.0.0/0.0.0.0:2181&quot;</span>
+                    <span class="p">),</span>
+                    <span class="n">SimpleNamespace</span><span class="p">(</span>
+                        <span class="n">readline</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="s2">&quot;started (kafka.server.KafkaServer)&quot;</span>
+                    <span class="p">),</span>
+                <span class="p">],</span>
+                <span class="p">[</span><span class="s2">&quot;second&quot;</span><span class="p">],</span>
+                <span class="p">[</span><span class="s2">&quot;third&quot;</span><span class="p">],</span>
+            <span class="p">),</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ApplicationBackendStartupAndShutdownTest.test_kafka_producer_for_chat_end_point_starts_at_startup">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownTest.test_kafka_producer_for_chat_end_point_starts_at_startup">[docs]</a>
+    <span class="nd">@patch</span><span class="p">(</span>
+        <span class="s2">&quot;api.endpoints.endpoints.start_apache_kafka_producer&quot;</span><span class="p">,</span> <span class="n">new_callable</span><span class="o">=</span><span class="n">AsyncMock</span>
+    <span class="p">)</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">test_kafka_producer_for_chat_end_point_starts_at_startup</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">mocked_start_apache_kafka_producer</span><span class="p">:</span> <span class="n">Mock</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that apache kafka producer is started at backend startup.</span>
+
+<span class="sd">        :param mocked_start_apache_kafka_producer: Mocked function to start apache kafka producer</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">):</span>
+            <span class="n">mocked_start_apache_kafka_producer</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span></div>
+</div>
+
+
+
+<span class="c1"># noinspection PyPep8Naming</span>
+<div class="viewcode-block" id="ApplicationBackendStartupAndShutdownFunctionsTest">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest">[docs]</a>
+<span class="k">class</span> <span class="nc">ApplicationBackendStartupAndShutdownFunctionsTest</span><span class="p">(</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">IsolatedAsyncioTestCase</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test case class for testing functions called during start up and shut down of backend.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ApplicationBackendStartupAndShutdownFunctionsTest.setUpClass">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.setUpClass">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">setUpClass</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">mocked_subprocess_pipe</span><span class="p">:</span> <span class="n">Mock</span> <span class="o">=</span> <span class="n">patch</span><span class="p">(</span><span class="s2">&quot;subprocess.PIPE&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+        <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">InelegantKafkaShutdownWarning</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">MultipleKafkaProducerStartWarning</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ApplicationBackendStartupAndShutdownFunctionsTest.setUp">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.setUp">[docs]</a>
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ModifiedAsyncMock</span> <span class="o">=</span> <span class="n">AsyncMock</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ModifiedAsyncMock</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">AsyncMock</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ModifiedAsyncMock</span><span class="o">.</span><span class="n">stop</span> <span class="o">=</span> <span class="n">AsyncMock</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mocked_subprocess_popen</span><span class="p">:</span> <span class="n">Mock</span> <span class="o">=</span> <span class="n">patch</span><span class="p">(</span>
+            <span class="s2">&quot;subprocess.Popen&quot;</span><span class="p">,</span>
+            <span class="n">return_value</span><span class="o">=</span><span class="n">SimpleNamespace</span><span class="p">(</span>
+                <span class="n">returncode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kill</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="kc">None</span>
+            <span class="p">),</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mocked_AIOKafkaProducer</span> <span class="o">=</span> <span class="n">patch</span><span class="p">(</span>
+            <span class="s2">&quot;api.endpoints.endpoints.AIOKafkaProducer&quot;</span><span class="p">,</span>
+            <span class="n">return_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ModifiedAsyncMock</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mocked_select_select</span> <span class="o">=</span> <span class="n">patch</span><span class="p">(</span>
+            <span class="s2">&quot;select.select&quot;</span><span class="p">,</span>
+            <span class="n">return_value</span><span class="o">=</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">readline</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="s2">&quot;first&quot;</span><span class="p">),</span>
+                    <span class="n">SimpleNamespace</span><span class="p">(</span>
+                        <span class="n">readline</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="s2">&quot;binding to port 0.0.0.0/0.0.0.0:2181&quot;</span>
+                    <span class="p">),</span>
+                    <span class="n">SimpleNamespace</span><span class="p">(</span>
+                        <span class="n">readline</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="s2">&quot;started (kafka.server.KafkaServer)&quot;</span>
+                    <span class="p">),</span>
+                <span class="p">],</span>
+                <span class="p">[</span><span class="s2">&quot;second&quot;</span><span class="p">],</span>
+                <span class="p">[</span><span class="s2">&quot;third&quot;</span><span class="p">],</span>
+            <span class="p">),</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ApplicationBackendStartupAndShutdownFunctionsTest.tearDown">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.tearDown">[docs]</a>
+    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mocked_subprocess_popen</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mocked_subprocess_pipe</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mocked_select_select</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_takes_a_fastapi_object_argument">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_takes_a_fastapi_object_argument">[docs]</a>
+    <span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;api.endpoints.endpoints.start_apache_kafka_producer&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">test_start_apache_kafka_producer_takes_a_fastapi_object_argument</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">mocked_start_apache_kafka_producer</span><span class="p">:</span> <span class="n">Mock</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that function to start apache kafka producer takes FastAPI app instance argument.</span>
+
+<span class="sd">        :param mocked_start_apache_kafka_producer: Mocked start_apache_kafka_producer() object.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">):</span>
+            <span class="n">mocked_start_apache_kafka_producer</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+            <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">kafka_producer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mocked_AIOKafkaProducer</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_sets_fastapi_app_kafka_producer_attribute">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_sets_fastapi_app_kafka_producer_attribute">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_start_apache_kafka_producer_sets_fastapi_app_kafka_producer_attribute</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that function to start apache kafka producer sets the fastapi state kafka_producer attribute.</span>
+
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">kafka_producer</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_does_not_recreate_another_producer_on_the_same_instance_of_fastapi">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_does_not_recreate_another_producer_on_the_same_instance_of_fastapi">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">test_start_apache_kafka_producer_does_not_recreate_another_producer_on_the_same_instance_of_fastapi</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that function to start apache kafka producer does not create more than one for a single fastapi app instance.</span>
+
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">):</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertWarns</span><span class="p">(</span><span class="n">MultipleKafkaProducerStartWarning</span><span class="p">)</span> <span class="k">as</span> <span class="n">context</span><span class="p">:</span>
+                <span class="k">await</span> <span class="n">start_apache_kafka_producer</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+
+            <span class="n">expected_warning_text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;There&#39;s an existing kafka producer for this app instance: </span><span class="si">{</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">app</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span>
+
+            <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">warning</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span> <span class="o">!=</span> <span class="n">expected_warning_text</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Improper handling of repeated start of kafka producer for app instance</span><span class="se">\n</span><span class="s2">expected: </span><span class="si">{</span><span class="n">expected_warning_text</span><span class="si">}</span><span class="se">\n</span><span class="s2">actual: </span><span class="si">{</span><span class="n">context</span><span class="o">.</span><span class="n">warning</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">mocked_AIOKafkaProducer</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_starts_AIOKafkaProducer_with_expected_argument_for_boostrap_servers">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_starts_AIOKafkaProducer_with_expected_argument_for_boostrap_servers">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">test_start_apache_kafka_producer_starts_AIOKafkaProducer_with_expected_argument_for_boostrap_servers</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that function to start apache kafka producer starts AIOKafkaProducer with expected values.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mocked_AIOKafkaProducer</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span>
+                <span class="n">bootstrap_servers</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;APACHE_KAFKA_BOOTSTRAP_SERVER_HOST&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">:</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;APACHE_KAFKA_BOOTSTRAP_SERVER_PORT&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_starts_the_kafka_producer">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_starts_the_kafka_producer">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_start_apache_kafka_producer_starts_the_kafka_producer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that function to start apache kafka producer calls .start() on the AIOKafkaProducer object.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mocked_AIOKafkaProducer</span><span class="p">()</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ApplicationBackendStartupAndShutdownFunctionsTest.test_close_apache_kafka_producer_calls_close_on_the_server_AIOKafkaProducer_object">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_close_apache_kafka_producer_calls_close_on_the_server_AIOKafkaProducer_object">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">test_close_apache_kafka_producer_calls_close_on_the_server_AIOKafkaProducer_object</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that function to close server Apache Kafka Producer (in this case AIOKafkaProducer) closes the server producer</span>
+<span class="sd">        AIOKafkaProducer object.</span>
+
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">another_app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+        <span class="c1"># then start kafka producer</span>
+        <span class="k">await</span> <span class="n">start_apache_kafka_producer</span><span class="p">(</span><span class="n">another_app</span><span class="p">)</span>
+
+        <span class="c1"># then stop kafka producer</span>
+        <span class="k">await</span> <span class="n">close_apache_kafka_producer</span><span class="p">(</span><span class="n">another_app</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mocked_AIOKafkaProducer</span><span class="p">()</span><span class="o">.</span><span class="n">stop</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ApplicationBackendStartupAndShutdownFunctionsTest.test_close_apache_kafka_producer_triggers_warning_when_supplied_fastapi_application_instance_has_no_kafka_producer_state_attribute">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_close_apache_kafka_producer_triggers_warning_when_supplied_fastapi_application_instance_has_no_kafka_producer_state_attribute">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">test_close_apache_kafka_producer_triggers_warning_when_supplied_fastapi_application_instance_has_no_kafka_producer_state_attribute</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that functon to close server Apache Kafka Producer triggers a warning in the case that there is no kafka producer</span>
+<span class="sd">        state attribute on the passed fastapi application argument.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">another_app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertWarns</span><span class="p">(</span><span class="n">InelegantKafkaShutdownWarning</span><span class="p">)</span> <span class="k">as</span> <span class="n">context</span><span class="p">:</span>
+            <span class="k">await</span> <span class="n">close_apache_kafka_producer</span><span class="p">(</span><span class="n">another_app</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">warning</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(),</span>
+            <span class="s2">&quot;You cannot shutdown apache kafka producer as there&#39;s none [recorded] running for this instance of the server!&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mocked_AIOKafkaProducer</span><span class="p">()</span><span class="o">.</span><span class="n">stop</span><span class="o">.</span><span class="n">assert_not_called</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="WebSocketTestCase">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.WebSocketTestCase">[docs]</a>
+<span class="k">class</span> <span class="nc">WebSocketTestCase</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">BaseTestDatabaseTestCase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test case class for application web socket tests.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="WebSocketTestCase.setUpClass">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.WebSocketTestCase.setUpClass">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">setUpClass</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setUpClass</span><span class="p">()</span>
+        <span class="n">patch</span><span class="p">(</span><span class="s2">&quot;controller.Controller&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="WebSocketTestCase.test_that_connection_to_invalid_chat_websocket_url_cannot_be_established">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.WebSocketTestCase.test_that_connection_to_invalid_chat_websocket_url_cannot_be_established">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_that_connection_to_invalid_chat_websocket_url_cannot_be_established</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that connection establishment with invalid chat web socket url cannot be established.</span>
+<span class="sd">        The web socket connection route must pass validation checks.</span>
+
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url_to_connect_to</span> <span class="o">=</span> <span class="s2">&quot;/ws/&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;TEST_CHAT_URL&quot;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">websocket_connect</span><span class="p">(</span><span class="n">url_to_connect_to</span><span class="p">)</span> <span class="k">as</span> <span class="n">websocket</span><span class="p">:</span>
+                <span class="n">websocket</span><span class="o">.</span><span class="n">send_text</span><span class="p">(</span><span class="s2">&quot;hello world&quot;</span><span class="p">)</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">websocket</span><span class="o">.</span><span class="n">receive_text</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;hello world&quot;</span><span class="p">)</span>
+                <span class="n">websocket</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Done with test&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">WebSocketDisconnect</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Web socket connection to </span><span class="si">{</span><span class="n">url_to_connect_to</span><span class="si">}</span><span class="s2"> isn&#39;t supposed to raise an exception, exception raised is: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="SetUpChatEndpointTestCase">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.SetUpChatEndpointTestCase">[docs]</a>
+<span class="k">class</span> <span class="nc">SetUpChatEndpointTestCase</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">BaseTestDatabaseTestCase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test case class for end point setting up chat.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SetUpChatEndpointTestCase.setUpClass">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.SetUpChatEndpointTestCase.setUpClass">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">setUpClass</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setUpClass</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="SetUpChatEndpointTestCase.test_endpoint_only_takes_post_requests">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_only_takes_post_requests">[docs]</a>
+    <span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;controller.controller_def.User&quot;</span><span class="p">)</span>
+    <span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;controller.Controller&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">test_endpoint_only_takes_post_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that the endpoint only takes post request.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">post_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/set_up_chat/&quot;</span><span class="p">,</span> <span class="n">follow_redirects</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">get_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;/set_up_chat/&quot;</span><span class="p">)</span>
+        <span class="n">delete_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;/set_up_chat/&quot;</span><span class="p">)</span>
+        <span class="n">patch_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s2">&quot;/set_up_chat/&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+            <span class="n">post_response</span><span class="o">.</span><span class="n">status_code</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">},</span>  <span class="c1"># required for OK/redirect responses.</span>
+            <span class="sa">f</span><span class="s2">&quot;Endpoint to set up chat is incorrect, the returned status code is: </span><span class="si">{</span><span class="n">post_response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="n">gr</span> <span class="o">:=</span> <span class="n">get_response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span>
+            <span class="mi">405</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Endpoint isn&#39;t supposed to accept/process get requests, the returned status code is: </span><span class="si">{</span><span class="n">gr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="n">dr</span> <span class="o">:=</span> <span class="n">delete_response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span>
+            <span class="mi">405</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Endpoint isn&#39;t supposed to accept/process delete requests, the returned status code is: </span><span class="si">{</span><span class="n">dr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="n">pr</span> <span class="o">:=</span> <span class="n">patch_response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span>
+            <span class="mi">405</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Endpoint isn&#39;t supposed to accept/process patch requests, the returned status code is: </span><span class="si">{</span><span class="n">pr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SetUpChatEndpointTestCase.test_endpoint_creates_new_chat_uuid_in_database_chats_table">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_creates_new_chat_uuid_in_database_chats_table">[docs]</a>
+    <span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;controller.controller_def.User&quot;</span><span class="p">)</span>
+    <span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;controller.Controller.initialise&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">test_endpoint_creates_new_chat_uuid_in_database_chats_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that request to endpoint creates new unique UUID record in test database</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">previous_chat_count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Chat</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s2">&quot;/set_up_chat/&quot;</span><span class="p">,</span>
+            <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;chat_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello world&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;chat_context&quot;</span><span class="p">:</span> <span class="s2">&quot;Some chat context&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;chat_number_of_users&quot;</span><span class="p">:</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Chat</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span> <span class="n">previous_chat_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SetUpChatEndpointTestCase.test_endpoint_returns_redirect_response_pointing_to_the_url_for_the_chat">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_returns_redirect_response_pointing_to_the_url_for_the_chat">[docs]</a>
+    <span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;controller.controller_def.User&quot;</span><span class="p">)</span>
+    <span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;controller.Controller&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">test_endpoint_returns_redirect_response_pointing_to_the_url_for_the_chat</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that response to endpoint is a  redirect request which points to the URL for the chat.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">post_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/set_up_chat/&quot;</span><span class="p">,</span> <span class="n">follow_redirects</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">post_response</span><span class="o">.</span><span class="n">status_code</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;3&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SetUpChatEndpointTestCase.test_endpoint_redirect_url_matches_that_of_the_expected_chat_url">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_redirect_url_matches_that_of_the_expected_chat_url">[docs]</a>
+    <span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;api.endpoints.endpoints.utility_functions.create_apache_kafka_topic&quot;</span><span class="p">)</span>
+    <span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;controller.controller_def.User&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">test_endpoint_redirect_url_matches_that_of_the_expected_chat_url</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that URL redirected to from endpoint matches expected chat url</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">patch</span><span class="p">(</span>
+            <span class="s2">&quot;api.endpoints.endpoints.Controller.initialise&quot;</span><span class="p">,</span> <span class="n">new_callable</span><span class="o">=</span><span class="n">AsyncMock</span>
+        <span class="p">):</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="s2">&quot;/set_up_chat/&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;chat_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello world&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;chat_context&quot;</span><span class="p">:</span> <span class="s2">&quot;Some chat context&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;chat_number_of_users&quot;</span><span class="p">:</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+                <span class="p">},</span>
+                <span class="n">follow_redirects</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;HOST_URL&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">/chat/</span><span class="si">{</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Chat</span><span class="p">)][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">uuid</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;HOST_URL&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">/&quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]),</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SetUpChatEndpointTestCase.test_endpoint_creates_new_application_controller_for_chat_session">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_creates_new_application_controller_for_chat_session">[docs]</a>
+    <span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;controller.controller_def.User&quot;</span><span class="p">)</span>
+    <span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;api.endpoints.endpoints.utility_functions.create_apache_kafka_topic&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">test_endpoint_creates_new_application_controller_for_chat_session</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that endpoint creates application controller.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">patch</span><span class="p">(</span>
+            <span class="s2">&quot;api.endpoints.endpoints.Controller.initialise&quot;</span><span class="p">,</span> <span class="n">new_callable</span><span class="o">=</span><span class="n">AsyncMock</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">mock_application_controller_initialise</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">patch</span><span class="p">(</span><span class="s2">&quot;controller.controller_def.websockets&quot;</span><span class="p">):</span>
+                <span class="n">chat</span> <span class="o">=</span> <span class="n">Chat</span><span class="p">()</span>
+                <span class="n">chat_uuid</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span>
+                <span class="n">chat</span><span class="o">.</span><span class="n">uuid</span> <span class="o">=</span> <span class="n">chat_uuid</span>
+                <span class="k">with</span> <span class="n">patch</span><span class="p">(</span><span class="s2">&quot;utils.functions.utility_functions.Chat&quot;</span><span class="p">,</span> <span class="n">return_value</span><span class="o">=</span><span class="n">chat</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                        <span class="s2">&quot;/set_up_chat/&quot;</span><span class="p">,</span>
+                        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+                            <span class="s2">&quot;chat_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello world&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;chat_context&quot;</span><span class="p">:</span> <span class="s2">&quot;Some chat context&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;chat_number_of_users&quot;</span><span class="p">:</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+                        <span class="p">},</span>
+                        <span class="n">follow_redirects</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="n">mock_application_controller_initialise</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span>
+                        <span class="mi">1</span><span class="p">,</span>
+                        <span class="sa">f</span><span class="s2">&quot;ws://localhost:8000/chat/</span><span class="si">{</span><span class="n">chat_uuid</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;Some chat context&quot;</span><span class="p">,</span>
+                    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SetUpChatEndpointTestCase.test_endpoint_does_not_create_new_application_controller_if_there_is_a_failure_to_create_kafka_topic">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_does_not_create_new_application_controller_if_there_is_a_failure_to_create_kafka_topic">[docs]</a>
+    <span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;api.endpoints.endpoints.Controller&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">test_endpoint_does_not_create_new_application_controller_if_there_is_a_failure_to_create_kafka_topic</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">mocked_application_controller</span><span class="p">:</span> <span class="n">Mock</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that endpoint does not create application controller in the event that creation of kafka topic was</span>
+<span class="sd">        unsuccessful.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">test_chat_uuid</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">generate_random_uuid</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">patch</span><span class="p">(</span>
+            <span class="s2">&quot;api.endpoints.endpoints.utility_functions.create_apache_kafka_topic&quot;</span><span class="p">,</span>
+            <span class="n">side_effect</span><span class="o">=</span><span class="p">[</span><span class="ne">ValueError</span><span class="p">],</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">mocked_create_apache_kafka_topic</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">patch</span><span class="p">(</span>
+                <span class="s2">&quot;api.endpoints.endpoints.utility_functions.add_new_chat&quot;</span><span class="p">,</span>
+                <span class="n">return_value</span><span class="o">=</span><span class="n">test_chat_uuid</span><span class="p">,</span>
+            <span class="p">):</span>
+                <span class="k">with</span> <span class="n">patch</span><span class="p">(</span><span class="s2">&quot;api.endpoints.endpoints.app&quot;</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                        <span class="s2">&quot;/set_up_chat/&quot;</span><span class="p">,</span>
+                        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+                            <span class="s2">&quot;chat_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello world&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;chat_context&quot;</span><span class="p">:</span> <span class="s2">&quot;Some chat context&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;chat_number_of_users&quot;</span><span class="p">:</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+                        <span class="p">},</span>
+                        <span class="n">follow_redirects</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="n">mocked_create_apache_kafka_topic</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span>
+                        <span class="n">test_chat_uuid</span>
+                    <span class="p">)</span>
+                    <span class="n">mocked_application_controller</span><span class="o">.</span><span class="n">assert_not_called</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="SetUpChatEndpointTestCase.test_endpoint_takes_request_json_body_of_expected_type">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_takes_request_json_body_of_expected_type">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_endpoint_takes_request_json_body_of_expected_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that endpoint takes json request body of expected type (currently SetUpChatRequestBody)</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">patch</span><span class="p">(</span><span class="s2">&quot;api.endpoints.endpoints.Controller&quot;</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">patch</span><span class="p">(</span><span class="s2">&quot;controller.controller_def.websockets&quot;</span><span class="p">):</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/set_up_chat/&quot;</span><span class="p">,</span> <span class="n">follow_redirects</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">422</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SetUpChatEndpointTestCase.test_endpoint_creates_kafka_topic_for_the_chat_before_returning_response_on_successful_function_call">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_creates_kafka_topic_for_the_chat_before_returning_response_on_successful_function_call">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_endpoint_creates_kafka_topic_for_the_chat_before_returning_response_on_successful_function_call</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that endpoint calls function to create kafka topic before returning a response.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">test_chat_uuid</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">generate_random_uuid</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">patch</span><span class="p">(</span>
+            <span class="s2">&quot;api.endpoints.endpoints.Controller.initialise&quot;</span><span class="p">,</span> <span class="n">new_callable</span><span class="o">=</span><span class="n">AsyncMock</span>
+        <span class="p">):</span>
+            <span class="k">with</span> <span class="n">patch</span><span class="p">(</span><span class="s2">&quot;api.endpoints.endpoints.app&quot;</span><span class="p">):</span>
+                <span class="k">with</span> <span class="n">patch</span><span class="p">(</span>
+                    <span class="s2">&quot;api.endpoints.endpoints.utility_functions.create_apache_kafka_topic&quot;</span>
+                <span class="p">)</span> <span class="k">as</span> <span class="n">mocked_create_apache_kafka_topic</span><span class="p">:</span>
+                    <span class="k">with</span> <span class="n">patch</span><span class="p">(</span>
+                        <span class="s2">&quot;api.endpoints.endpoints.utility_functions.add_new_chat&quot;</span><span class="p">,</span>
+                        <span class="n">return_value</span><span class="o">=</span><span class="n">test_chat_uuid</span><span class="p">,</span>
+                    <span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                            <span class="s2">&quot;/set_up_chat/&quot;</span><span class="p">,</span>
+                            <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+                                <span class="s2">&quot;chat_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello world&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;chat_context&quot;</span><span class="p">:</span> <span class="s2">&quot;Some chat context&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;chat_number_of_users&quot;</span><span class="p">:</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+                            <span class="p">},</span>
+                            <span class="n">follow_redirects</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="p">)</span>
+                        <span class="n">mocked_create_apache_kafka_topic</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span>
+                            <span class="n">test_chat_uuid</span>
+                        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SetUpChatEndpointTestCase.test_endpoint_returns_server_error_on_exception_from_function_to_create_kafka_topic">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_returns_server_error_on_exception_from_function_to_create_kafka_topic">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_endpoint_returns_server_error_on_exception_from_function_to_create_kafka_topic</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that endpoints returns with server error in the event that there is a failure (characterised by an exception</span>
+<span class="sd">        while creating the kafka topic).</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">test_chat_uuid</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">generate_random_uuid</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">patch</span><span class="p">(</span><span class="s2">&quot;api.endpoints.endpoints.Controller&quot;</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">patch</span><span class="p">(</span><span class="s2">&quot;api.endpoints.endpoints.app&quot;</span><span class="p">):</span>
+                <span class="k">with</span> <span class="n">patch</span><span class="p">(</span>
+                    <span class="s2">&quot;api.endpoints.endpoints.utility_functions.create_apache_kafka_topic&quot;</span><span class="p">,</span>
+                    <span class="n">side_effect</span><span class="o">=</span><span class="p">[</span><span class="ne">ValueError</span><span class="p">],</span>
+                <span class="p">)</span> <span class="k">as</span> <span class="n">mocked_create_apache_kafka_topic</span><span class="p">:</span>
+                    <span class="k">with</span> <span class="n">patch</span><span class="p">(</span>
+                        <span class="s2">&quot;api.endpoints.endpoints.utility_functions.add_new_chat&quot;</span><span class="p">,</span>
+                        <span class="n">return_value</span><span class="o">=</span><span class="n">test_chat_uuid</span><span class="p">,</span>
+                    <span class="p">):</span>
+                        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                            <span class="s2">&quot;/set_up_chat/&quot;</span><span class="p">,</span>
+                            <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+                                <span class="s2">&quot;chat_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello world&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;chat_context&quot;</span><span class="p">:</span> <span class="s2">&quot;Some chat context&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;chat_number_of_users&quot;</span><span class="p">:</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+                            <span class="p">},</span>
+                            <span class="n">follow_redirects</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="p">)</span>
+                        <span class="n">mocked_create_apache_kafka_topic</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span>
+                            <span class="n">test_chat_uuid</span>
+                        <span class="p">)</span>
+
+                        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+                            <span class="s1">&#39;{&quot;detail&quot;:&quot;An internal server error occurred at the final stages of setting up your new chat.&quot;}&#39;</span><span class="p">,</span>
+                            <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+                        <span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="GetChatInformationTestCase">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.GetChatInformationTestCase">[docs]</a>
+<span class="k">class</span> <span class="nc">GetChatInformationTestCase</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">BaseTestDatabaseTestCase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test case class for endpoint returning chat information.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GetChatInformationTestCase.setUpClass">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.GetChatInformationTestCase.setUpClass">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">setUpClass</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setUpClass</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="GetChatInformationTestCase.setUp">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.GetChatInformationTestCase.setUp">[docs]</a>
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setUp</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="GetChatInformationTestCase.tearDownClass">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.GetChatInformationTestCase.tearDownClass">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">tearDownClass</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">tearDownClass</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="GetChatInformationTestCase.test_endpoint_returns_correct_chat_information_for_valid_existing_chat">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.GetChatInformationTestCase.test_endpoint_returns_correct_chat_information_for_valid_existing_chat">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_endpoint_returns_correct_chat_information_for_valid_existing_chat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that endpoint returns correct information for created [valid] chat.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">faker</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
+
+        <span class="n">test_chat_uuid</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span>
+        <span class="n">chat_context</span> <span class="o">=</span> <span class="n">faker</span><span class="o">.</span><span class="n">sentence</span><span class="p">()</span>
+        <span class="n">chat_title</span> <span class="o">=</span> <span class="n">faker</span><span class="o">.</span><span class="n">catch_phrase</span><span class="p">()</span>
+        <span class="n">chat_number_of_users</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+        <span class="n">mocked_chat_object</span> <span class="o">=</span> <span class="n">Chat</span><span class="p">()</span>
+        <span class="n">mocked_chat_object</span><span class="o">.</span><span class="n">uuid</span> <span class="o">=</span> <span class="n">test_chat_uuid</span>
+
+        <span class="k">with</span> <span class="n">patch</span><span class="p">(</span>
+            <span class="s2">&quot;utils.functions.utility_functions.Chat&quot;</span><span class="p">,</span>
+            <span class="n">new_callable</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">mocked_chat_object</span><span class="p">,</span>
+        <span class="p">):</span>
+            <span class="k">with</span> <span class="n">patch</span><span class="p">(</span>  <span class="c1"># topic not created on kafka [not necessary for test purposes]</span>
+                <span class="s2">&quot;api.endpoints.endpoints.utility_functions.create_apache_kafka_topic&quot;</span>
+            <span class="p">):</span>
+                <span class="k">with</span> <span class="n">patch</span><span class="p">(</span>
+                    <span class="s2">&quot;api.endpoints.endpoints.Controller.initialise&quot;</span><span class="p">,</span>
+                    <span class="n">new_callable</span><span class="o">=</span><span class="n">AsyncMock</span><span class="p">,</span>
+                <span class="p">):</span>
+                    <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                        <span class="s2">&quot;/set_up_chat/&quot;</span><span class="p">,</span>
+                        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+                            <span class="s2">&quot;chat_title&quot;</span><span class="p">:</span> <span class="n">chat_title</span><span class="p">,</span>
+                            <span class="s2">&quot;chat_context&quot;</span><span class="p">:</span> <span class="n">chat_context</span><span class="p">,</span>
+                            <span class="s2">&quot;chat_number_of_users&quot;</span><span class="p">:</span> <span class="n">chat_number_of_users</span><span class="p">,</span>
+                        <span class="p">},</span>
+                        <span class="n">follow_redirects</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s2">&quot;/get_chat_info/&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;chat_uuid&quot;</span><span class="p">:</span> <span class="n">test_chat_uuid</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()}</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;chat_title&quot;</span><span class="p">),</span> <span class="n">chat_title</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GetChatInformationTestCase.test_endpoint_returns_expected_response_for_invalid_existing_chat">
+<a class="viewcode-back" href="../../../tests.api.html#tests.api.test_endpoints.GetChatInformationTestCase.test_endpoint_returns_expected_response_for_invalid_existing_chat">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_endpoint_returns_expected_response_for_invalid_existing_chat</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that endpoint returns correct information for invalid chat info request.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">faker</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
+
+        <span class="k">with</span> <span class="n">patch</span><span class="p">(</span>
+            <span class="s2">&quot;api.endpoints.endpoints.utility_functions.create_apache_kafka_topic&quot;</span>
+        <span class="p">):</span>
+            <span class="k">with</span> <span class="n">patch</span><span class="p">(</span>
+                <span class="s2">&quot;api.endpoints.endpoints.Controller.initialise&quot;</span><span class="p">,</span> <span class="n">new_callable</span><span class="o">=</span><span class="n">AsyncMock</span>
+            <span class="p">):</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                    <span class="s2">&quot;/set_up_chat&quot;</span><span class="p">,</span>
+                    <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+                        <span class="s2">&quot;chat_title&quot;</span><span class="p">:</span> <span class="n">faker</span><span class="o">.</span><span class="n">catch_phrase</span><span class="p">(),</span>
+                        <span class="s2">&quot;chat_context&quot;</span><span class="p">:</span> <span class="n">faker</span><span class="o">.</span><span class="n">sentence</span><span class="p">(),</span>
+                        <span class="s2">&quot;chat_number_of_users&quot;</span><span class="p">:</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+                    <span class="p">},</span>
+                    <span class="n">follow_redirects</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s2">&quot;/get_chat_info/&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;chat_uuid&quot;</span><span class="p">:</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()}</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)),</span> <span class="mi">0</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Nwokolo Godwin Chidera
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Nwokolo Godwin Chidera.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
