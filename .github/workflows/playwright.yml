@@ -16,14 +16,8 @@ jobs:
       - name: Install dependencies
         working-directory: ./view/web
         run: npm ci
-      - name: Cache Playwright Browsers
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}
-          restore-keys: |
-            playwright-
-      - name: Install Playwright Browsers (if needed)
+      - name: Install Playwright Browsers
+        working-directory: ./view/web
         run: npx playwright install --with-deps
 
       - name: Build Next.js application
