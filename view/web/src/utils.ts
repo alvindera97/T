@@ -1,3 +1,5 @@
+import axios from "axios";
+
 /**
  * Makes a random selection of callables (functions) from a list, executes them with their respective arguments,
  * and returns their results. The selected callables are removed from the list after being invoked.
@@ -66,4 +68,29 @@ export async function executeRandomCallable(
   }
 
   return results;
+}
+
+/**
+ * Fetches for the tile of the chat given chat uuid.
+ * This function is ideally called when an initial search to get the
+ * title of the chat may have already been called [and probably failed for instance].
+ *
+ * The function returns an object detailing the title of the chat, in the case where there
+ * was a successful fetch, the content of the object will include information of the
+ * failure condition of the fetch.
+ * @param chatUUID
+ */
+export async function fetchChatTitleAgain(chatUUID: string) {
+  try {
+    const result = await axios.post(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/get_chat_info/`,
+      { chat_uuid: chatUUID }
+    );
+
+    return result.data;
+  } catch (e) {
+    return {
+      error: `There is no currently ongoing chat with the ID: ${chatUUID}`,
+    };
+  }
 }

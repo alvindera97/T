@@ -1,5 +1,7 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { executeRandomCallable } from "../src/utils";
+import { executeRandomCallable, fetchChatTitleAgain } from "../src/utils";
+import { randomUUID } from "node:crypto";
+import axios from "axios";
 
 describe("executeRandomCallable() function", () => {
   const add = (a: number, b: number) => a + b;
@@ -133,5 +135,62 @@ describe("executeRandomCallable() function", () => {
 
   afterEach(() => {
     vi.restoreAllMocks();
+  });
+});
+
+describe("fetchChatTitleAgain() function", () => {
+  vi.mock("axios");
+  describe("given the uuid of the chat", () => {
+    const chatUUID = randomUUID();
+
+    describe("regardless of the circumstances", () => {
+      it("passes the given chatUUID in the request body", async () => {
+        await fetchChatTitleAgain(chatUUID);
+        expect(axios.post).toHaveBeenCalledWith(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/get_chat_info/`,
+          { chat_uuid: chatUUID }
+        );
+      });
+    });
+
+    describe("if the user has been rate limited", () => {
+      const earliestTimeForNextAllowedRequest = new Date(
+        Date.now() + Number((Math.random() * 100).toFixed(0)) * 1000
+      );
+      it("returns message saying to try later in n seconds where n is a countdown of the time till the user can be allowed to make the request again", async () => {
+        vi.mocked(axios.post).mockResolvedValue({
+          data: {
+            chatUUID: earliestTimeForNextAllowedRequest,
+          },
+        });
+        expect(await fetchChatTitleAgain(chatUUID)).toEqual({
+          chatUUID: earliestTimeForNextAllowedRequest,
+        });
+      });
+    });
+
+    describe("if the user has not been rate limited", () => {
+      describe("if the chat exists", () => {
+        it("returns an object with the correct title of the chat and a render color [for an existing chat this will be 'green']", async () => {
+          vi.mocked(axios.post).mockResolvedValue({
+            data: {
+              chat_title: "hello world",
+            },
+          });
+          expect(await fetchChatTitleAgain(chatUUID)).toEqual({
+            chat_title: "hello world",
+          });
+        });
+      });
+
+      describe("if the chat doesn't exist", () => {
+        it("returns an object with a string saying that the chat doesn't exist and a render color [for a non existing chat this will be 'red']", async () => {
+          vi.mocked(axios.post).mockRejectedValue({});
+          expect(await fetchChatTitleAgain(chatUUID)).toEqual({
+            error: `There is no currently ongoing chat with the ID: ${chatUUID}`,
+          });
+        });
+      });
+    });
   });
 });
