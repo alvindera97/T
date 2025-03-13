@@ -50,17 +50,50 @@ test.describe("Chat interface", () => {
     });
 
     test.describe("on failed chat detail fetch", () => {
-      test("should render text showing asking user to click to reload the page title", async ({
-        page,
-      }) => {
-        await page.route(
-          "http://localhost:8000/get_chat_info/",
-          async (route) => route.abort()
-        );
-        await page.goto(`http://localhost:3000/chat/${chatUUID}`);
-        await expect(
-          page.getByText("Click to re-fetch chat title")
-        ).toBeVisible();
+      let allowed_post_time = new Date(
+        new Date().getTime() + Number((Math.random() * 30000).toFixed(0))
+      );
+      test.describe("if rate limited", () => {
+        test("render countdown to next request time after which component changes to non-rate-limited failure state.", async ({
+          page,
+        }) => {
+          await page.route(
+            "http://localhost:8000/get_chat_info/",
+            async (route) =>
+              route.fulfill({
+                status: 200,
+                contentType: "application/json",
+                body: JSON.stringify({
+                  [chatUUID]: allowed_post_time,
+                }),
+              })
+          );
+
+          await page.goto(`http://localhost:3000/chat/${chatUUID}`);
+          for (
+            var time = Number(
+              (
+                (allowed_post_time.getTime() - new Date().getTime()) /
+                1000
+              ).toFixed(0)
+            );
+            time > 0;
+            time--
+          ) {
+            await expect(
+              page.getByText(`Please try again in: ${time}s`)
+            ).toBeVisible();
+            await expect
+              .poll(async () => {
+                const text = await page
+                  .getByText(`Please try again in: ${time}s`)
+                  .isVisible();
+                return text;
+              })
+              .toBe(true);
+            await page.waitForTimeout(800);
+          }
+        });
       });
     });
   });
