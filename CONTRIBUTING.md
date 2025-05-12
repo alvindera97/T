@@ -43,15 +43,18 @@ Simply run the command `pre-commit install` and then on every commit, `black` wi
 You'll need to have docker (specifically docker engine & docker compose) installed to consumer for Apache Kafka. It's easier to simply install docker desktop. Check out the product page for more info: https://docs.docker.com/desktop/
 #### Google Gemini API Key
 You can get your Google Gemini API Key by following the instructions on this page: https://ai.google.dev/gemini-api/docs/api-key
-#### Environment Variables (CRITICALLY IMPORTANT)
+## Environment Variables (CRITICALLY IMPORTANT)
 **Using a .env file:**
 If you're going to use a .env file to store all these environment variables, you'll need to install `python-dotenv`: 
 `pip install python-dotenv`
 
 You will need to set up the following environment variables:
 - `GOOGLE_API_KEY` (API Key for Google Gemini AI)
-- `TEST_CHAT_URL` (e.g. chat/342498g2-87x3-4a64-9325-rb70471623ax)
+- `TEST_CHAT_URL` (e.g. "chat/342498g2-87x3-4a64-9325-rb70471623ax")
 - `DATABASE_URL` (postgresql database URL)
+- `APACHE_KAFKA_BOOTSTRAP_SERVER_HOST` (e.g. "localhost")
+- `APACHE_KAFKA_BOOTSTRAP_SERVER_PORT` (e.g. 9092)
+- `HOST_URL` (e.g. "http://localhost:3000")
 
 ### Code formatting
 This project uses Black (https://github.com/psf/black) for all code formatting. 
