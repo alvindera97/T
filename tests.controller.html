@@ -1,0 +1,826 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>tests.controller package &#8212; T  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tests.controller';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="tests.database package" href="tests.database.html" />
+    <link rel="prev" title="tests.api package" href="tests.api.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">T  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="modules.html">T</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="api.html">api package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.endpoints.html">api.endpoints package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="controller.html">controller package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database.html">database package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="json_defs.html">json_defs package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="json_defs.message.html">json_defs.message package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="json_defs.requests.html">json_defs.requests package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html">models package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="role.html">role package</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="tests.html">tests package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="tests.api.html">tests.api package</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">tests.controller package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.database.html">tests.database package</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="tests.json_defs.html">tests.json_defs package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.json_defs.messages.html">tests.json_defs.messages package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.json_defs.requests.html">tests.json_defs.requests package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.models.html">tests.models package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.roles.html">tests.roles package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.users.html">tests.users package</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="tests.utils.html">tests.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.exceptions.html">tests.utils.exceptions package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html">tests.utils.functions package</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="user.html">user package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="utils.html">utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils.exceptions.html">utils.exceptions package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.functions.html">utils.functions package</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/tests.controller.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>tests.controller package</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-tests.controller.test_controller">tests.controller.test_controller module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.setUpClass"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.setUpClass()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_connects_to_chat_websocket_on_init"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_controller_connects_to_chat_websocket_on_init()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_constructor_has_array_of_unique_users_based_on_constructor_argument"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_controller_constructor_has_array_of_unique_users_based_on_constructor_argument()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_fails_to_connect_to_chat_websocket_on_invalid_url"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_controller_fails_to_connect_to_chat_websocket_on_invalid_url()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_has_null_websocket_attribute_which_becomes_populated_on_connection"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_controller_has_null_websocket_attribute_which_becomes_populated_on_connection()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_has_string_chat_context_attribute_gotten_from_constructor"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_controller_has_string_chat_context_attribute_gotten_from_constructor()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_has_web_socket_url_attribute_gotten_from_constructor"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_controller_has_web_socket_url_attribute_gotten_from_constructor()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_method_for_connecting_to_websocket_can_send_messages_to_websocket"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_controller_method_for_connecting_to_websocket_can_send_messages_to_websocket()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_on_init_initialises_base_kafka_manager_with_correct_arguments"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_controller_on_init_initialises_base_kafka_manager_with_correct_arguments()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_initialised_controller_has_kafka_manager_attribute"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_initialised_controller_has_kafka_manager_attribute()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_set_websocket_invalid_type"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_set_websocket_invalid_type()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_that_controller_has_first_publisher_attribute_which_must_have_role_of_publisher"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_that_controller_has_first_publisher_attribute_which_must_have_role_of_publisher()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_that_controller_raises_exception_on_nonsensical_input_for_number_of_participating_users"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_that_controller_raises_exception_on_nonsensical_input_for_number_of_participating_users()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_that_on_init_of_controller_all_consumers_in_kafka_manager_are_subscribed_to_group_chat_kafka_topic"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_that_on_init_of_controller_all_consumers_in_kafka_manager_are_subscribed_to_group_chat_kafka_topic()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.setUpModule"><code class="docutils literal notranslate"><span class="pre">setUpModule()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.tearDownModule"><code class="docutils literal notranslate"><span class="pre">tearDownModule()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-tests.controller.test_kafka_manager">tests.controller.test_kafka_manager module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManager"><code class="docutils literal notranslate"><span class="pre">TestKafkaManager</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_close_method_of_kafka_manager_class_stops_all_producers_and_producers"><code class="docutils literal notranslate"><span class="pre">TestKafkaManager.test_close_method_of_kafka_manager_class_stops_all_producers_and_producers()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_consumers_property_is_immutable"><code class="docutils literal notranslate"><span class="pre">TestKafkaManager.test_instantiated_kafka_manager_class_consumers_property_is_immutable()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_consumers_property_returns_a_tuple_of_AIOKafkaConsumers_objects"><code class="docutils literal notranslate"><span class="pre">TestKafkaManager.test_instantiated_kafka_manager_class_consumers_property_returns_a_tuple_of_AIOKafkaConsumers_objects()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_has_consumers_property"><code class="docutils literal notranslate"><span class="pre">TestKafkaManager.test_instantiated_kafka_manager_class_has_consumers_property()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_has_producers_property"><code class="docutils literal notranslate"><span class="pre">TestKafkaManager.test_instantiated_kafka_manager_class_has_producers_property()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_producers_property_is_immutable"><code class="docutils literal notranslate"><span class="pre">TestKafkaManager.test_instantiated_kafka_manager_class_producers_property_is_immutable()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_producers_property_returns_a_tuple_of_AIOKafkaProducers_objects"><code class="docutils literal notranslate"><span class="pre">TestKafkaManager.test_instantiated_kafka_manager_class_producers_property_returns_a_tuple_of_AIOKafkaProducers_objects()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_kafka_manager_class_exists"><code class="docutils literal notranslate"><span class="pre">TestKafkaManager.test_kafka_manager_class_exists()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_on_closure_of_kafka_manager_class_close_method_is_called"><code class="docutils literal notranslate"><span class="pre">TestKafkaManager.test_on_closure_of_kafka_manager_class_close_method_is_called()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_on_instantiation_of_kafka_manager_class_all_producer_and_consumer_instances_are_started"><code class="docutils literal notranslate"><span class="pre">TestKafkaManager.test_on_instantiation_of_kafka_manager_class_all_producer_and_consumer_instances_are_started()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManagerFactory"><code class="docutils literal notranslate"><span class="pre">TestKafkaManagerFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManagerFactory.test_kafka_manager_factory_class_exists"><code class="docutils literal notranslate"><span class="pre">TestKafkaManagerFactory.test_kafka_manager_factory_class_exists()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManagerFactory.test_kafka_manager_factory_method_for_creating_base_kafka_manager_takes_a_non_zero_input_for_number_of_users"><code class="docutils literal notranslate"><span class="pre">TestKafkaManagerFactory.test_kafka_manager_factory_method_for_creating_base_kafka_manager_takes_a_non_zero_input_for_number_of_users()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManagerFactory.test_kafka_manager_factory_method_for_creating_base_kafka_manager_works"><code class="docutils literal notranslate"><span class="pre">TestKafkaManagerFactory.test_kafka_manager_factory_method_for_creating_base_kafka_manager_works()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-tests.controller">Module contents</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="tests-controller-package">
+<h1>tests.controller package<a class="headerlink" href="#tests-controller-package" title="Link to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+</section>
+<section id="module-tests.controller.test_controller">
+<span id="tests-controller-test-controller-module"></span><h2>tests.controller.test_controller module<a class="headerlink" href="#module-tests.controller.test_controller" title="Link to this heading">#</a></h2>
+<p>Module for tests on application controller</p>
+<p>This module contains test cases or testing the “Controller” (otherwise called Application Controller) entity
+and all related functionality.</p>
+<dl class="simple">
+<dt>Classes:</dt><dd><p>ApplicationControllerTestCase
+AsyncControllerTest</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="tests.controller.test_controller.ApplicationControllerTestCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.controller.test_controller.</span></span><span class="sig-name descname"><span class="pre">ApplicationControllerTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/controller/test_controller.html#ApplicationControllerTestCase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_controller.ApplicationControllerTestCase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IsolatedAsyncioTestCase</span></code></p>
+<p>Test case class for Application Controller</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_controller.ApplicationControllerTestCase.setUpClass">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">setUpClass</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/controller/test_controller.html#ApplicationControllerTestCase.setUpClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_controller.ApplicationControllerTestCase.setUpClass" title="Link to this definition">#</a></dt>
+<dd><p>Hook method for setting up class fixture before running tests in the class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_controller.ApplicationControllerTestCase.test_controller_connects_to_chat_websocket_on_init">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_controller_connects_to_chat_websocket_on_init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_controller.html#ApplicationControllerTestCase.test_controller_connects_to_chat_websocket_on_init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_connects_to_chat_websocket_on_init" title="Link to this definition">#</a></dt>
+<dd><p>Test that controller calls method to connect to chat web socket on init.
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_controller.ApplicationControllerTestCase.test_controller_constructor_has_array_of_unique_users_based_on_constructor_argument">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_controller_constructor_has_array_of_unique_users_based_on_constructor_argument</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_controller.html#ApplicationControllerTestCase.test_controller_constructor_has_array_of_unique_users_based_on_constructor_argument"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_constructor_has_array_of_unique_users_based_on_constructor_argument" title="Link to this definition">#</a></dt>
+<dd><p>Test that the controller constructor takes in kwarg for number of users and populates participating_users
+attribute with number of unique User objects is specified by the keyword argument.
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_controller.ApplicationControllerTestCase.test_controller_fails_to_connect_to_chat_websocket_on_invalid_url">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_controller_fails_to_connect_to_chat_websocket_on_invalid_url</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_controller.html#ApplicationControllerTestCase.test_controller_fails_to_connect_to_chat_websocket_on_invalid_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_fails_to_connect_to_chat_websocket_on_invalid_url" title="Link to this definition">#</a></dt>
+<dd><p>Test that controller fails to connect to the chat web socket on init when supplied with invalid url
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_controller.ApplicationControllerTestCase.test_controller_has_null_websocket_attribute_which_becomes_populated_on_connection">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_controller_has_null_websocket_attribute_which_becomes_populated_on_connection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_controller.html#ApplicationControllerTestCase.test_controller_has_null_websocket_attribute_which_becomes_populated_on_connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_has_null_websocket_attribute_which_becomes_populated_on_connection" title="Link to this definition">#</a></dt>
+<dd><p>Test that controller has null ‘websocket’ attribute before connection to chat websocket;
+after connection Controller.websocket becomes populated ideally with a websockets.WebSocketClientProtocol object.
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_controller.ApplicationControllerTestCase.test_controller_has_string_chat_context_attribute_gotten_from_constructor">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_controller_has_string_chat_context_attribute_gotten_from_constructor</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_controller.html#ApplicationControllerTestCase.test_controller_has_string_chat_context_attribute_gotten_from_constructor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_has_string_chat_context_attribute_gotten_from_constructor" title="Link to this definition">#</a></dt>
+<dd><p>Test that the controller has string chat context supplied by the constructor at initialisation.
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_controller.ApplicationControllerTestCase.test_controller_has_web_socket_url_attribute_gotten_from_constructor">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_controller_has_web_socket_url_attribute_gotten_from_constructor</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_controller.html#ApplicationControllerTestCase.test_controller_has_web_socket_url_attribute_gotten_from_constructor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_has_web_socket_url_attribute_gotten_from_constructor" title="Link to this definition">#</a></dt>
+<dd><p>Test that controller has web socket url attribute and gets web socket URL as
+part of kwargs from constructor.
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_controller.ApplicationControllerTestCase.test_controller_method_for_connecting_to_websocket_can_send_messages_to_websocket">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_controller_method_for_connecting_to_websocket_can_send_messages_to_websocket</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_controller.html#ApplicationControllerTestCase.test_controller_method_for_connecting_to_websocket_can_send_messages_to_websocket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_method_for_connecting_to_websocket_can_send_messages_to_websocket" title="Link to this definition">#</a></dt>
+<dd><p>Test that Controller websocket connector can send message to websocket.
+:return:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_controller.ApplicationControllerTestCase.test_controller_on_init_initialises_base_kafka_manager_with_correct_arguments">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_controller_on_init_initialises_base_kafka_manager_with_correct_arguments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_controller.html#ApplicationControllerTestCase.test_controller_on_init_initialises_base_kafka_manager_with_correct_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_on_init_initialises_base_kafka_manager_with_correct_arguments" title="Link to this definition">#</a></dt>
+<dd><p>Test that the controller at initialisation, creates a Kafka Manager via the Kafka Manager factory with correct
+arguments.
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_controller.ApplicationControllerTestCase.test_initialised_controller_has_kafka_manager_attribute">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_initialised_controller_has_kafka_manager_attribute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_controller.html#ApplicationControllerTestCase.test_initialised_controller_has_kafka_manager_attribute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_initialised_controller_has_kafka_manager_attribute" title="Link to this definition">#</a></dt>
+<dd><p>Test that the controller has a Kafka Manager attribute on initialisation.
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_controller.ApplicationControllerTestCase.test_set_websocket_invalid_type">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_set_websocket_invalid_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_controller.html#ApplicationControllerTestCase.test_set_websocket_invalid_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_set_websocket_invalid_type" title="Link to this definition">#</a></dt>
+<dd><p>Test that setting Controller websocket attribute to invalid type will raise Exception.
+:return:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_controller.ApplicationControllerTestCase.test_that_controller_has_first_publisher_attribute_which_must_have_role_of_publisher">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_that_controller_has_first_publisher_attribute_which_must_have_role_of_publisher</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_controller.html#ApplicationControllerTestCase.test_that_controller_has_first_publisher_attribute_which_must_have_role_of_publisher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_that_controller_has_first_publisher_attribute_which_must_have_role_of_publisher" title="Link to this definition">#</a></dt>
+<dd><p>Test that initialised consumer has ‘first_publisher’ attribute which must have role of PUBLISHER
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_controller.ApplicationControllerTestCase.test_that_controller_raises_exception_on_nonsensical_input_for_number_of_participating_users">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_that_controller_raises_exception_on_nonsensical_input_for_number_of_participating_users</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_controller.html#ApplicationControllerTestCase.test_that_controller_raises_exception_on_nonsensical_input_for_number_of_participating_users"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_that_controller_raises_exception_on_nonsensical_input_for_number_of_participating_users" title="Link to this definition">#</a></dt>
+<dd><p>Test that the controller constructor raises an exception when non int types or an int less than one is passed
+for number of participating users.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_controller.ApplicationControllerTestCase.test_that_on_init_of_controller_all_consumers_in_kafka_manager_are_subscribed_to_group_chat_kafka_topic">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_that_on_init_of_controller_all_consumers_in_kafka_manager_are_subscribed_to_group_chat_kafka_topic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_controller.html#ApplicationControllerTestCase.test_that_on_init_of_controller_all_consumers_in_kafka_manager_are_subscribed_to_group_chat_kafka_topic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_that_on_init_of_controller_all_consumers_in_kafka_manager_are_subscribed_to_group_chat_kafka_topic" title="Link to this definition">#</a></dt>
+<dd><p>Test that on initialisation of application controller, all consumers in kafka manager are subscribed to the group chat
+kafka topic.
+:return: None</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.controller.test_controller.setUpModule">
+<span class="sig-prename descclassname"><span class="pre">tests.controller.test_controller.</span></span><span class="sig-name descname"><span class="pre">setUpModule</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/controller/test_controller.html#setUpModule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_controller.setUpModule" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.controller.test_controller.tearDownModule">
+<span class="sig-prename descclassname"><span class="pre">tests.controller.test_controller.</span></span><span class="sig-name descname"><span class="pre">tearDownModule</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/controller/test_controller.html#tearDownModule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_controller.tearDownModule" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-tests.controller.test_kafka_manager">
+<span id="tests-controller-test-kafka-manager-module"></span><h2>tests.controller.test_kafka_manager module<a class="headerlink" href="#module-tests.controller.test_kafka_manager" title="Link to this heading">#</a></h2>
+<p>Module for tests on application controller Kafka Manager.</p>
+<p>This module contains test cases or testing the “Controller’s Kafka Manager” (otherwise called Application Controller
+Kafka Manager) entity and all related functionality.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="tests.controller.test_kafka_manager.TestKafkaManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.controller.test_kafka_manager.</span></span><span class="sig-name descname"><span class="pre">TestKafkaManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/controller/test_kafka_manager.html#TestKafkaManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_kafka_manager.TestKafkaManager" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IsolatedAsyncioTestCase</span></code></p>
+<p>Test class for tests on application controller kafka manager</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_kafka_manager.TestKafkaManager.test_close_method_of_kafka_manager_class_stops_all_producers_and_producers">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_close_method_of_kafka_manager_class_stops_all_producers_and_producers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_kafka_manager.html#TestKafkaManager.test_close_method_of_kafka_manager_class_stops_all_producers_and_producers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_close_method_of_kafka_manager_class_stops_all_producers_and_producers" title="Link to this definition">#</a></dt>
+<dd><p>Test that calling Kafka Manager close() method stops all producer / consumer instances of the kafka
+manager.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_consumers_property_is_immutable">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_instantiated_kafka_manager_class_consumers_property_is_immutable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_kafka_manager.html#TestKafkaManager.test_instantiated_kafka_manager_class_consumers_property_is_immutable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_consumers_property_is_immutable" title="Link to this definition">#</a></dt>
+<dd><p>Test that instantiated kafka manager class consumers property is immutable</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_consumers_property_returns_a_tuple_of_AIOKafkaConsumers_objects">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_instantiated_kafka_manager_class_consumers_property_returns_a_tuple_of_AIOKafkaConsumers_objects</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_kafka_manager.html#TestKafkaManager.test_instantiated_kafka_manager_class_consumers_property_returns_a_tuple_of_AIOKafkaConsumers_objects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_consumers_property_returns_a_tuple_of_AIOKafkaConsumers_objects" title="Link to this definition">#</a></dt>
+<dd><p>Test that instantiated kafka manager class consumers property returns a tuple of AIOKafkaConsumer objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_has_consumers_property">
+<span class="sig-name descname"><span class="pre">test_instantiated_kafka_manager_class_has_consumers_property</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_kafka_manager.html#TestKafkaManager.test_instantiated_kafka_manager_class_has_consumers_property"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_has_consumers_property" title="Link to this definition">#</a></dt>
+<dd><p>Test that instantiated kafka manager class has consumers property
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_has_producers_property">
+<span class="sig-name descname"><span class="pre">test_instantiated_kafka_manager_class_has_producers_property</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_kafka_manager.html#TestKafkaManager.test_instantiated_kafka_manager_class_has_producers_property"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_has_producers_property" title="Link to this definition">#</a></dt>
+<dd><p>Test that instantiated kafka manager class has producers property</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_producers_property_is_immutable">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_instantiated_kafka_manager_class_producers_property_is_immutable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_kafka_manager.html#TestKafkaManager.test_instantiated_kafka_manager_class_producers_property_is_immutable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_producers_property_is_immutable" title="Link to this definition">#</a></dt>
+<dd><p>Test that instantiated kafka manager class producers property is immutable</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_producers_property_returns_a_tuple_of_AIOKafkaProducers_objects">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_instantiated_kafka_manager_class_producers_property_returns_a_tuple_of_AIOKafkaProducers_objects</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_kafka_manager.html#TestKafkaManager.test_instantiated_kafka_manager_class_producers_property_returns_a_tuple_of_AIOKafkaProducers_objects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_producers_property_returns_a_tuple_of_AIOKafkaProducers_objects" title="Link to this definition">#</a></dt>
+<dd><p>Test that instantiated kafka manager class producers property returns a tuple of AIOKafkaProducer objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_kafka_manager.TestKafkaManager.test_kafka_manager_class_exists">
+<span class="sig-name descname"><span class="pre">test_kafka_manager_class_exists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_kafka_manager.html#TestKafkaManager.test_kafka_manager_class_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_kafka_manager_class_exists" title="Link to this definition">#</a></dt>
+<dd><p>Test that the class for controller kafka manager exists.
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_kafka_manager.TestKafkaManager.test_on_closure_of_kafka_manager_class_close_method_is_called">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_on_closure_of_kafka_manager_class_close_method_is_called</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_kafka_manager.html#TestKafkaManager.test_on_closure_of_kafka_manager_class_close_method_is_called"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_on_closure_of_kafka_manager_class_close_method_is_called" title="Link to this definition">#</a></dt>
+<dd><p>Test that on closure / clean up of the kafka manager class, method to close all producer / consumer instances of the kafka
+manager is called.
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_kafka_manager.TestKafkaManager.test_on_instantiation_of_kafka_manager_class_all_producer_and_consumer_instances_are_started">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_on_instantiation_of_kafka_manager_class_all_producer_and_consumer_instances_are_started</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_kafka_manager.html#TestKafkaManager.test_on_instantiation_of_kafka_manager_class_all_producer_and_consumer_instances_are_started"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_on_instantiation_of_kafka_manager_class_all_producer_and_consumer_instances_are_started" title="Link to this definition">#</a></dt>
+<dd><p>Test that on instantiation of kafka manager class, all producer and consumer instances are started.
+:return: None</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tests.controller.test_kafka_manager.TestKafkaManagerFactory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.controller.test_kafka_manager.</span></span><span class="sig-name descname"><span class="pre">TestKafkaManagerFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/controller/test_kafka_manager.html#TestKafkaManagerFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_kafka_manager.TestKafkaManagerFactory" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IsolatedAsyncioTestCase</span></code></p>
+<p>Test class for tests on application controller kafka manager factory class</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_kafka_manager.TestKafkaManagerFactory.test_kafka_manager_factory_class_exists">
+<span class="sig-name descname"><span class="pre">test_kafka_manager_factory_class_exists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_kafka_manager.html#TestKafkaManagerFactory.test_kafka_manager_factory_class_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_kafka_manager.TestKafkaManagerFactory.test_kafka_manager_factory_class_exists" title="Link to this definition">#</a></dt>
+<dd><p>Test that the class for controller kafka manager factory exists.
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_kafka_manager.TestKafkaManagerFactory.test_kafka_manager_factory_method_for_creating_base_kafka_manager_takes_a_non_zero_input_for_number_of_users">
+<span class="sig-name descname"><span class="pre">test_kafka_manager_factory_method_for_creating_base_kafka_manager_takes_a_non_zero_input_for_number_of_users</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_kafka_manager.html#TestKafkaManagerFactory.test_kafka_manager_factory_method_for_creating_base_kafka_manager_takes_a_non_zero_input_for_number_of_users"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_kafka_manager.TestKafkaManagerFactory.test_kafka_manager_factory_method_for_creating_base_kafka_manager_takes_a_non_zero_input_for_number_of_users" title="Link to this definition">#</a></dt>
+<dd><p>Test that the method for creating base kafka manager within the kafka manager factory takes number of chat users.
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.controller.test_kafka_manager.TestKafkaManagerFactory.test_kafka_manager_factory_method_for_creating_base_kafka_manager_works">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_kafka_manager_factory_method_for_creating_base_kafka_manager_works</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/controller/test_kafka_manager.html#TestKafkaManagerFactory.test_kafka_manager_factory_method_for_creating_base_kafka_manager_works"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.controller.test_kafka_manager.TestKafkaManagerFactory.test_kafka_manager_factory_method_for_creating_base_kafka_manager_works" title="Link to this definition">#</a></dt>
+<dd><p>Test that the class for controller kafka manager has method that returns kafka manger.
+:return: None</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-tests.controller">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-tests.controller" title="Link to this heading">#</a></h2>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="tests.api.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">tests.api package</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="tests.database.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">tests.database package</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-tests.controller.test_controller">tests.controller.test_controller module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.setUpClass"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.setUpClass()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_connects_to_chat_websocket_on_init"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_controller_connects_to_chat_websocket_on_init()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_constructor_has_array_of_unique_users_based_on_constructor_argument"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_controller_constructor_has_array_of_unique_users_based_on_constructor_argument()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_fails_to_connect_to_chat_websocket_on_invalid_url"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_controller_fails_to_connect_to_chat_websocket_on_invalid_url()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_has_null_websocket_attribute_which_becomes_populated_on_connection"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_controller_has_null_websocket_attribute_which_becomes_populated_on_connection()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_has_string_chat_context_attribute_gotten_from_constructor"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_controller_has_string_chat_context_attribute_gotten_from_constructor()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_has_web_socket_url_attribute_gotten_from_constructor"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_controller_has_web_socket_url_attribute_gotten_from_constructor()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_method_for_connecting_to_websocket_can_send_messages_to_websocket"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_controller_method_for_connecting_to_websocket_can_send_messages_to_websocket()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_controller_on_init_initialises_base_kafka_manager_with_correct_arguments"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_controller_on_init_initialises_base_kafka_manager_with_correct_arguments()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_initialised_controller_has_kafka_manager_attribute"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_initialised_controller_has_kafka_manager_attribute()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_set_websocket_invalid_type"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_set_websocket_invalid_type()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_that_controller_has_first_publisher_attribute_which_must_have_role_of_publisher"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_that_controller_has_first_publisher_attribute_which_must_have_role_of_publisher()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_that_controller_raises_exception_on_nonsensical_input_for_number_of_participating_users"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_that_controller_raises_exception_on_nonsensical_input_for_number_of_participating_users()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.ApplicationControllerTestCase.test_that_on_init_of_controller_all_consumers_in_kafka_manager_are_subscribed_to_group_chat_kafka_topic"><code class="docutils literal notranslate"><span class="pre">ApplicationControllerTestCase.test_that_on_init_of_controller_all_consumers_in_kafka_manager_are_subscribed_to_group_chat_kafka_topic()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.setUpModule"><code class="docutils literal notranslate"><span class="pre">setUpModule()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_controller.tearDownModule"><code class="docutils literal notranslate"><span class="pre">tearDownModule()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-tests.controller.test_kafka_manager">tests.controller.test_kafka_manager module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManager"><code class="docutils literal notranslate"><span class="pre">TestKafkaManager</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_close_method_of_kafka_manager_class_stops_all_producers_and_producers"><code class="docutils literal notranslate"><span class="pre">TestKafkaManager.test_close_method_of_kafka_manager_class_stops_all_producers_and_producers()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_consumers_property_is_immutable"><code class="docutils literal notranslate"><span class="pre">TestKafkaManager.test_instantiated_kafka_manager_class_consumers_property_is_immutable()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_consumers_property_returns_a_tuple_of_AIOKafkaConsumers_objects"><code class="docutils literal notranslate"><span class="pre">TestKafkaManager.test_instantiated_kafka_manager_class_consumers_property_returns_a_tuple_of_AIOKafkaConsumers_objects()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_has_consumers_property"><code class="docutils literal notranslate"><span class="pre">TestKafkaManager.test_instantiated_kafka_manager_class_has_consumers_property()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_has_producers_property"><code class="docutils literal notranslate"><span class="pre">TestKafkaManager.test_instantiated_kafka_manager_class_has_producers_property()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_producers_property_is_immutable"><code class="docutils literal notranslate"><span class="pre">TestKafkaManager.test_instantiated_kafka_manager_class_producers_property_is_immutable()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_instantiated_kafka_manager_class_producers_property_returns_a_tuple_of_AIOKafkaProducers_objects"><code class="docutils literal notranslate"><span class="pre">TestKafkaManager.test_instantiated_kafka_manager_class_producers_property_returns_a_tuple_of_AIOKafkaProducers_objects()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_kafka_manager_class_exists"><code class="docutils literal notranslate"><span class="pre">TestKafkaManager.test_kafka_manager_class_exists()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_on_closure_of_kafka_manager_class_close_method_is_called"><code class="docutils literal notranslate"><span class="pre">TestKafkaManager.test_on_closure_of_kafka_manager_class_close_method_is_called()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManager.test_on_instantiation_of_kafka_manager_class_all_producer_and_consumer_instances_are_started"><code class="docutils literal notranslate"><span class="pre">TestKafkaManager.test_on_instantiation_of_kafka_manager_class_all_producer_and_consumer_instances_are_started()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManagerFactory"><code class="docutils literal notranslate"><span class="pre">TestKafkaManagerFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManagerFactory.test_kafka_manager_factory_class_exists"><code class="docutils literal notranslate"><span class="pre">TestKafkaManagerFactory.test_kafka_manager_factory_class_exists()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManagerFactory.test_kafka_manager_factory_method_for_creating_base_kafka_manager_takes_a_non_zero_input_for_number_of_users"><code class="docutils literal notranslate"><span class="pre">TestKafkaManagerFactory.test_kafka_manager_factory_method_for_creating_base_kafka_manager_takes_a_non_zero_input_for_number_of_users()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.controller.test_kafka_manager.TestKafkaManagerFactory.test_kafka_manager_factory_method_for_creating_base_kafka_manager_works"><code class="docutils literal notranslate"><span class="pre">TestKafkaManagerFactory.test_kafka_manager_factory_method_for_creating_base_kafka_manager_works()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-tests.controller">Module contents</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Nwokolo Godwin Chidera
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Nwokolo Godwin Chidera.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

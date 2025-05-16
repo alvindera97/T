@@ -1,0 +1,831 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>tests.api package &#8212; T  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tests.api';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="tests.controller package" href="tests.controller.html" />
+    <link rel="prev" title="tests package" href="tests.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">T  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="modules.html">T</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="api.html">api package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.endpoints.html">api.endpoints package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="controller.html">controller package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database.html">database package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="json_defs.html">json_defs package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="json_defs.message.html">json_defs.message package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="json_defs.requests.html">json_defs.requests package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html">models package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="role.html">role package</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="tests.html">tests package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">tests.api package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.controller.html">tests.controller package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.database.html">tests.database package</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="tests.json_defs.html">tests.json_defs package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.json_defs.messages.html">tests.json_defs.messages package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.json_defs.requests.html">tests.json_defs.requests package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.models.html">tests.models package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.roles.html">tests.roles package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.users.html">tests.users package</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="tests.utils.html">tests.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.exceptions.html">tests.utils.exceptions package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html">tests.utils.functions package</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="user.html">user package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="utils.html">utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils.exceptions.html">utils.exceptions package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.functions.html">utils.functions package</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/tests.api.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>tests.api package</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-tests.api.test_endpoints">tests.api.test_endpoints module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.setUp"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest.setUp()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.setUpClass"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest.setUpClass()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.tearDown"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest.tearDown()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_close_apache_kafka_producer_calls_close_on_the_server_AIOKafkaProducer_object"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest.test_close_apache_kafka_producer_calls_close_on_the_server_AIOKafkaProducer_object()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_close_apache_kafka_producer_triggers_warning_when_supplied_fastapi_application_instance_has_no_kafka_producer_state_attribute"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest.test_close_apache_kafka_producer_triggers_warning_when_supplied_fastapi_application_instance_has_no_kafka_producer_state_attribute()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_does_not_recreate_another_producer_on_the_same_instance_of_fastapi"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_does_not_recreate_another_producer_on_the_same_instance_of_fastapi()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_sets_fastapi_app_kafka_producer_attribute"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_sets_fastapi_app_kafka_producer_attribute()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_starts_AIOKafkaProducer_with_expected_argument_for_boostrap_servers"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_starts_AIOKafkaProducer_with_expected_argument_for_boostrap_servers()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_starts_the_kafka_producer"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_starts_the_kafka_producer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_takes_a_fastapi_object_argument"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_takes_a_fastapi_object_argument()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownTest"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownTest</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownTest.setUp"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownTest.setUp()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownTest.test_kafka_producer_for_chat_end_point_starts_at_startup"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownTest.test_kafka_producer_for_chat_end_point_starts_at_startup()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.GetChatInformationTestCase"><code class="docutils literal notranslate"><span class="pre">GetChatInformationTestCase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.GetChatInformationTestCase.setUp"><code class="docutils literal notranslate"><span class="pre">GetChatInformationTestCase.setUp()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.GetChatInformationTestCase.setUpClass"><code class="docutils literal notranslate"><span class="pre">GetChatInformationTestCase.setUpClass()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.GetChatInformationTestCase.tearDownClass"><code class="docutils literal notranslate"><span class="pre">GetChatInformationTestCase.tearDownClass()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.GetChatInformationTestCase.test_endpoint_returns_correct_chat_information_for_valid_existing_chat"><code class="docutils literal notranslate"><span class="pre">GetChatInformationTestCase.test_endpoint_returns_correct_chat_information_for_valid_existing_chat()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.GetChatInformationTestCase.test_endpoint_returns_expected_response_for_invalid_existing_chat"><code class="docutils literal notranslate"><span class="pre">GetChatInformationTestCase.test_endpoint_returns_expected_response_for_invalid_existing_chat()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase"><code class="docutils literal notranslate"><span class="pre">SetUpChatEndpointTestCase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.setUpClass"><code class="docutils literal notranslate"><span class="pre">SetUpChatEndpointTestCase.setUpClass()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_creates_kafka_topic_for_the_chat_before_returning_response_on_successful_function_call"><code class="docutils literal notranslate"><span class="pre">SetUpChatEndpointTestCase.test_endpoint_creates_kafka_topic_for_the_chat_before_returning_response_on_successful_function_call()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_creates_new_application_controller_for_chat_session"><code class="docutils literal notranslate"><span class="pre">SetUpChatEndpointTestCase.test_endpoint_creates_new_application_controller_for_chat_session()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_creates_new_chat_uuid_in_database_chats_table"><code class="docutils literal notranslate"><span class="pre">SetUpChatEndpointTestCase.test_endpoint_creates_new_chat_uuid_in_database_chats_table()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_does_not_create_new_application_controller_if_there_is_a_failure_to_create_kafka_topic"><code class="docutils literal notranslate"><span class="pre">SetUpChatEndpointTestCase.test_endpoint_does_not_create_new_application_controller_if_there_is_a_failure_to_create_kafka_topic()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_only_takes_post_requests"><code class="docutils literal notranslate"><span class="pre">SetUpChatEndpointTestCase.test_endpoint_only_takes_post_requests()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_redirect_url_matches_that_of_the_expected_chat_url"><code class="docutils literal notranslate"><span class="pre">SetUpChatEndpointTestCase.test_endpoint_redirect_url_matches_that_of_the_expected_chat_url()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_returns_redirect_response_pointing_to_the_url_for_the_chat"><code class="docutils literal notranslate"><span class="pre">SetUpChatEndpointTestCase.test_endpoint_returns_redirect_response_pointing_to_the_url_for_the_chat()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_returns_server_error_on_exception_from_function_to_create_kafka_topic"><code class="docutils literal notranslate"><span class="pre">SetUpChatEndpointTestCase.test_endpoint_returns_server_error_on_exception_from_function_to_create_kafka_topic()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_takes_request_json_body_of_expected_type"><code class="docutils literal notranslate"><span class="pre">SetUpChatEndpointTestCase.test_endpoint_takes_request_json_body_of_expected_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.WebSocketTestCase"><code class="docutils literal notranslate"><span class="pre">WebSocketTestCase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.WebSocketTestCase.setUpClass"><code class="docutils literal notranslate"><span class="pre">WebSocketTestCase.setUpClass()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.WebSocketTestCase.test_that_connection_to_invalid_chat_websocket_url_cannot_be_established"><code class="docutils literal notranslate"><span class="pre">WebSocketTestCase.test_that_connection_to_invalid_chat_websocket_url_cannot_be_established()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-tests.api">Module contents</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="tests-api-package">
+<h1>tests.api package<a class="headerlink" href="#tests-api-package" title="Link to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+</section>
+<section id="module-tests.api.test_endpoints">
+<span id="tests-api-test-endpoints-module"></span><h2>tests.api.test_endpoints module<a class="headerlink" href="#module-tests.api.test_endpoints" title="Link to this heading">#</a></h2>
+<p>Module for tests for application api endpoints.</p>
+<dl class="simple">
+<dt>Classes:</dt><dd><p>SetUpChatEndpointTestCase
+WebSocketTestCase</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.api.test_endpoints.</span></span><span class="sig-name descname"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#ApplicationBackendStartupAndShutdownFunctionsTest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IsolatedAsyncioTestCase</span></code></p>
+<p>Test case class for testing functions called during start up and shut down of backend.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#ApplicationBackendStartupAndShutdownFunctionsTest.setUp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.setUp" title="Link to this definition">#</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.setUpClass">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">setUpClass</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#ApplicationBackendStartupAndShutdownFunctionsTest.setUpClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.setUpClass" title="Link to this definition">#</a></dt>
+<dd><p>Hook method for setting up class fixture before running tests in the class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.tearDown">
+<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#ApplicationBackendStartupAndShutdownFunctionsTest.tearDown"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.tearDown" title="Link to this definition">#</a></dt>
+<dd><p>Hook method for deconstructing the test fixture after testing it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_close_apache_kafka_producer_calls_close_on_the_server_AIOKafkaProducer_object">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_close_apache_kafka_producer_calls_close_on_the_server_AIOKafkaProducer_object</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#ApplicationBackendStartupAndShutdownFunctionsTest.test_close_apache_kafka_producer_calls_close_on_the_server_AIOKafkaProducer_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_close_apache_kafka_producer_calls_close_on_the_server_AIOKafkaProducer_object" title="Link to this definition">#</a></dt>
+<dd><p>Test that function to close server Apache Kafka Producer (in this case AIOKafkaProducer) closes the server producer
+AIOKafkaProducer object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_close_apache_kafka_producer_triggers_warning_when_supplied_fastapi_application_instance_has_no_kafka_producer_state_attribute">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_close_apache_kafka_producer_triggers_warning_when_supplied_fastapi_application_instance_has_no_kafka_producer_state_attribute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#ApplicationBackendStartupAndShutdownFunctionsTest.test_close_apache_kafka_producer_triggers_warning_when_supplied_fastapi_application_instance_has_no_kafka_producer_state_attribute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_close_apache_kafka_producer_triggers_warning_when_supplied_fastapi_application_instance_has_no_kafka_producer_state_attribute" title="Link to this definition">#</a></dt>
+<dd><p>Test that functon to close server Apache Kafka Producer triggers a warning in the case that there is no kafka producer
+state attribute on the passed fastapi application argument.
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_does_not_recreate_another_producer_on_the_same_instance_of_fastapi">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_start_apache_kafka_producer_does_not_recreate_another_producer_on_the_same_instance_of_fastapi</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_does_not_recreate_another_producer_on_the_same_instance_of_fastapi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_does_not_recreate_another_producer_on_the_same_instance_of_fastapi" title="Link to this definition">#</a></dt>
+<dd><p>Test that function to start apache kafka producer does not create more than one for a single fastapi app instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_sets_fastapi_app_kafka_producer_attribute">
+<span class="sig-name descname"><span class="pre">test_start_apache_kafka_producer_sets_fastapi_app_kafka_producer_attribute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_sets_fastapi_app_kafka_producer_attribute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_sets_fastapi_app_kafka_producer_attribute" title="Link to this definition">#</a></dt>
+<dd><p>Test that function to start apache kafka producer sets the fastapi state kafka_producer attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_starts_AIOKafkaProducer_with_expected_argument_for_boostrap_servers">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_start_apache_kafka_producer_starts_AIOKafkaProducer_with_expected_argument_for_boostrap_servers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_starts_AIOKafkaProducer_with_expected_argument_for_boostrap_servers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_starts_AIOKafkaProducer_with_expected_argument_for_boostrap_servers" title="Link to this definition">#</a></dt>
+<dd><p>Test that function to start apache kafka producer starts AIOKafkaProducer with expected values.
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_starts_the_kafka_producer">
+<span class="sig-name descname"><span class="pre">test_start_apache_kafka_producer_starts_the_kafka_producer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_starts_the_kafka_producer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_starts_the_kafka_producer" title="Link to this definition">#</a></dt>
+<dd><p>Test that function to start apache kafka producer calls .start() on the AIOKafkaProducer object.
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_takes_a_fastapi_object_argument">
+<span class="sig-name descname"><span class="pre">test_start_apache_kafka_producer_takes_a_fastapi_object_argument</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mocked_start_apache_kafka_producer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mock</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_takes_a_fastapi_object_argument"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_takes_a_fastapi_object_argument" title="Link to this definition">#</a></dt>
+<dd><p>Test that function to start apache kafka producer takes FastAPI app instance argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mocked_start_apache_kafka_producer</strong> – Mocked start_apache_kafka_producer() object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.ApplicationBackendStartupAndShutdownTest">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.api.test_endpoints.</span></span><span class="sig-name descname"><span class="pre">ApplicationBackendStartupAndShutdownTest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#ApplicationBackendStartupAndShutdownTest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownTest" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IsolatedAsyncioTestCase</span></code></p>
+<p>Test case class for application backend lifecycle.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.ApplicationBackendStartupAndShutdownTest.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#ApplicationBackendStartupAndShutdownTest.setUp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownTest.setUp" title="Link to this definition">#</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.ApplicationBackendStartupAndShutdownTest.test_kafka_producer_for_chat_end_point_starts_at_startup">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_kafka_producer_for_chat_end_point_starts_at_startup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mocked_start_apache_kafka_producer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mock</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#ApplicationBackendStartupAndShutdownTest.test_kafka_producer_for_chat_end_point_starts_at_startup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownTest.test_kafka_producer_for_chat_end_point_starts_at_startup" title="Link to this definition">#</a></dt>
+<dd><p>Test that apache kafka producer is started at backend startup.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mocked_start_apache_kafka_producer</strong> – Mocked function to start apache kafka producer</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.GetChatInformationTestCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.api.test_endpoints.</span></span><span class="sig-name descname"><span class="pre">GetChatInformationTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#GetChatInformationTestCase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.GetChatInformationTestCase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="tests.database.html#tests.database.base.BaseTestDatabaseTestCase" title="tests.database.base.BaseTestDatabaseTestCase"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseTestDatabaseTestCase</span></code></a></p>
+<p>Test case class for endpoint returning chat information.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.GetChatInformationTestCase.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#GetChatInformationTestCase.setUp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.GetChatInformationTestCase.setUp" title="Link to this definition">#</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.GetChatInformationTestCase.setUpClass">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">setUpClass</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#GetChatInformationTestCase.setUpClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.GetChatInformationTestCase.setUpClass" title="Link to this definition">#</a></dt>
+<dd><p>Hook method for setting up class fixture before running tests in the class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.GetChatInformationTestCase.tearDownClass">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tearDownClass</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#GetChatInformationTestCase.tearDownClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.GetChatInformationTestCase.tearDownClass" title="Link to this definition">#</a></dt>
+<dd><p>Hook method for deconstructing the class fixture after running all tests in the class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.GetChatInformationTestCase.test_endpoint_returns_correct_chat_information_for_valid_existing_chat">
+<span class="sig-name descname"><span class="pre">test_endpoint_returns_correct_chat_information_for_valid_existing_chat</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#GetChatInformationTestCase.test_endpoint_returns_correct_chat_information_for_valid_existing_chat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.GetChatInformationTestCase.test_endpoint_returns_correct_chat_information_for_valid_existing_chat" title="Link to this definition">#</a></dt>
+<dd><p>Test that endpoint returns correct information for created [valid] chat.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.GetChatInformationTestCase.test_endpoint_returns_expected_response_for_invalid_existing_chat">
+<span class="sig-name descname"><span class="pre">test_endpoint_returns_expected_response_for_invalid_existing_chat</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#GetChatInformationTestCase.test_endpoint_returns_expected_response_for_invalid_existing_chat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.GetChatInformationTestCase.test_endpoint_returns_expected_response_for_invalid_existing_chat" title="Link to this definition">#</a></dt>
+<dd><p>Test that endpoint returns correct information for invalid chat info request.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.SetUpChatEndpointTestCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.api.test_endpoints.</span></span><span class="sig-name descname"><span class="pre">SetUpChatEndpointTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#SetUpChatEndpointTestCase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="tests.database.html#tests.database.base.BaseTestDatabaseTestCase" title="tests.database.base.BaseTestDatabaseTestCase"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseTestDatabaseTestCase</span></code></a></p>
+<p>Test case class for end point setting up chat.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.SetUpChatEndpointTestCase.setUpClass">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">setUpClass</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#SetUpChatEndpointTestCase.setUpClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.setUpClass" title="Link to this definition">#</a></dt>
+<dd><p>Hook method for setting up class fixture before running tests in the class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_creates_kafka_topic_for_the_chat_before_returning_response_on_successful_function_call">
+<span class="sig-name descname"><span class="pre">test_endpoint_creates_kafka_topic_for_the_chat_before_returning_response_on_successful_function_call</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#SetUpChatEndpointTestCase.test_endpoint_creates_kafka_topic_for_the_chat_before_returning_response_on_successful_function_call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_creates_kafka_topic_for_the_chat_before_returning_response_on_successful_function_call" title="Link to this definition">#</a></dt>
+<dd><p>Test that endpoint calls function to create kafka topic before returning a response.
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_creates_new_application_controller_for_chat_session">
+<span class="sig-name descname"><span class="pre">test_endpoint_creates_new_application_controller_for_chat_session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">_</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#SetUpChatEndpointTestCase.test_endpoint_creates_new_application_controller_for_chat_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_creates_new_application_controller_for_chat_session" title="Link to this definition">#</a></dt>
+<dd><p>Test that endpoint creates application controller.
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_creates_new_chat_uuid_in_database_chats_table">
+<span class="sig-name descname"><span class="pre">test_endpoint_creates_new_chat_uuid_in_database_chats_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">_</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#SetUpChatEndpointTestCase.test_endpoint_creates_new_chat_uuid_in_database_chats_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_creates_new_chat_uuid_in_database_chats_table" title="Link to this definition">#</a></dt>
+<dd><p>Test that request to endpoint creates new unique UUID record in test database
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_does_not_create_new_application_controller_if_there_is_a_failure_to_create_kafka_topic">
+<span class="sig-name descname"><span class="pre">test_endpoint_does_not_create_new_application_controller_if_there_is_a_failure_to_create_kafka_topic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mocked_application_controller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mock</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#SetUpChatEndpointTestCase.test_endpoint_does_not_create_new_application_controller_if_there_is_a_failure_to_create_kafka_topic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_does_not_create_new_application_controller_if_there_is_a_failure_to_create_kafka_topic" title="Link to this definition">#</a></dt>
+<dd><p>Test that endpoint does not create application controller in the event that creation of kafka topic was
+unsuccessful.
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_only_takes_post_requests">
+<span class="sig-name descname"><span class="pre">test_endpoint_only_takes_post_requests</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">_</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#SetUpChatEndpointTestCase.test_endpoint_only_takes_post_requests"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_only_takes_post_requests" title="Link to this definition">#</a></dt>
+<dd><p>Test that the endpoint only takes post request.
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_redirect_url_matches_that_of_the_expected_chat_url">
+<span class="sig-name descname"><span class="pre">test_endpoint_redirect_url_matches_that_of_the_expected_chat_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">_</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#SetUpChatEndpointTestCase.test_endpoint_redirect_url_matches_that_of_the_expected_chat_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_redirect_url_matches_that_of_the_expected_chat_url" title="Link to this definition">#</a></dt>
+<dd><p>Test that URL redirected to from endpoint matches expected chat url
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_returns_redirect_response_pointing_to_the_url_for_the_chat">
+<span class="sig-name descname"><span class="pre">test_endpoint_returns_redirect_response_pointing_to_the_url_for_the_chat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">_</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#SetUpChatEndpointTestCase.test_endpoint_returns_redirect_response_pointing_to_the_url_for_the_chat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_returns_redirect_response_pointing_to_the_url_for_the_chat" title="Link to this definition">#</a></dt>
+<dd><p>Test that response to endpoint is a  redirect request which points to the URL for the chat.
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_returns_server_error_on_exception_from_function_to_create_kafka_topic">
+<span class="sig-name descname"><span class="pre">test_endpoint_returns_server_error_on_exception_from_function_to_create_kafka_topic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#SetUpChatEndpointTestCase.test_endpoint_returns_server_error_on_exception_from_function_to_create_kafka_topic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_returns_server_error_on_exception_from_function_to_create_kafka_topic" title="Link to this definition">#</a></dt>
+<dd><p>Test that endpoints returns with server error in the event that there is a failure (characterised by an exception
+while creating the kafka topic).
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_takes_request_json_body_of_expected_type">
+<span class="sig-name descname"><span class="pre">test_endpoint_takes_request_json_body_of_expected_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#SetUpChatEndpointTestCase.test_endpoint_takes_request_json_body_of_expected_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_takes_request_json_body_of_expected_type" title="Link to this definition">#</a></dt>
+<dd><p>Test that endpoint takes json request body of expected type (currently SetUpChatRequestBody)
+:return: None</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.WebSocketTestCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.api.test_endpoints.</span></span><span class="sig-name descname"><span class="pre">WebSocketTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#WebSocketTestCase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.WebSocketTestCase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="tests.database.html#tests.database.base.BaseTestDatabaseTestCase" title="tests.database.base.BaseTestDatabaseTestCase"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseTestDatabaseTestCase</span></code></a></p>
+<p>Test case class for application web socket tests.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.WebSocketTestCase.setUpClass">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">setUpClass</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#WebSocketTestCase.setUpClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.WebSocketTestCase.setUpClass" title="Link to this definition">#</a></dt>
+<dd><p>Hook method for setting up class fixture before running tests in the class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests.api.test_endpoints.WebSocketTestCase.test_that_connection_to_invalid_chat_websocket_url_cannot_be_established">
+<span class="sig-name descname"><span class="pre">test_that_connection_to_invalid_chat_websocket_url_cannot_be_established</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/api/test_endpoints.html#WebSocketTestCase.test_that_connection_to_invalid_chat_websocket_url_cannot_be_established"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.api.test_endpoints.WebSocketTestCase.test_that_connection_to_invalid_chat_websocket_url_cannot_be_established" title="Link to this definition">#</a></dt>
+<dd><p>Test that connection establishment with invalid chat web socket url cannot be established.
+The web socket connection route must pass validation checks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-tests.api">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-tests.api" title="Link to this heading">#</a></h2>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="tests.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">tests package</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="tests.controller.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">tests.controller package</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-tests.api.test_endpoints">tests.api.test_endpoints module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.setUp"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest.setUp()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.setUpClass"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest.setUpClass()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.tearDown"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest.tearDown()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_close_apache_kafka_producer_calls_close_on_the_server_AIOKafkaProducer_object"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest.test_close_apache_kafka_producer_calls_close_on_the_server_AIOKafkaProducer_object()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_close_apache_kafka_producer_triggers_warning_when_supplied_fastapi_application_instance_has_no_kafka_producer_state_attribute"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest.test_close_apache_kafka_producer_triggers_warning_when_supplied_fastapi_application_instance_has_no_kafka_producer_state_attribute()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_does_not_recreate_another_producer_on_the_same_instance_of_fastapi"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_does_not_recreate_another_producer_on_the_same_instance_of_fastapi()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_sets_fastapi_app_kafka_producer_attribute"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_sets_fastapi_app_kafka_producer_attribute()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_starts_AIOKafkaProducer_with_expected_argument_for_boostrap_servers"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_starts_AIOKafkaProducer_with_expected_argument_for_boostrap_servers()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_starts_the_kafka_producer"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_starts_the_kafka_producer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_takes_a_fastapi_object_argument"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownFunctionsTest.test_start_apache_kafka_producer_takes_a_fastapi_object_argument()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownTest"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownTest</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownTest.setUp"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownTest.setUp()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.ApplicationBackendStartupAndShutdownTest.test_kafka_producer_for_chat_end_point_starts_at_startup"><code class="docutils literal notranslate"><span class="pre">ApplicationBackendStartupAndShutdownTest.test_kafka_producer_for_chat_end_point_starts_at_startup()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.GetChatInformationTestCase"><code class="docutils literal notranslate"><span class="pre">GetChatInformationTestCase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.GetChatInformationTestCase.setUp"><code class="docutils literal notranslate"><span class="pre">GetChatInformationTestCase.setUp()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.GetChatInformationTestCase.setUpClass"><code class="docutils literal notranslate"><span class="pre">GetChatInformationTestCase.setUpClass()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.GetChatInformationTestCase.tearDownClass"><code class="docutils literal notranslate"><span class="pre">GetChatInformationTestCase.tearDownClass()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.GetChatInformationTestCase.test_endpoint_returns_correct_chat_information_for_valid_existing_chat"><code class="docutils literal notranslate"><span class="pre">GetChatInformationTestCase.test_endpoint_returns_correct_chat_information_for_valid_existing_chat()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.GetChatInformationTestCase.test_endpoint_returns_expected_response_for_invalid_existing_chat"><code class="docutils literal notranslate"><span class="pre">GetChatInformationTestCase.test_endpoint_returns_expected_response_for_invalid_existing_chat()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase"><code class="docutils literal notranslate"><span class="pre">SetUpChatEndpointTestCase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.setUpClass"><code class="docutils literal notranslate"><span class="pre">SetUpChatEndpointTestCase.setUpClass()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_creates_kafka_topic_for_the_chat_before_returning_response_on_successful_function_call"><code class="docutils literal notranslate"><span class="pre">SetUpChatEndpointTestCase.test_endpoint_creates_kafka_topic_for_the_chat_before_returning_response_on_successful_function_call()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_creates_new_application_controller_for_chat_session"><code class="docutils literal notranslate"><span class="pre">SetUpChatEndpointTestCase.test_endpoint_creates_new_application_controller_for_chat_session()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_creates_new_chat_uuid_in_database_chats_table"><code class="docutils literal notranslate"><span class="pre">SetUpChatEndpointTestCase.test_endpoint_creates_new_chat_uuid_in_database_chats_table()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_does_not_create_new_application_controller_if_there_is_a_failure_to_create_kafka_topic"><code class="docutils literal notranslate"><span class="pre">SetUpChatEndpointTestCase.test_endpoint_does_not_create_new_application_controller_if_there_is_a_failure_to_create_kafka_topic()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_only_takes_post_requests"><code class="docutils literal notranslate"><span class="pre">SetUpChatEndpointTestCase.test_endpoint_only_takes_post_requests()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_redirect_url_matches_that_of_the_expected_chat_url"><code class="docutils literal notranslate"><span class="pre">SetUpChatEndpointTestCase.test_endpoint_redirect_url_matches_that_of_the_expected_chat_url()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_returns_redirect_response_pointing_to_the_url_for_the_chat"><code class="docutils literal notranslate"><span class="pre">SetUpChatEndpointTestCase.test_endpoint_returns_redirect_response_pointing_to_the_url_for_the_chat()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_returns_server_error_on_exception_from_function_to_create_kafka_topic"><code class="docutils literal notranslate"><span class="pre">SetUpChatEndpointTestCase.test_endpoint_returns_server_error_on_exception_from_function_to_create_kafka_topic()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.SetUpChatEndpointTestCase.test_endpoint_takes_request_json_body_of_expected_type"><code class="docutils literal notranslate"><span class="pre">SetUpChatEndpointTestCase.test_endpoint_takes_request_json_body_of_expected_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.WebSocketTestCase"><code class="docutils literal notranslate"><span class="pre">WebSocketTestCase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.WebSocketTestCase.setUpClass"><code class="docutils literal notranslate"><span class="pre">WebSocketTestCase.setUpClass()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tests.api.test_endpoints.WebSocketTestCase.test_that_connection_to_invalid_chat_websocket_url_cannot_be_established"><code class="docutils literal notranslate"><span class="pre">WebSocketTestCase.test_that_connection_to_invalid_chat_websocket_url_cannot_be_established()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-tests.api">Module contents</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Nwokolo Godwin Chidera
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Nwokolo Godwin Chidera.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

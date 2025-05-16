@@ -1,0 +1,527 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>tests.utils package &#8212; T  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tests.utils';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="tests.utils.exceptions package" href="tests.utils.exceptions.html" />
+    <link rel="prev" title="tests.users package" href="tests.users.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">T  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="modules.html">T</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="api.html">api package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.endpoints.html">api.endpoints package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="controller.html">controller package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database.html">database package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="json_defs.html">json_defs package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="json_defs.message.html">json_defs.message package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="json_defs.requests.html">json_defs.requests package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html">models package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="role.html">role package</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="tests.html">tests package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="tests.api.html">tests.api package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.controller.html">tests.controller package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.database.html">tests.database package</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="tests.json_defs.html">tests.json_defs package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.json_defs.messages.html">tests.json_defs.messages package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.json_defs.requests.html">tests.json_defs.requests package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.models.html">tests.models package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.roles.html">tests.roles package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.users.html">tests.users package</a></li>
+<li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">tests.utils package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.exceptions.html">tests.utils.exceptions package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html">tests.utils.functions package</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="user.html">user package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="utils.html">utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils.exceptions.html">utils.exceptions package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.functions.html">utils.functions package</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/tests.utils.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>tests.utils package</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subpackages">Subpackages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-tests.utils">Module contents</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="tests-utils-package">
+<h1>tests.utils package<a class="headerlink" href="#tests-utils-package" title="Link to this heading">#</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tests.utils.exceptions.html">tests.utils.exceptions package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tests.utils.exceptions.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.utils.exceptions.html#module-tests.utils.exceptions.test_exceptions">tests.utils.exceptions.test_exceptions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tests.utils.exceptions.html#tests.utils.exceptions.test_exceptions.TestOperationNotAllowedException"><code class="docutils literal notranslate"><span class="pre">TestOperationNotAllowedException</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.exceptions.html#tests.utils.exceptions.test_exceptions.TestOperationNotAllowedException.test_exception_is_raised_with_default_message"><code class="docutils literal notranslate"><span class="pre">TestOperationNotAllowedException.test_exception_is_raised_with_default_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.exceptions.html#tests.utils.exceptions.test_exceptions.TestOperationNotAllowedException.test_exception_is_raised_with_set_custom_message"><code class="docutils literal notranslate"><span class="pre">TestOperationNotAllowedException.test_exception_is_raised_with_set_custom_message()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tests.utils.exceptions.html#module-tests.utils.exceptions">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tests.utils.functions.html">tests.utils.functions package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tests.utils.functions.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.utils.functions.html#module-tests.utils.functions.test_functions">tests.utils.functions.test_functions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestAddChat"><code class="docutils literal notranslate"><span class="pre">TestAddChat</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestAddChat.test_function_adds_new_chat_record_to_database"><code class="docutils literal notranslate"><span class="pre">TestAddChat.test_function_adds_new_chat_record_to_database()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestAddChat.test_function_raises_exception_when_chat_context_is_an_empty_string"><code class="docutils literal notranslate"><span class="pre">TestAddChat.test_function_raises_exception_when_chat_context_is_an_empty_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestAddChat.test_function_raises_exception_when_chat_title_is_an_empty_string"><code class="docutils literal notranslate"><span class="pre">TestAddChat.test_function_raises_exception_when_chat_title_is_an_empty_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestAddChat.test_function_takes_session_argument"><code class="docutils literal notranslate"><span class="pre">TestAddChat.test_function_takes_session_argument()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestCreateApacheKafkaTopic"><code class="docutils literal notranslate"><span class="pre">TestCreateApacheKafkaTopic</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestCreateApacheKafkaTopic.randomly_generated_kafka_test_topic"><code class="docutils literal notranslate"><span class="pre">TestCreateApacheKafkaTopic.randomly_generated_kafka_test_topic</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestCreateApacheKafkaTopic.setUpClass"><code class="docutils literal notranslate"><span class="pre">TestCreateApacheKafkaTopic.setUpClass()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestCreateApacheKafkaTopic.tearDown"><code class="docutils literal notranslate"><span class="pre">TestCreateApacheKafkaTopic.tearDown()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestCreateApacheKafkaTopic.test_function_creates_kafka_topic"><code class="docutils literal notranslate"><span class="pre">TestCreateApacheKafkaTopic.test_function_creates_kafka_topic()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestCreateApacheKafkaTopic.test_function_displays_warning_in_the_event_topic_to_be_created_already_exists"><code class="docutils literal notranslate"><span class="pre">TestCreateApacheKafkaTopic.test_function_displays_warning_in_the_event_topic_to_be_created_already_exists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestCreateApacheKafkaTopic.test_function_raises_exception_if_kafka_topic_was_not_created_successfully"><code class="docutils literal notranslate"><span class="pre">TestCreateApacheKafkaTopic.test_function_raises_exception_if_kafka_topic_was_not_created_successfully()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestCreateApacheKafkaTopic.test_function_raises_value_error_on_invalid_inputs"><code class="docutils literal notranslate"><span class="pre">TestCreateApacheKafkaTopic.test_function_raises_value_error_on_invalid_inputs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestCreateApacheKafkaTopic.test_function_takes_topic_argument"><code class="docutils literal notranslate"><span class="pre">TestCreateApacheKafkaTopic.test_function_takes_topic_argument()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestCreateMessageJSON"><code class="docutils literal notranslate"><span class="pre">TestCreateMessageJSON</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestCreateMessageJSON.test_function_returns_json_object_when_called_with_required_arguments"><code class="docutils literal notranslate"><span class="pre">TestCreateMessageJSON.test_function_returns_json_object_when_called_with_required_arguments()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestGenerateMessage"><code class="docutils literal notranslate"><span class="pre">TestGenerateMessage</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestGenerateMessage.setUpClass"><code class="docutils literal notranslate"><span class="pre">TestGenerateMessage.setUpClass()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestGenerateMessage.test_function_calls_User_generate_message_method_once_during_function_call"><code class="docutils literal notranslate"><span class="pre">TestGenerateMessage.test_function_calls_User_generate_message_method_once_during_function_call()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestGenerateMessage.test_function_return_type_is_of_expected_json_type"><code class="docutils literal notranslate"><span class="pre">TestGenerateMessage.test_function_return_type_is_of_expected_json_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestGenerateMessage.test_function_returns_message_json_with_different_context_id_from_passed_context_id_if_parent_id_is_None"><code class="docutils literal notranslate"><span class="pre">TestGenerateMessage.test_function_returns_message_json_with_different_context_id_from_passed_context_id_if_parent_id_is_None()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestGenerateMessage.test_function_returns_message_json_with_same_context_id_from_passed_context_id_if_parent_id_is_not_None"><code class="docutils literal notranslate"><span class="pre">TestGenerateMessage.test_function_returns_message_json_with_same_context_id_from_passed_context_id_if_parent_id_is_not_None()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestGenerateMessage.test_function_takes_User_object_argument_where_the_passed_object_must_already_be_instantiated"><code class="docutils literal notranslate"><span class="pre">TestGenerateMessage.test_function_takes_User_object_argument_where_the_passed_object_must_already_be_instantiated()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestGenerateMessage.test_function_takes_other_other_arguments_including_instantiated_user_object_to_populate_return_value"><code class="docutils literal notranslate"><span class="pre">TestGenerateMessage.test_function_takes_other_other_arguments_including_instantiated_user_object_to_populate_return_value()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestGetRandomUUID"><code class="docutils literal notranslate"><span class="pre">TestGetRandomUUID</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tests.utils.functions.html#tests.utils.functions.test_functions.TestGetRandomUUID.test_function_returns_valid_uuid"><code class="docutils literal notranslate"><span class="pre">TestGetRandomUUID.test_function_returns_valid_uuid()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tests.utils.functions.html#module-tests.utils.functions">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="module-tests.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-tests.utils" title="Link to this heading">#</a></h2>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="tests.users.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">tests.users package</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="tests.utils.exceptions.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">tests.utils.exceptions package</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subpackages">Subpackages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-tests.utils">Module contents</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Nwokolo Godwin Chidera
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Nwokolo Godwin Chidera.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

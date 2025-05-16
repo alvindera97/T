@@ -1,0 +1,858 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tests.utils.functions.test_functions &#8212; T  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/tests/utils/functions/test_functions';</script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">T  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../modules.html">T</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../api.html">api package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api.endpoints.html">api.endpoints package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../controller.html">controller package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../database.html">database package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../json_defs.html">json_defs package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../json_defs.message.html">json_defs.message package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../json_defs.requests.html">json_defs.requests package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../models.html">models package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../role.html">role package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../tests.html">tests package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../tests.api.html">tests.api package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../tests.controller.html">tests.controller package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../tests.database.html">tests.database package</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../tests.json_defs.html">tests.json_defs package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../tests.json_defs.messages.html">tests.json_defs.messages package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../tests.json_defs.requests.html">tests.json_defs.requests package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../tests.models.html">tests.models package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../tests.roles.html">tests.roles package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../tests.users.html">tests.users package</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../tests.utils.html">tests.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../tests.utils.exceptions.html">tests.utils.exceptions package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../tests.utils.functions.html">tests.utils.functions package</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../user.html">user package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../utils.html">utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../utils.exceptions.html">utils.exceptions package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../utils.functions.html">utils.functions package</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for tests.utils.functions.test_functions</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module for tests on utility functions.</span>
+
+<span class="sd">This module contains test cases for testing the functions module in the</span>
+<span class="sd">utilities package and all related functionality to the</span>
+<span class="sd">function module.</span>
+
+<span class="sd">Classes:</span>
+<span class="sd">  TestCreateMessageJSON</span>
+<span class="sd">  TestGenerateMessage</span>
+<span class="sd">  TestAddChat</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">SimpleNamespace</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">unittest.mock</span> <span class="kn">import</span> <span class="n">patch</span>
+
+<span class="kn">from</span> <span class="nn">confluent_kafka.admin</span> <span class="kn">import</span> <span class="n">AdminClient</span>
+<span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">ValidationError</span>
+
+<span class="kn">from</span> <span class="nn">json_defs.message</span> <span class="kn">import</span> <span class="n">MessageJSON</span>
+<span class="kn">from</span> <span class="nn">models</span> <span class="kn">import</span> <span class="n">Chat</span>
+<span class="kn">from</span> <span class="nn">tests.database</span> <span class="kn">import</span> <span class="n">base</span>
+<span class="kn">from</span> <span class="nn">user</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">utils.functions</span> <span class="kn">import</span> <span class="n">utility_functions</span> <span class="k">as</span> <span class="n">utils</span>
+<span class="kn">from</span> <span class="nn">utils.functions.utility_functions</span> <span class="kn">import</span> <span class="n">KafkaTopicAlreadyExists</span>
+
+<span class="n">faker</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="TestCreateMessageJSON">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestCreateMessageJSON">[docs]</a>
+<span class="k">class</span> <span class="nc">TestCreateMessageJSON</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test case class for tests on function for creating user message JSON object.</span>
+<span class="sd">    Here, &quot;User&quot; may refer to user.User or any comparable user entity existing outside this code base.</span>
+
+<span class="sd">    More importantly, the emphasis here is on the message from the user. This can be either generated from</span>
+<span class="sd">    User.generate_message or received at the websocket (for example fastapi.Websocket.receive_json()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TestCreateMessageJSON.test_function_returns_json_object_when_called_with_required_arguments">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestCreateMessageJSON.test_function_returns_json_object_when_called_with_required_arguments">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_function_returns_json_object_when_called_with_required_arguments</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that return value of function is a JSON object.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">utils</span><span class="o">.</span><span class="n">create_message_JSON</span><span class="p">(</span><span class="s2">&quot;some message string&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">ValidationError</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="s2">&quot;Function doesn&#39;t return result with expected schema.&quot;</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="TestGenerateMessage">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestGenerateMessage">[docs]</a>
+<span class="k">class</span> <span class="nc">TestGenerateMessage</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test case class for tests on function for generating message.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TestGenerateMessage.setUpClass">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestGenerateMessage.setUpClass">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">setUpClass</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="s2">&quot;some name&quot;</span><span class="p">,</span> <span class="s2">&quot;some url&quot;</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">user_generate_message_mock</span> <span class="o">=</span> <span class="n">patch</span><span class="p">(</span>
+            <span class="s2">&quot;utils.functions.utility_functions.User.generate_message&quot;</span><span class="p">,</span>
+            <span class="n">return_value</span><span class="o">=</span><span class="s2">&quot;hello world&quot;</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="TestGenerateMessage.test_function_takes_User_object_argument_where_the_passed_object_must_already_be_instantiated">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestGenerateMessage.test_function_takes_User_object_argument_where_the_passed_object_must_already_be_instantiated">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_function_takes_User_object_argument_where_the_passed_object_must_already_be_instantiated</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that the function takes User object argument which must have already been instantiated.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span>
+            <span class="ne">AssertionError</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">utils</span><span class="o">.</span><span class="n">generate_message_from_user</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">utils</span><span class="o">.</span><span class="n">generate_message_from_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="s2">&quot;Exception raised while generating message from User via utils.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestGenerateMessage.test_function_takes_other_other_arguments_including_instantiated_user_object_to_populate_return_value">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestGenerateMessage.test_function_takes_other_other_arguments_including_instantiated_user_object_to_populate_return_value">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_function_takes_other_other_arguments_including_instantiated_user_object_to_populate_return_value</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that function takes arguments as well as instantiated User object to populate return value.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span>
+            <span class="ne">AssertionError</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">utils</span><span class="o">.</span><span class="n">generate_message_from_user</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">utils</span><span class="o">.</span><span class="n">generate_message_from_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="s2">&quot;Exception raised while generating message from User via utils.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestGenerateMessage.test_function_calls_User_generate_message_method_once_during_function_call">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestGenerateMessage.test_function_calls_User_generate_message_method_once_during_function_call">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_function_calls_User_generate_message_method_once_during_function_call</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that User&#39;s generate_message method was called during execution of function as it is the function that</span>
+<span class="sd">        generates the message content for the user.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">utils</span><span class="o">.</span><span class="n">generate_message_from_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_generate_message_mock</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestGenerateMessage.test_function_return_type_is_of_expected_json_type">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestGenerateMessage.test_function_return_type_is_of_expected_json_type">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_function_return_type_is_of_expected_json_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that the function returns a result of expected type.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span>
+                <span class="n">utils</span><span class="o">.</span><span class="n">generate_message_from_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">MessageJSON</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestGenerateMessage.test_function_returns_message_json_with_different_context_id_from_passed_context_id_if_parent_id_is_None">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestGenerateMessage.test_function_returns_message_json_with_different_context_id_from_passed_context_id_if_parent_id_is_None">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_function_returns_message_json_with_different_context_id_from_passed_context_id_if_parent_id_is_None</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that function returns message json with context_id different to that of passed context_id if parent_id is None.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">context_id</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">message_json</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">generate_message_from_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">message_json</span><span class="o">.</span><span class="n">context_id</span><span class="p">,</span> <span class="n">context_id</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestGenerateMessage.test_function_returns_message_json_with_same_context_id_from_passed_context_id_if_parent_id_is_not_None">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestGenerateMessage.test_function_returns_message_json_with_same_context_id_from_passed_context_id_if_parent_id_is_not_None">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_function_returns_message_json_with_same_context_id_from_passed_context_id_if_parent_id_is_not_None</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that function returns message json with same context_id as passed context_id if parent_id is not None</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">context_id</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">message_json</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">generate_message_from_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">context_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">message_json</span><span class="o">.</span><span class="n">context_id</span><span class="p">,</span> <span class="n">context_id</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="TestAddChat">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestAddChat">[docs]</a>
+<span class="k">class</span> <span class="nc">TestAddChat</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">BaseTestDatabaseTestCase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test case class for tests on function for adding Chat to database</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TestAddChat.test_function_takes_session_argument">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestAddChat.test_function_takes_session_argument">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_function_takes_session_argument</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that function takes in session argument, this argument is used internally</span>
+<span class="sd">        by the function to pick a database to operate on.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">utils</span><span class="o">.</span><span class="n">add_new_chat</span><span class="p">())</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">utils</span><span class="o">.</span><span class="n">add_new_chat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="p">,</span> <span class="n">faker</span><span class="o">.</span><span class="n">word</span><span class="p">(),</span> <span class="n">faker</span><span class="o">.</span><span class="n">sentence</span><span class="p">())</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected exception raised: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestAddChat.test_function_adds_new_chat_record_to_database">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestAddChat.test_function_adds_new_chat_record_to_database">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_function_adds_new_chat_record_to_database</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that function adds new chat record to database.</span>
+
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">chat_context</span> <span class="o">=</span> <span class="n">faker</span><span class="o">.</span><span class="n">sentence</span><span class="p">()</span>
+        <span class="n">count_before_addition</span><span class="p">,</span> <span class="n">chat_title</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Chat</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+            <span class="n">faker</span><span class="o">.</span><span class="n">word</span><span class="p">(),</span>
+        <span class="p">)</span>
+
+        <span class="n">chat</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">add_new_chat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="p">,</span> <span class="n">chat_title</span><span class="p">,</span> <span class="n">chat_context</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Chat</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">uuid</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(),</span> <span class="n">chat</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Chat</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">chat_title</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(),</span> <span class="n">chat_title</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Chat</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">chat_context</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(),</span> <span class="n">chat_context</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Chat</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span> <span class="n">count_before_addition</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestAddChat.test_function_raises_exception_when_chat_title_is_an_empty_string">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestAddChat.test_function_raises_exception_when_chat_title_is_an_empty_string">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_function_raises_exception_when_chat_title_is_an_empty_string</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that function raises exception if the chat title is essentially an empty string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span>
+            <span class="ne">AssertionError</span><span class="p">,</span>
+            <span class="n">utils</span><span class="o">.</span><span class="n">add_new_chat</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="p">,</span>
+            <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span>
+            <span class="n">faker</span><span class="o">.</span><span class="n">sentence</span><span class="p">(),</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestAddChat.test_function_raises_exception_when_chat_context_is_an_empty_string">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestAddChat.test_function_raises_exception_when_chat_context_is_an_empty_string">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_function_raises_exception_when_chat_context_is_an_empty_string</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that function raises exception if the chat context is essentially an empty string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span>
+            <span class="ne">AssertionError</span><span class="p">,</span>
+            <span class="n">utils</span><span class="o">.</span><span class="n">add_new_chat</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="p">,</span>
+            <span class="n">faker</span><span class="o">.</span><span class="n">word</span><span class="p">(),</span>
+            <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="TestCreateApacheKafkaTopic">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestCreateApacheKafkaTopic">[docs]</a>
+<span class="k">class</span> <span class="nc">TestCreateApacheKafkaTopic</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test case class for tests on function for calling Apache Kafka topic.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TestCreateApacheKafkaTopic.setUpClass">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestCreateApacheKafkaTopic.setUpClass">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">setUpClass</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">confluent_kafka_admin_client</span> <span class="o">=</span> <span class="n">AdminClient</span><span class="p">(</span>
+            <span class="p">{</span><span class="s2">&quot;bootstrap.servers&quot;</span><span class="p">:</span> <span class="s2">&quot;localhost:9092&quot;</span><span class="p">}</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestCreateApacheKafkaTopic.tearDown">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestCreateApacheKafkaTopic.tearDown">[docs]</a>
+    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">topics_to_delete</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_kafka_test_topics</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">confluent_kafka_admin_client</span><span class="o">.</span><span class="n">delete_topics</span><span class="p">(</span><span class="n">topics_to_delete</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_current_kafka_test_topics</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get and return list of current kafka test topics.</span>
+<span class="sd">        :return: List of kafka topics used for tests.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">topics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">confluent_kafka_admin_client</span><span class="o">.</span><span class="n">list_topics</span><span class="p">()</span><span class="o">.</span><span class="n">topics</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">topic</span> <span class="ow">in</span> <span class="n">topics</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">topic</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;test_&quot;</span><span class="p">):</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">topic</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">randomly_generated_kafka_test_topic</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate random kafka topic string</span>
+<span class="sd">        :return: String topic name</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">topic</span> <span class="o">=</span> <span class="s2">&quot;test_&quot;</span> <span class="o">+</span> <span class="n">faker</span><span class="o">.</span><span class="n">sentence</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">current_topics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_kafka_test_topics</span>
+        <span class="k">while</span> <span class="n">topic</span> <span class="ow">in</span> <span class="n">current_topics</span><span class="p">:</span>
+            <span class="n">topic</span> <span class="o">=</span> <span class="s2">&quot;test_&quot;</span> <span class="o">+</span> <span class="n">faker</span><span class="o">.</span><span class="n">sentence</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">topic</span>
+
+<div class="viewcode-block" id="TestCreateApacheKafkaTopic.test_function_takes_topic_argument">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestCreateApacheKafkaTopic.test_function_takes_topic_argument">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_function_takes_topic_argument</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that function takes 1 argument:</span>
+<span class="sd">        1. topic name/title.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">context_1</span><span class="p">:</span>
+            <span class="n">utils</span><span class="o">.</span><span class="n">create_apache_kafka_topic</span><span class="p">(</span>
+                <span class="o">*</span><span class="p">(</span><span class="n">args</span> <span class="o">:=</span> <span class="p">[</span><span class="s2">&quot;for&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">faker</span><span class="o">.</span><span class="n">sentence</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;extra&quot;</span><span class="p">,</span> <span class="s2">&quot;measure&quot;</span><span class="p">])</span>
+            <span class="p">)</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">context_2</span><span class="p">:</span>
+            <span class="n">utils</span><span class="o">.</span><span class="n">create_apache_kafka_topic</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;create_apache_kafka_topic() takes 1 positional argument but </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="si">}</span><span class="s2"> were given&quot;</span><span class="p">,</span>
+            <span class="n">context_1</span><span class="o">.</span><span class="n">exception</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(),</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="s2">&quot;create_apache_kafka_topic() missing 1 required positional argument: &#39;topic_title&#39;&quot;</span><span class="p">,</span>
+            <span class="n">context_2</span><span class="o">.</span><span class="n">exception</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(),</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestCreateApacheKafkaTopic.test_function_raises_value_error_on_invalid_inputs">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestCreateApacheKafkaTopic.test_function_raises_value_error_on_invalid_inputs">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_function_raises_value_error_on_invalid_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that function raises ValueError on invalid input for topic title and fastapi_application</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">topic</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">randomly_generated_kafka_test_topic</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">context_1</span><span class="p">:</span>
+            <span class="n">utils</span><span class="o">.</span><span class="n">create_apache_kafka_topic</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">context_2</span><span class="p">:</span>
+            <span class="n">utils</span><span class="o">.</span><span class="n">create_apache_kafka_topic</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">context_3</span><span class="p">:</span>
+            <span class="n">utils</span><span class="o">.</span><span class="n">create_apache_kafka_topic</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]))</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">context_4</span><span class="p">:</span>
+            <span class="n">utils</span><span class="o">.</span><span class="n">create_apache_kafka_topic</span><span class="p">(</span><span class="s2">&quot;some topic&quot;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">utils</span><span class="o">.</span><span class="n">create_apache_kafka_topic</span><span class="p">(</span><span class="n">topic</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">re</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="p">(</span>
+                <span class="n">re</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
+                <span class="o">==</span> <span class="s2">&quot;fastapi_application instance has no running Apache Kafka Zookeeper server&quot;</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected exception raised: </span><span class="se">\n</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="s2">&quot;create_apache_kafka_topic() &#39;topic_title&#39; argument must be non-empty string!&quot;</span><span class="p">,</span>
+            <span class="n">context_1</span><span class="o">.</span><span class="n">exception</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(),</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+            <span class="n">context_1</span><span class="o">.</span><span class="n">exception</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
+            <span class="o">==</span> <span class="n">context_2</span><span class="o">.</span><span class="n">exception</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
+            <span class="o">==</span> <span class="n">context_3</span><span class="o">.</span><span class="n">exception</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="n">context_4</span><span class="o">.</span><span class="n">exception</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(),</span>
+            <span class="s2">&quot;create_apache_kafka_topic() &#39;topic_title&#39; argument cannot contain spaces!&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestCreateApacheKafkaTopic.test_function_creates_kafka_topic">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestCreateApacheKafkaTopic.test_function_creates_kafka_topic">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_function_creates_kafka_topic</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test function creates kafka topic with given name.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">topic</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">randomly_generated_kafka_test_topic</span>
+        <span class="n">utils</span><span class="o">.</span><span class="n">create_apache_kafka_topic</span><span class="p">(</span><span class="n">topic</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+            <span class="n">topic</span>
+            <span class="ow">in</span> <span class="n">AdminClient</span><span class="p">({</span><span class="s2">&quot;bootstrap.servers&quot;</span><span class="p">:</span> <span class="s2">&quot;localhost:9092}&quot;</span><span class="p">})</span>
+            <span class="o">.</span><span class="n">list_topics</span><span class="p">()</span>
+            <span class="o">.</span><span class="n">topics</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestCreateApacheKafkaTopic.test_function_displays_warning_in_the_event_topic_to_be_created_already_exists">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestCreateApacheKafkaTopic.test_function_displays_warning_in_the_event_topic_to_be_created_already_exists">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_function_displays_warning_in_the_event_topic_to_be_created_already_exists</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test function raises warning in the event that topic to be created has already been created and the augmented</span>
+<span class="sd">        topic is created.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">topic</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">randomly_generated_kafka_test_topic</span>
+
+        <span class="n">topics_before_multiple_creation_calls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_kafka_test_topics</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertWarns</span><span class="p">(</span><span class="n">KafkaTopicAlreadyExists</span><span class="p">)</span> <span class="k">as</span> <span class="n">context</span><span class="p">:</span>
+            <span class="n">utils</span><span class="o">.</span><span class="n">create_apache_kafka_topic</span><span class="p">(</span><span class="n">topic</span><span class="p">)</span>
+            <span class="n">utils</span><span class="o">.</span><span class="n">create_apache_kafka_topic</span><span class="p">(</span><span class="n">topic</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;Kafka topic: &quot;</span><span class="si">{</span><span class="n">topic</span><span class="si">}</span><span class="s1">&quot; already exists, thus topic has been augmented to: &#39;</span>
+            <span class="ow">in</span> <span class="n">context</span><span class="o">.</span><span class="n">warning</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(),</span>
+        <span class="p">)</span>
+
+        <span class="n">new_topic</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">warning</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;Kafka topic: &quot;</span><span class="si">{</span><span class="n">topic</span><span class="si">}</span><span class="s1">&quot; already exists, thus topic has been augmented to: &#39;</span>
+        <span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">new_topic</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_kafka_test_topics</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">new_topic</span> <span class="ow">in</span> <span class="n">topics_before_multiple_creation_calls</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestCreateApacheKafkaTopic.test_function_raises_exception_if_kafka_topic_was_not_created_successfully">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestCreateApacheKafkaTopic.test_function_raises_exception_if_kafka_topic_was_not_created_successfully">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_function_raises_exception_if_kafka_topic_was_not_created_successfully</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test function raises RuntimeError in the event that creation of kafka topic was not successful.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">topic</span><span class="p">,</span> <span class="n">exception_text</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">randomly_generated_kafka_test_topic</span><span class="p">,</span>
+            <span class="n">faker</span><span class="o">.</span><span class="n">sentence</span><span class="p">(),</span>
+        <span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">patch</span><span class="p">(</span>
+            <span class="s2">&quot;utils.functions.utility_functions.AdminClient&quot;</span><span class="p">,</span>
+            <span class="n">return_value</span><span class="o">=</span><span class="n">SimpleNamespace</span><span class="p">(</span>
+                <span class="n">create_topics</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="p">{</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">topic</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">exception_text</span><span class="p">)},</span>
+                <span class="n">list_topics</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">topics</span><span class="o">=</span><span class="p">{}),</span>
+            <span class="p">),</span>
+        <span class="p">):</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">context</span><span class="p">:</span>
+                <span class="n">utils</span><span class="o">.</span><span class="n">create_apache_kafka_topic</span><span class="p">(</span><span class="n">topic</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">exception</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(),</span>
+            <span class="sa">f</span><span class="s2">&quot;Exception raised while creating kafka topic!: </span><span class="se">\n\n</span><span class="si">{</span><span class="n">exception_text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="TestGetRandomUUID">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestGetRandomUUID">[docs]</a>
+<span class="k">class</span> <span class="nc">TestGetRandomUUID</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test case class for function that generates UUID.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TestGetRandomUUID.test_function_returns_valid_uuid">
+<a class="viewcode-back" href="../../../../tests.utils.functions.html#tests.utils.functions.test_functions.TestGetRandomUUID.test_function_returns_valid_uuid">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_function_returns_valid_uuid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test function returns valid uuid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">uuid</span><span class="o">.</span><span class="n">UUID</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">generate_random_uuid</span><span class="p">())</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed valid UUID check! Exception raised: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected exception raised: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Nwokolo Godwin Chidera
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Nwokolo Godwin Chidera.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
