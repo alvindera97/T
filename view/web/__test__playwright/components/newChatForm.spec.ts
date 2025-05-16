@@ -121,7 +121,7 @@ test.describe("Form for creating new group chat", () => {
       test("submit button text returns to its initial state after a failed request", async ({
         page,
       }) => {
-        await setupAbortRoute(page, "http://localhost:8000/_set_up_chat");
+        await setupAbortRoute(page, "http://localhost:8000/set_up_chat");
         await fillAllInputsForStartChatForm({ page, submitForm: true });
 
         const startChatButton = page.locator("#start-group-chat-btn");
@@ -152,7 +152,7 @@ test.describe("Form for creating new group chat", () => {
         }
       });
 
-      await setupAbortRoute(page, "http://localhost:8000/_set_up_chat");
+      await setupAbortRoute(page, "http://localhost:8000/set_up_chat");
       await fillAllInputsForStartChatForm({ page, submitForm: true });
 
       expect(postRequestMade).toBeTruthy();
